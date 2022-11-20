@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@+id/mi_home"
+        android:title="Home"
+        android:icon="@drawable/ic_home" />
+
+    <item android:id="@+id/mi_explore"
+        android:title="Explore"
+        android:icon="@drawable/ic_explore" />
+
+    <item android:id="@+id/placeholder"
+        android:title="" />
+
+    <item android:id="@+id/mi_letsGo"
+        android:title="Let's Go"
+        android:icon="@drawable/ic_letsgo" />
+
+    <item android:id="@+id/mi_friends"
+        android:title="Friends"
+        android:icon="@drawable/ic_friends" />
+
+</menu>

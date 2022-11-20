@@ -11,19 +11,11 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <FrameLayout
-            android:id="@+id/fragment_container"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" >
-
-
-        </FrameLayout>
-
         <com.google.android.material.bottomappbar.BottomAppBar
             android:id="@+id/bottom_app_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:fabCradleMargin="15dp"
+            app:fabCradleMargin="10dp"
             app:fabCradleVerticalOffset="10dp"
             app:fabCradleRoundedCornerRadius="40dp"
             android:layout_gravity="bottom">
@@ -43,7 +35,17 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_picme"
+            app:maxImageSize="55dp"
+            app:fabCustomSize="80dp"
             app:layout_anchor="@id/bottom_app_bar" />
+
+        <fragment
+            android:id="@+id/fragmentContainerView"
+            android:name="androidx.navigation.fragment.NavHostFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:defaultNavHost="true"
+            app:navGraph="@navigation/nav_graph" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

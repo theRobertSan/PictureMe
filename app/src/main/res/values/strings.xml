@@ -2,4 +2,7 @@
     <string name="app_name">PictureMe</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="side_nav_open">Open</string>
+    <string name="side_nav_close">Close</string>
 </resources>

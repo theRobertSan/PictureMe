@@ -33,5 +33,14 @@
         android:id="@+id/shakeFragment"
         android:name="com.example.pictureme.views.ShakeFragment"
         android:label="fragment_shake"
-        tools:layout="@layout/fragment_shake" />
+        tools:layout="@layout/fragment_shake" >
+        <action
+            android:id="@+id/action_shakeFragment_to_picMeFragment"
+            app:destination="@id/picMeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/picMeFragment"
+        android:name="com.example.pictureme.PicMeFragment"
+        android:label="fragment_pic_me"
+        tools:layout="@layout/fragment_pic_me" />
 </navigation>

@@ -11,6 +11,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <fragment
+            android:id="@+id/fragmentContainerView"
+            android:name="androidx.navigation.fragment.NavHostFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:defaultNavHost="true"
+            app:navGraph="@navigation/nav_graph" />
+
         <com.google.android.material.bottomappbar.BottomAppBar
             android:id="@+id/bottom_app_bar"
             android:layout_width="match_parent"
@@ -37,24 +45,18 @@
             android:src="@drawable/ic_picme"
             app:maxImageSize="55dp"
             app:fabCustomSize="80dp"
-            app:layout_anchor="@id/bottom_app_bar" />
-
-        <fragment
-            android:id="@+id/fragmentContainerView"
-            android:name="androidx.navigation.fragment.NavHostFragment"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:defaultNavHost="true"
-            app:navGraph="@navigation/nav_graph" />
+            app:layout_anchor="@id/bottom_app_bar"
+            android:backgroundTint="@color/crayola_marker" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
     <com.google.android.material.navigation.NavigationView
+        android:id="@+id/nav_view"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         app:headerLayout="@layout/side_nav_header"
         app:menu="@menu/side_nav_drawer_menu"
         android:layout_gravity="start" />
-<!--        android:fitsSystemWindows="true" />-->
-    
+    <!--        android:fitsSystemWindows="true" />-->
+
 </androidx.drawerlayout.widget.DrawerLayout>

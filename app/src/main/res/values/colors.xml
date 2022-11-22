@@ -7,4 +7,11 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <color name="crayola_marker">#E94C42</color>
+    <color name="be_my_valentine">#FBCFC9</color>
+    <color name="warm_sheets">#fdf1e5</color>
+    <color name="new_hampshire">#F8A76C</color>
+    <color name="easter_egg">#C2D8B8</color>
+    <color name="watching_planes">#b1d2e0</color>
 </resources>

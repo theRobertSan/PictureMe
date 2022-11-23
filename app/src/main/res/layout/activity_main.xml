@@ -5,7 +5,7 @@
     android:id="@+id/layout_drawer"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".views.MainActivity">
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
@@ -23,10 +23,12 @@
             android:id="@+id/bottom_app_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            app:backgroundTint="@color/light_gray"
             app:fabCradleMargin="10dp"
-            app:fabCradleVerticalOffset="10dp"
             app:fabCradleRoundedCornerRadius="40dp"
-            android:layout_gravity="bottom">
+            app:fabCradleVerticalOffset="10dp"
+            app:navigationIconTint="#F48B94">
 
             <com.google.android.material.bottomnavigation.BottomNavigationView
                 android:id="@+id/bottom_nav_view"
@@ -34,6 +36,8 @@
                 android:layout_height="match_parent"
                 android:layout_marginEnd="16dp"
                 android:background="@android:color/transparent"
+                app:itemIconTint="@color/secondary_text"
+                app:itemTextColor="@color/secondary_text"
                 app:menu="@menu/bottom_nav_menu" />
 
         </com.google.android.material.bottomappbar.BottomAppBar>
@@ -43,10 +47,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_picme"
-            app:maxImageSize="55dp"
+            app:backgroundTint="#F48B94"
             app:fabCustomSize="80dp"
+
             app:layout_anchor="@id/bottom_app_bar"
-            android:backgroundTint="@color/crayola_marker" />
+            app:maxImageSize="55dp"
+            app:tint="@color/white" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

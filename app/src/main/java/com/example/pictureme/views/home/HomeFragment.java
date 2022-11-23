@@ -1,4 +1,4 @@
-package com.example.pictureme.views;
+package com.example.pictureme.views.home;
 
 import android.os.Bundle;
 

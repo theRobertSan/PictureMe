@@ -1,4 +1,4 @@
-package com.example.pictureme.views;
+package com.example.pictureme.views.letsGo;
 
 import android.os.Bundle;
 

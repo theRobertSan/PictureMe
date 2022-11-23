@@ -1,10 +1,12 @@
-package com.example.pictureme;
+package com.example.pictureme.views.login;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.TextView;
+
+import com.example.pictureme.R;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -15,7 +17,9 @@ public class RegisterActivity extends AppCompatActivity {
 
         // Go to login
         setUpGoToLogin();
-        
+
+        // Hide header bar
+        getSupportActionBar().hide();
     }
 
     private void setUpGoToLogin() {

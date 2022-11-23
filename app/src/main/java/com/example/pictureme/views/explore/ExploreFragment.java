@@ -1,4 +1,4 @@
-package com.example.pictureme.views;
+package com.example.pictureme.views.explore;
 
 import android.content.pm.PackageManager;
 import android.location.Location;

@@ -1,4 +1,4 @@
-package com.example.pictureme;
+package com.example.pictureme.views;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -19,6 +19,10 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
 
+import com.example.pictureme.views.drawBar.ProfileActivity;
+import com.example.pictureme.R;
+import com.example.pictureme.views.drawBar.SettingsActivity;
+import com.example.pictureme.views.login.LoginActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 
@@ -35,8 +39,10 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Hide header bar
+//        // Hide header bar
 //        getSupportActionBar().hide();
+        getSupportActionBar().setTitle("");
+        getSupportActionBar().setElevation(0);
 
         setUpBottomNav();
         setUpSideNav();
@@ -59,29 +65,26 @@ public class MainActivity extends AppCompatActivity
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         NavigationView navigationView = findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                Intent myIntent;
+        navigationView.setNavigationItemSelectedListener(item -> {
+            Intent myIntent;
 
-                switch (item.getItemId()) {
-                    case R.id.mi_settings:
-                        myIntent = new Intent(MainActivity.this, SettingsActivity.class);
-                        break;
-                    case R.id.mi_profile:
-                        myIntent = new Intent(MainActivity.this, ProfileActivity.class);
-                        break;
-                    case R.id.mi_logout:
-                        myIntent = new Intent(MainActivity.this, LoginActivity.class);
-                        break;
-                    default:
-                        myIntent = new Intent(MainActivity.this, SettingsActivity.class);
+            switch (item.getItemId()) {
+                case R.id.mi_settings:
+                    myIntent = new Intent(MainActivity.this, SettingsActivity.class);
+                    break;
+                case R.id.mi_profile:
+                    myIntent = new Intent(MainActivity.this, ProfileActivity.class);
+                    break;
+                case R.id.mi_logout:
+                    myIntent = new Intent(MainActivity.this, LoginActivity.class);
+                    break;
+                default:
+                    myIntent = new Intent(MainActivity.this, SettingsActivity.class);
 
-                }
-
-                startActivity(myIntent);
-                return true;
             }
+
+            startActivity(myIntent);
+            return true;
         });
     }
 

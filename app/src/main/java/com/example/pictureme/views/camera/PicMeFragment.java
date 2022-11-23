@@ -1,4 +1,4 @@
-package com.example.pictureme.views;
+package com.example.pictureme.views.camera;
 
 import android.os.Bundle;
 

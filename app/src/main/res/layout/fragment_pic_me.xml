@@ -4,28 +4,41 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".views.PicMeFragment">
+    android:background="@drawable/picme_background"
+    tools:context=".views.camera.PicMeFragment">
 
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="371dp"
-        android:layout_height="292dp"
-        android:layout_marginTop="8dp"
+    <androidx.cardview.widget.CardView
+        android:id="@+id/picme_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="8dp"
+        app:cardCornerRadius="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView4"
-        tools:src="@drawable/happy_family" />
+        app:layout_constraintTop_toBottomOf="@+id/textView4">
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="370dp"
+            android:layout_height="237dp"
+            android:layout_marginTop="0dp"
+            tools:src="@drawable/happy_family" />
+    </androidx.cardview.widget.CardView>
 
     <Button
         android:id="@+id/button"
         android:layout_width="309dp"
         android:layout_height="52dp"
         android:layout_marginTop="8dp"
+        android:backgroundTint="@color/light_red"
         android:text="Take Me There"
         android:textSize="24sp"
+        app:cornerRadius="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+        app:layout_constraintTop_toBottomOf="@+id/picme_image" />
 
     <TextView
         android:id="@+id/textView4"
@@ -34,6 +47,8 @@
         android:layout_marginTop="8dp"
         android:gravity="center"
         android:text="Shake your device\nTo swap PicMe"
+        android:textColor="@color/white"
+        android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -48,7 +63,7 @@
         android:gravity="center"
         android:text="15 October 2019 | 9 months ago"
         android:textColor="#000000"
-        app:layout_constraintStart_toStartOf="@+id/imageView"
+        app:layout_constraintStart_toStartOf="@+id/picme_image"
         app:layout_constraintTop_toBottomOf="@+id/button" />
 
     <TextView
@@ -61,7 +76,7 @@
         android:gravity="center"
         android:text="Vasco Da Gama | 2.3km away"
         android:textColor="#000000"
-        app:layout_constraintStart_toStartOf="@+id/imageView"
+        app:layout_constraintStart_toStartOf="@+id/picme_image"
         app:layout_constraintTop_toBottomOf="@+id/text_date" />
 
     <TextView
@@ -74,7 +89,7 @@
         android:gravity="center"
         android:text="Feeling Happy"
         android:textColor="#000000"
-        app:layout_constraintStart_toStartOf="@+id/imageView"
+        app:layout_constraintStart_toStartOf="@+id/picme_image"
         app:layout_constraintTop_toBottomOf="@+id/text_location" />
 
     <TextView
@@ -87,7 +102,7 @@
         android:gravity="center"
         android:text="With Lucas, Maria and William"
         android:textColor="#000000"
-        app:layout_constraintStart_toStartOf="@+id/imageView"
+        app:layout_constraintStart_toStartOf="@+id/picme_image"
         app:layout_constraintTop_toBottomOf="@+id/text_feeling" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

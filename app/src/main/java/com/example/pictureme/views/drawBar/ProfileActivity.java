@@ -1,4 +1,4 @@
-package com.example.pictureme;
+package com.example.pictureme.views.drawBar;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -12,5 +12,8 @@ public class ProfileActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
+
+        getSupportActionBar().setTitle("Profile");
+        getSupportActionBar().setElevation(0);
     }
 }

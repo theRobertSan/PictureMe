@@ -4,66 +4,55 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".views.HomeFragment">
-
-    <!-- TODO: Update blank fragment layout -->
+    android:background="@drawable/home_background"
+    tools:context=".views.home.HomeFragment">
 
     <TextView
         android:id="@+id/textView6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="64dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
         android:fontFamily="@font/nunito_light"
         android:lineSpacingExtra="-20dp"
         android:text="Good\nmorning,\nAndré"
-        android:textColor="@color/black"
+        android:textColor="@color/white"
         android:textSize="60sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.075"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
-        android:id="@+id/imageView2"
-        android:layout_width="281dp"
-        android:layout_height="172dp"
-        android:layout_marginBottom="8dp"
-        android:src="@drawable/happy_family"
-        app:layout_constraintBottom_toTopOf="@+id/textView5"
-        app:layout_constraintStart_toStartOf="@+id/textView2" />
-
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/textView24"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:text="4 days ago"
+        android:layout_marginBottom="16dp"
+        android:text="Your latest PicMe's"
         android:textColor="@color/black"
-        android:textSize="12sp"
-        app:layout_constraintBottom_toTopOf="@+id/imageView2"
-        app:layout_constraintStart_toStartOf="@+id/textView3" />
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/fragmentContainerView3"
+        app:layout_constraintStart_toStartOf="@+id/textView6" />
 
-    <TextView
-        android:id="@+id/textView5"
-        android:layout_width="wrap_content"
+    <fragment
+        android:id="@+id/fragmentContainerView2"
+        android:name="com.example.pictureme.views.SmallPicMeFragment"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="128dp"
-        android:drawableLeft="@drawable/ic_location"
-        android:gravity="center"
-        android:text="Lisbon, Portugal"
-        android:textColor="@color/black"
-        android:textSize="12sp"
+        android:layout_marginBottom="150dp"
+
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/imageView2" />
+        app:layout_constraintStart_toStartOf="@+id/textView6" />
 
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="wrap_content"
+    <fragment
+        android:id="@+id/fragmentContainerView3"
+        android:name="com.example.pictureme.views.SmallPicMeFragment"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:text="Your latest PicMe"
-        android:textColor="@color/black"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@+id/textView2"
+
+        android:layout_marginBottom="32dp"
+        app:layout_constraintBottom_toTopOf="@+id/fragmentContainerView2"
         app:layout_constraintStart_toStartOf="@+id/textView6" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

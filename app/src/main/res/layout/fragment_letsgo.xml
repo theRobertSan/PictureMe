@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".views.LetsgoFragment">
+    tools:context=".views.letsGo.LetsgoFragment">
 
     <!-- TODO: Update blank fragment layout -->
 
@@ -14,6 +14,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="150dp"
         android:text="What do you want\n to do?"
+        android:textColor="@color/black"
         android:textSize="34sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.26"
@@ -29,6 +30,8 @@
         android:padding="30dp"
         android:text="Eat"
         android:textSize="24sp"
+        android:backgroundTint="@color/light_red"
+        android:drawableTint="@color/white"
         app:layout_constraintEnd_toStartOf="@+id/button_visit"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
@@ -41,6 +44,8 @@
         android:drawableTop="@drawable/ic_visit"
         android:padding="30dp"
         android:text="Visit"
+        android:backgroundTint="@color/light_red"
+        android:drawableTint="@color/white"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"

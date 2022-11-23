@@ -1,4 +1,4 @@
-package com.example.pictureme.views;
+package com.example.pictureme.views.friends;
 
 import android.os.Bundle;
 
@@ -10,12 +10,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.pictureme.adapters.MyAdapter;
 import com.example.pictureme.R;
+import com.example.pictureme.views.adapters.MyAdapter;
 
-public class FriendsFragment extends Fragment {
+public class FriendListFragment extends Fragment {
 
-    int dummyFriendsImages[] = {R.drawable.ic_avatar, R.drawable.ic_avatar};
+    int dummyFriendsImages[] = {R.drawable.face, R.drawable.face};
 
     RecyclerView recyclerView;
 
@@ -23,7 +23,7 @@ public class FriendsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_friends, container, false);
+        View view = inflater.inflate(R.layout.fragment_friend_list, container, false);
 
         recyclerView = view.findViewById(R.id.recycler_view_friends);
 

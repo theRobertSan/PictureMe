@@ -1,4 +1,4 @@
-package com.example.pictureme.adapters;
+package com.example.pictureme.views.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;

@@ -18,14 +18,14 @@
         android:theme="@style/Theme.PictureMe"
         tools:targetApi="31">
         <activity
-            android:name=".RegisterActivity"
+            android:name=".views.login.RegisterActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".LoginActivity"
+            android:name=".views.login.LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -37,18 +37,18 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".ProfileActivity"
+            android:name=".views.drawBar.ProfileActivity"
             android:exported="false"
-            android:parentActivityName=".MainActivity">
+            android:parentActivityName=".views.MainActivity">
             >
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".SettingsActivity"
+            android:name=".views.drawBar.SettingsActivity"
             android:exported="false"
-            android:parentActivityName=".MainActivity">
+            android:parentActivityName=".views.MainActivity">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
@@ -61,7 +61,7 @@
             android:resource="@array/preloaded_fonts" />
 
         <activity
-            android:name=".MainActivity"
+            android:name=".views.MainActivity"
             android:exported="false">
 
             <meta-data

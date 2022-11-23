@@ -2,10 +2,11 @@
     <!-- Base application theme. -->
     <style name="Theme.PictureMe" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
 
+        <item name="android:windowContentOverlay">@null</item>
         <item name="android:fontFamily">@font/nunito</item>
         <!-- Primary brand color. -->
-        <item name="colorPrimary">#E94C42</item>
-        <item name="colorPrimaryVariant">#F8A76C</item>
+        <item name="colorPrimary">@color/light_blue</item>
+        <item name="colorPrimaryVariant">#FF88CFF1</item>
         <item name="colorOnPrimary">#FDF1E5</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">#B1D2E0</item>

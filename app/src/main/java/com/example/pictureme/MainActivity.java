@@ -68,6 +68,12 @@ public class MainActivity extends AppCompatActivity
                     case R.id.mi_settings:
                         myIntent = new Intent(MainActivity.this, SettingsActivity.class);
                         break;
+                    case R.id.mi_profile:
+                        myIntent = new Intent(MainActivity.this, ProfileActivity.class);
+                        break;
+                    case R.id.mi_logout:
+                        myIntent = new Intent(MainActivity.this, LoginActivity.class);
+                        break;
                     default:
                         myIntent = new Intent(MainActivity.this, SettingsActivity.class);
 

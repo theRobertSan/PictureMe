@@ -13,7 +13,7 @@
             android:title="Settings"
             android:icon="@drawable/ic_settings" />
         <item
-            android:id="@+id/nav_logout"
+            android:id="@+id/mi_logout"
             android:title="Logout"
             android:icon="@drawable/ic_logout" />
 

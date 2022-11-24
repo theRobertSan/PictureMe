@@ -37,7 +37,13 @@
                     android:id="@+id/pending_friends_tab"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Pending Requests" />
+                    android:text="Requests" />
+
+                <com.google.android.material.tabs.TabItem
+                    android:id="@+id/add_friend_tab"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Add" />
             </com.google.android.material.tabs.TabLayout>
         </com.google.android.material.appbar.AppBarLayout>
 
@@ -45,26 +51,9 @@
             android:id="@+id/friends_fragment_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
             app:defaultNavHost="true"
             app:layout_constraintTop_toBottomOf="@+id/appbar" />
-
-        <Button
-            android:id="@+id/button2"
-            android:layout_width="129dp"
-            android:layout_height="68dp"
-            android:layout_marginStart="-20dp"
-            android:layout_marginBottom="124dp"
-            android:backgroundTint="@color/light_red"
-            android:drawableEnd="@drawable/ic_add"
-            android:drawableTint="@color/white"
-            android:gravity="fill_vertical|end"
-            android:text="Add"
-            android:textColor="@color/white"
-            android:textSize="16sp"
-            app:cornerRadius="20dp"
-            app:iconPadding="8dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
             android:id="@+id/textView2"

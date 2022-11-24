@@ -31,8 +31,11 @@ public class FriendsFragment extends Fragment {
                     case 0:
                         getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.friends_fragment_container, FriendListFragment.class, null).commit();
                         break;
-                    default:
+                    case 1:
                         getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.friends_fragment_container, FriendRequestsFragment.class, null).commit();
+                        break;
+                    default:
+                        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.friends_fragment_container, AddFriendFragment.class, null).commit();
                 }
             }
 

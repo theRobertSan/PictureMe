@@ -11,7 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.pictureme.R;
-import com.example.pictureme.views.adapters.MyAdapter;
+import com.example.pictureme.views.adapters.FriendListAdapter;
 
 public class FriendListFragment extends Fragment {
 
@@ -30,7 +30,7 @@ public class FriendListFragment extends Fragment {
         String[] friendNames = getResources().getStringArray(R.array.dummy_friends);
         String[] friendPicMes = getResources().getStringArray(R.array.dummy_friends_picmes);
 
-        MyAdapter myAdapter = new MyAdapter(view.getContext(), friendNames, friendPicMes, dummyFriendsImages);
+        FriendListAdapter myAdapter = new FriendListAdapter(view.getContext(), friendNames, friendPicMes, dummyFriendsImages);
         recyclerView.setAdapter(myAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
 

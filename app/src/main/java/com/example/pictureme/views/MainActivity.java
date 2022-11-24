@@ -18,12 +18,16 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Toast;
 
+import com.example.pictureme.views.camera.CameraActivity;
 import com.example.pictureme.views.drawBar.ProfileActivity;
 import com.example.pictureme.R;
 import com.example.pictureme.views.drawBar.SettingsActivity;
 import com.example.pictureme.views.login.LoginActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 
 public class MainActivity extends AppCompatActivity
@@ -33,6 +37,8 @@ public class MainActivity extends AppCompatActivity
 
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle actionBarDrawerToggle;
+
+    private FloatingActionButton cameraFab;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,11 +52,23 @@ public class MainActivity extends AppCompatActivity
 
         setUpBottomNav();
         setUpSideNav();
+        setUpCameraButton();
 
         // If permission haven't been granted yet
         if (!checkPermissions()) {
             requestPermission();
         }
+    }
+
+    private void setUpCameraButton() {
+        cameraFab = findViewById(R.id.button_picme);
+        cameraFab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, CameraActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     private void setUpSideNav() {

@@ -15,4 +15,16 @@
         android:text="Enable Shaking"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/buttonchangepwd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:padding="15dp"
+        android:text="Change Password"
+        app:cornerRadius="30dp"
+        app:layout_constraintStart_toStartOf="@+id/switch1"
+        app:layout_constraintTop_toBottomOf="@+id/switch1" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

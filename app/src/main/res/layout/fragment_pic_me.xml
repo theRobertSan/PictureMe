@@ -59,16 +59,16 @@
         android:id="@+id/text_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="28dp"
+        android:layout_marginStart="24dp"
         android:layout_marginTop="20dp"
         android:drawableLeft="@drawable/ic_date"
         android:drawablePadding="5dp"
+        android:drawableTint="@color/secondary_text"
         android:gravity="center"
         android:text="15 October 2019"
         android:textColor="@color/secondary_text"
-        android:drawableTint="@color/secondary_text"
         android:textSize="20sp"
-        app:layout_constraintStart_toStartOf="@+id/picme_image"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/button" />
 
     <TextView
@@ -76,12 +76,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
+        android:layout_marginEnd="24dp"
         android:drawablePadding="5dp"
         android:gravity="center"
         android:text="3 months ago"
         android:textColor="@color/secondary_text"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="@+id/text_date"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/text_date"
         app:layout_constraintTop_toTopOf="@+id/text_date" />
 
@@ -89,14 +91,13 @@
         android:id="@+id/text_date3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
         android:drawablePadding="5dp"
         android:gravity="center"
         android:text="2.4 km away"
         android:textColor="@color/secondary_text"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="@+id/text_location"
-        app:layout_constraintStart_toEndOf="@+id/text_location"
+        app:layout_constraintStart_toStartOf="@+id/text_date2"
         app:layout_constraintTop_toTopOf="@+id/text_location" />
 
     <TextView
@@ -144,10 +145,10 @@
         android:id="@+id/text_friends"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="24dp"
         android:drawableLeft="@drawable/ic_friends"
-        android:drawableTint="@color/secondary_text"
         android:drawablePadding="5dp"
+        android:drawableTint="@color/secondary_text"
         android:gravity="center"
         android:text="Feeling Happy With"
         android:textColor="@color/secondary_text"

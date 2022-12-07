@@ -1,68 +1,61 @@
 package com.example.pictureme.views.home;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
 import com.example.pictureme.R;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.example.pictureme.models.Picme;
+import com.example.pictureme.viewmodel.PicmeListViewModel;
+import com.example.pictureme.views.home.adapters.HomeSectionsAdapter;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link HomeFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 public class HomeFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    public HomeFragment() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment HomeFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static HomeFragment newInstance(String param1, String param2) {
-        HomeFragment fragment = new HomeFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
+    private RecyclerView recyclerView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_home, container, false);
+
+        View view = inflater.inflate(R.layout.fragment_home, container, false);
+
+        PicmeListViewModel picmeListViewModel = new ViewModelProvider(getActivity()).get(PicmeListViewModel.class);
+
+        recyclerView = view.findViewById(R.id.recycler_view_sections);
+
+        List<Picme>[] sectionPicmes = new List[3];
+        sectionPicmes[0] = new ArrayList<>();
+        sectionPicmes[1] = new ArrayList<>();
+        sectionPicmes[2] = new ArrayList<>();
+
+        HomeSectionsAdapter mAdapter = new HomeSectionsAdapter(
+                new String[]{"PicMe's with friends", "Food PicMe's", "PicMe's from long ago"},
+                sectionPicmes
+        );
+
+        picmeListViewModel.getUserPicmesLiveData().observe(getViewLifecycleOwner(), picmes -> {
+            System.out.println("HELLO1");
+            sectionPicmes[0] = picmes;
+            sectionPicmes[1] = picmes;
+            sectionPicmes[2] = picmes;
+            mAdapter.notifyDataSetChanged();
+        });
+
+        recyclerView.setAdapter(mAdapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
+
+
+        return view;
     }
 }

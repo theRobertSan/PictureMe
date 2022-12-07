@@ -60,7 +60,7 @@
         app:layout_constraintStart_toEndOf="@+id/textView12" />
 
     <EditText
-        android:id="@+id/editTextTextPersonName"
+        android:id="@+id/edit_email"
         android:layout_width="0dp"
         android:layout_height="50dp"
         android:layout_marginStart="64dp"
@@ -69,14 +69,14 @@
         android:drawableLeft="@drawable/ic_account"
         android:drawablePadding="5dp"
         android:ems="10"
-        android:hint="Username"
+        android:hint="Email"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView10" />
 
     <EditText
-        android:id="@+id/editTextTextPassword"
+        android:id="@+id/edit_password"
         android:layout_width="0dp"
         android:layout_height="50dp"
         android:layout_marginStart="64dp"
@@ -88,7 +88,7 @@
         android:inputType="textPassword"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName" />
+        app:layout_constraintTop_toBottomOf="@+id/edit_email" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/button_login"
@@ -103,6 +103,6 @@
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextPassword" />
+        app:layout_constraintTop_toBottomOf="@+id/edit_password" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

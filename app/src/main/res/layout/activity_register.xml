@@ -8,7 +8,7 @@
     tools:context=".views.login.RegisterActivity">
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/button4"
+        android:id="@+id/button_signup"
         android:layout_width="250dp"
         android:layout_height="70dp"
         android:layout_marginStart="64dp"
@@ -20,7 +20,7 @@
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextPassword4" />
+        app:layout_constraintTop_toBottomOf="@+id/edit_password_confirmation" />
 
     <TextView
         android:id="@+id/textView31"
@@ -51,7 +51,7 @@
         app:layout_constraintStart_toEndOf="@+id/textView31" />
 
     <EditText
-        android:id="@+id/editTextTextPassword3"
+        android:id="@+id/edit_password"
         android:layout_width="0dp"
         android:layout_height="50dp"
         android:layout_marginStart="64dp"
@@ -65,10 +65,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName4" />
+        app:layout_constraintTop_toBottomOf="@+id/edit_email" />
 
     <EditText
-        android:id="@+id/editTextTextPassword4"
+        android:id="@+id/edit_password_confirmation"
         android:layout_width="0dp"
         android:layout_height="50dp"
         android:layout_marginStart="64dp"
@@ -81,10 +81,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextPassword3" />
+        app:layout_constraintTop_toBottomOf="@+id/edit_password" />
 
     <EditText
-        android:id="@+id/editTextTextPersonName3"
+        android:id="@+id/edit_username"
         android:layout_width="0dp"
         android:layout_height="50dp"
         android:layout_marginStart="64dp"
@@ -93,7 +93,7 @@
         android:drawableLeft="@drawable/ic_full_name"
         android:drawablePadding="5dp"
         android:ems="10"
-        android:hint="Full Name"
+        android:hint="Username"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -101,7 +101,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView30" />
 
     <EditText
-        android:id="@+id/editTextTextPersonName4"
+        android:id="@+id/edit_email"
         android:layout_width="0dp"
         android:layout_height="50dp"
         android:layout_marginStart="64dp"
@@ -109,12 +109,12 @@
         android:drawableLeft="@drawable/ic_account"
         android:drawablePadding="5dp"
         android:ems="10"
-        android:hint="Username"
+        android:hint="Email"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName3" />
+        app:layout_constraintTop_toBottomOf="@+id/edit_username" />
 
     <TextView
         android:id="@+id/textView30"

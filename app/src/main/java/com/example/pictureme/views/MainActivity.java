@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
@@ -19,16 +20,13 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
+import com.example.pictureme.viewmodel.PicmeListViewModel;
+import com.example.pictureme.viewmodel.AuthViewModel;
 import com.example.pictureme.views.camera.CameraActivity;
-import com.example.pictureme.views.drawBar.ProfileActivity;
 import com.example.pictureme.R;
-import com.example.pictureme.views.drawBar.SettingsActivity;
-import com.example.pictureme.views.login.LoginActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.navigation.NavigationView;
 
 public class MainActivity extends AppCompatActivity
         implements ActivityCompat.OnRequestPermissionsResultCallback {
@@ -40,10 +38,16 @@ public class MainActivity extends AppCompatActivity
 
     private FloatingActionButton cameraFab;
 
+    private AuthViewModel userViewModel;
+    private PicmeListViewModel picmeListViewModel;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        picmeListViewModel = new ViewModelProvider(this).get(PicmeListViewModel.class);
+        picmeListViewModel.loadUserPicmes();
 
 //        // Hide header bar
 //        getSupportActionBar().hide();
@@ -51,7 +55,6 @@ public class MainActivity extends AppCompatActivity
         getSupportActionBar().setElevation(0);
 
         setUpBottomNav();
-        setUpSideNav();
         setUpCameraButton();
 
         // If permission haven't been granted yet
@@ -68,41 +71,6 @@ public class MainActivity extends AppCompatActivity
                 Intent intent = new Intent(MainActivity.this, CameraActivity.class);
                 startActivity(intent);
             }
-        });
-    }
-
-    private void setUpSideNav() {
-        drawerLayout = findViewById(R.id.layout_drawer);
-        actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.side_nav_open, R.string.side_nav_close);
-
-        // Pass the open and close toggle for the drawer layout listener
-        drawerLayout.addDrawerListener(actionBarDrawerToggle);
-        actionBarDrawerToggle.syncState();
-
-        // Display Navigation drawer icon
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        NavigationView navigationView = findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(item -> {
-            Intent myIntent;
-
-            switch (item.getItemId()) {
-                case R.id.mi_settings:
-                    myIntent = new Intent(MainActivity.this, SettingsActivity.class);
-                    break;
-                case R.id.mi_profile:
-                    myIntent = new Intent(MainActivity.this, ProfileActivity.class);
-                    break;
-                case R.id.mi_logout:
-                    myIntent = new Intent(MainActivity.this, LoginActivity.class);
-                    break;
-                default:
-                    myIntent = new Intent(MainActivity.this, SettingsActivity.class);
-
-            }
-
-            startActivity(myIntent);
-            return true;
         });
     }
 

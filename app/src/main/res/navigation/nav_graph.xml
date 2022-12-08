@@ -2,45 +2,49 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/nav"
-    app:startDestination="@id/homeFragment">
+    android:id="@+id/auth_nav"
+    app:startDestination="@id/loginFragment">
 
     <fragment
-        android:id="@+id/homeFragment"
-        android:name="com.example.pictureme.views.home.HomeFragment"
-        android:label="fragment_home"
-        tools:layout="@layout/fragment_home" />
-    <fragment
-        android:id="@+id/exploreFragment"
-        android:name="com.example.pictureme.views.explore.ExploreFragment"
-        android:label="fragment_explore"
-        tools:layout="@layout/fragment_explore" />
-    <fragment
-        android:id="@+id/letsgoFragment"
-        android:name="com.example.pictureme.views.letsGo.LetsgoFragment"
-        android:label="fragment_letsgo"
-        tools:layout="@layout/fragment_letsgo">
+        android:id="@+id/loginFragment"
+        android:name="com.example.pictureme.views.auth.LoginFragment"
+        android:label="fragment_login"
+        tools:layout="@layout/fragment_login" >
         <action
-            android:id="@+id/action_letsgoFragment_to_shakeFragment"
-            app:destination="@id/shakeFragment" />
+            android:id="@+id/action_loginFragment_to_registerFragment"
+            app:destination="@id/registerFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_navFragment"
+            app:destination="@id/navFragment" />
     </fragment>
     <fragment
-        android:id="@+id/friendsFragment"
-        android:name="com.example.pictureme.views.friends.FriendsFragment"
-        android:label="fragment_friends"
-        tools:layout="@layout/fragment_friends" />
-    <fragment
-        android:id="@+id/shakeFragment"
-        android:name="com.example.pictureme.views.letsGo.ShakeFragment"
-        android:label="fragment_shake"
-        tools:layout="@layout/fragment_shake">
+        android:id="@+id/registerFragment"
+        android:name="com.example.pictureme.views.auth.RegisterFragment"
+        android:label="fragment_register"
+        tools:layout="@layout/fragment_register" >
         <action
-            android:id="@+id/action_shakeFragment_to_picMeFragment"
-            app:destination="@id/picMeFragment" />
+            android:id="@+id/action_registerFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_registerFragment_to_navFragment"
+            app:destination="@id/navFragment" />
     </fragment>
     <fragment
-        android:id="@+id/picMeFragment"
-        android:name="com.example.pictureme.views.camera.PicMeFragment"
-        android:label="fragment_pic_me"
-        tools:layout="@layout/fragment_pic_me" />
+        android:id="@+id/navFragment"
+        android:name="com.example.pictureme.views.NavFragment"
+        android:label="fragment_nav"
+        tools:layout="@layout/fragment_nav" >
+        <action
+            android:id="@+id/action_navFragment_to_picmePreviewFragment"
+            app:destination="@id/picmePreviewFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/picmePreviewFragment"
+        android:name="com.example.pictureme.PicmePreviewFragment"
+        android:label="fragment_picme_preview"
+        tools:layout="@layout/fragment_picme_preview" >
+        <action
+            android:id="@+id/action_picmePreviewFragment_to_navFragment"
+            app:destination="@id/navFragment" />
+    </fragment>
 </navigation>

@@ -1,5 +1,6 @@
-package com.example.pictureme.data
+package com.example.pictureme.data.interfaces
 
+import com.example.pictureme.data.Resource
 import com.google.firebase.auth.FirebaseUser
 
 interface AuthRepository {

@@ -12,7 +12,7 @@
         tools:layout="@layout/fragment_home" />
     <fragment
         android:id="@+id/exploreFragment"
-        android:name="com.example.pictureme.ExploreFragment"
+        android:name="com.example.pictureme.views.explore.ExploreFragment"
         android:label="fragment_explore"
         tools:layout="@layout/fragment_explore" />
     <fragment
@@ -22,7 +22,7 @@
         tools:layout="@layout/fragment_letsgo" />
     <fragment
         android:id="@+id/profileFragment"
-        android:name="com.example.pictureme.ProfileFragment"
+        android:name="com.example.pictureme.views.profile.ProfileFragment"
         android:label="fragment_profile"
         tools:layout="@layout/fragment_profile" />
 </navigation>

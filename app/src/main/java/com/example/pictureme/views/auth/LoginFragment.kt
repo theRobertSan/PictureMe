@@ -6,12 +6,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
 import com.example.pictureme.R
 import com.example.pictureme.data.Resource
 import com.example.pictureme.databinding.FragmentLoginBinding
 import com.example.pictureme.viewmodels.AuthViewModel
+import com.example.pictureme.viewmodels.UserViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -20,7 +22,8 @@ class LoginFragment : Fragment() {
     private var _binding: FragmentLoginBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel by viewModels<AuthViewModel>()
+    private val authViewModel by activityViewModels<AuthViewModel>()
+    private val userViewModel by activityViewModels<UserViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -30,9 +33,11 @@ class LoginFragment : Fragment() {
 
         // Observers
 
-        viewModel.authLiveData.observe(viewLifecycleOwner) {
+        authViewModel.authLiveData.observe(viewLifecycleOwner) {
             when(it) {
                 is Resource.Success -> {
+                    // Load user from Firestore
+                    userViewModel.loadUser()
                     Navigation.findNavController(binding.root).navigate(R.id.action_loginFragment_to_navFragment)
                 }
                 is Resource.Failure -> {
@@ -50,8 +55,10 @@ class LoginFragment : Fragment() {
         }
 
         binding.buttonLogin.setOnClickListener {
-            viewModel.login(binding.editEmail.text.toString(), binding.editPassword.text.toString())
+            authViewModel.login(binding.editEmail.text.toString(), binding.editPassword.text.toString())
         }
+
+        authViewModel.login("1@gmail.com", "123456")
 
         return (binding.root)
     }

@@ -1,11 +1,11 @@
 package com.example.pictureme.data.repository
 
-import com.example.pictureme.data.AuthRepository
+import com.example.pictureme.data.interfaces.AuthRepository
 import com.example.pictureme.data.Resource
-import com.example.pictureme.data.utils.await
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.UserProfileChangeRequest
+import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
 class AuthRepositoryImpl @Inject constructor(

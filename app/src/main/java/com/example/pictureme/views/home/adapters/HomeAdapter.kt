@@ -30,7 +30,7 @@ class HomeAdapter(
     override fun onBindViewHolder(holder: HomeViewHolder, position: Int) {
         holder.tvTitle.text = rvs[position].title
 
-        val picMeAdapter = PicMeAdapter(rvs[position].picmes)
+        val picMeAdapter = PicmeAdapter(rvs[position].picmes)
         holder.rvCategory.layoutManager = LinearLayoutManager(holder.itemView.context, LinearLayoutManager.HORIZONTAL, false)
         holder.rvCategory.adapter = picMeAdapter
         //picMeAdapter.notifyDataSetChanged()

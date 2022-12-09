@@ -40,7 +40,7 @@
     </fragment>
     <fragment
         android:id="@+id/picmePreviewFragment"
-        android:name="com.example.pictureme.PicmePreviewFragment"
+        android:name="com.example.pictureme.views.preview.PicmePreviewFragment"
         android:label="fragment_picme_preview"
         tools:layout="@layout/fragment_picme_preview" >
         <action

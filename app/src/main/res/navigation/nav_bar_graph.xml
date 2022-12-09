@@ -17,7 +17,7 @@
         tools:layout="@layout/fragment_explore" />
     <fragment
         android:id="@+id/goFragment"
-        android:name="com.example.pictureme.LetsgoFragment"
+        android:name="com.example.pictureme.views.go.GoFragment"
         android:label="fragment_go"
         tools:layout="@layout/fragment_letsgo" />
     <fragment

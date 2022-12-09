@@ -25,8 +25,8 @@ class PicmeViewModel @Inject constructor(
     private val _picmeCreationLiveData = MutableLiveData<Boolean>()
     val picmeCreationLiveData: LiveData<Boolean> = _picmeCreationLiveData
 
-    private val _picmesLiveData = MutableLiveData<Resource<MutableList<Picme>>?>()
-    val picmesLiveData: LiveData<Resource<MutableList<Picme>>?> = _picmesLiveData
+    private val _picmesLiveData = MutableLiveData<Resource<List<Picme>>?>()
+    val picmesLiveData: LiveData<Resource<List<Picme>>?> = _picmesLiveData
 
     private val currentUserId = authRepository.currentUser!!.uid
 

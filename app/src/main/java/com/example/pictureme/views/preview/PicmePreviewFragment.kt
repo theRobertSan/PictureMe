@@ -1,6 +1,5 @@
-package com.example.pictureme
+package com.example.pictureme.views.preview
 
-import android.content.ContentValues
 import android.content.ContentValues.TAG
 import android.graphics.BitmapFactory
 import android.net.Uri
@@ -16,10 +15,8 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.FileProvider
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.Navigation
-import com.example.pictureme.data.models.Picme
-import com.example.pictureme.databinding.FragmentLoginBinding
+import com.example.pictureme.R
 import com.example.pictureme.databinding.FragmentPicmePreviewBinding
-import com.example.pictureme.viewmodels.AuthViewModel
 import com.example.pictureme.viewmodels.PicmeViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.File

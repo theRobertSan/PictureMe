@@ -58,6 +58,8 @@ class LoginFragment : Fragment() {
             authViewModel.login(binding.editEmail.text.toString(), binding.editPassword.text.toString())
         }
 
+        authViewModel.login("1@gmail.com", "123456")
+
         return (binding.root)
     }
 

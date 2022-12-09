@@ -2,23 +2,35 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/frameLayout4"
+    android:id="@+id/fragment_explore_rl"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".views.explore.ExploreFragment">
 
     <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/appBarLayoutExplore"
+        android:id="@+id/fragment_explore_appbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <com.google.android.material.tabs.TabLayout
+            android:id="@+id/fragment_explore_tabs"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:tabBackground="@color/purple_200"
+            app:tabMode="fixed"
             app:tabGravity="fill"
-            app:tabInlineLabel="true"
-            app:tabMode="fixed" />
+            app:tabInlineLabel="true">
+
+        </com.google.android.material.tabs.TabLayout>
+
     </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/fragment_explore_view_pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true" />
 
 </RelativeLayout>

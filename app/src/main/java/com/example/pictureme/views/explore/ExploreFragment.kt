@@ -6,15 +6,34 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.pictureme.R
+import com.example.pictureme.databinding.FragmentExploreBinding
+import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
+import com.google.android.material.tabs.TabLayoutMediator
 
 
 class ExploreFragment : Fragment() {
+
+    private var _binding: FragmentExploreBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_explore, container, false)
+        _binding = FragmentExploreBinding.inflate(inflater, container, false)
+
+        val pager = binding.fragmentExploreViewPager
+        val tl = binding.fragmentExploreTabs
+        pager.adapter = ViewPagerAdapter(requireActivity().supportFragmentManager, requireActivity().lifecycle)
+
+        TabLayoutMediator(tl, pager) { tab, position ->
+            when (position) {
+                0 -> tab.text = "Gallery"
+                1 -> tab.text = "Map"
+            }
+        }.attach()
+
+        return (binding.root)
     }
 }

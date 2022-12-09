@@ -46,7 +46,7 @@ class HomeFragment : Fragment() {
         else if(currentHour < 18)
             tvWelcome.text = "Good Afternoon, John"
         else
-            tvWelcome.text = "Good Night, John"
+            tvWelcome.text = "Good Evening, John"
     }
 
     // Setup PicMe Cards

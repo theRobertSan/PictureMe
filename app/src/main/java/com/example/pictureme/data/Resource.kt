@@ -1,7 +1,7 @@
 package com.example.pictureme.data
 
-sealed class Resource<out R> {
-    data class Success<out R>(val result: R): Resource<R>()
-    data class Failure(val exception: Exception): Resource<Nothing>()
+sealed class Resource<out T> {
+    data class Success<out T>(val result: T): Resource<T>()
+    data class Failure(val e: Exception): Resource<Nothing>()
     object Loading: Resource<Nothing>()
 }

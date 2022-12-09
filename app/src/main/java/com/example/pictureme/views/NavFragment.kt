@@ -21,27 +21,35 @@ import androidx.activity.result.registerForActivityResult
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI.setupWithNavController
 import com.example.pictureme.R
 import com.example.pictureme.data.models.Picme
 import com.example.pictureme.databinding.FragmentNavBinding
+import com.example.pictureme.viewmodels.PicmeViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
+@AndroidEntryPoint
 class NavFragment : Fragment() {
 
     private var _binding: FragmentNavBinding? = null
     private val binding get() = _binding!!
+
+    private val picmeViewModel by activityViewModels<PicmeViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentNavBinding.inflate(inflater, container, false);
+
+        picmeViewModel.loadPicmes()
 
         setupBottomNav()
         setupCameraButton()

@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.FileProvider
 import androidx.fragment.app.activityViewModels
@@ -41,22 +42,35 @@ class PicmePreviewFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentPicmePreviewBinding.inflate(inflater, container, false);
+        _binding = FragmentPicmePreviewBinding.inflate(inflater, container, false)
+        setUpListeners()
+        setUpObservers()
+        invokeCamera()
+        return (binding.root)
+    }
 
-        // OnClickListeners
-
+    private fun setUpListeners() {
+        // Save PicMe
         binding.buttonSave.setOnClickListener {
             picmeViewModel.addPicme(uri!!)
-//            Navigation.findNavController(binding.root).navigate(R.id.action_picmePreviewFragment_to_navFragment)
         }
 
+        // Retake PicMe
         binding.buttonRetake.setOnClickListener {
             invokeCamera()
         }
+    }
 
-        invokeCamera()
-
-        return (binding.root)
+    private fun setUpObservers() {
+        // Observe if picme creation was successful
+        picmeViewModel.picmeCreationLiveData.observe(viewLifecycleOwner) {
+            if (it) {
+                Toast.makeText(requireContext(), "PicMe Saved Successfully!", Toast.LENGTH_SHORT).show()
+                Navigation.findNavController(binding.root).navigate(R.id.action_picmePreviewFragment_to_navFragment)
+            } else {
+                Toast.makeText(requireContext(), "Picme couldn't be saved. Try again later", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
     private fun invokeCamera() {

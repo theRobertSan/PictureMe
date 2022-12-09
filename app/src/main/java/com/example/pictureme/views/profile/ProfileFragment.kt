@@ -1,5 +1,6 @@
 package com.example.pictureme.views.profile
 
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -14,6 +15,7 @@ import com.example.pictureme.data.Resource
 import com.example.pictureme.data.models.User
 import com.example.pictureme.databinding.FragmentLoginBinding
 import com.example.pictureme.databinding.FragmentProfileBinding
+import com.example.pictureme.viewmodels.PicmeViewModel
 import com.example.pictureme.viewmodels.UserViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -24,6 +26,7 @@ class ProfileFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val userViewModel by activityViewModels<UserViewModel>()
+    private val picmeViewModel by activityViewModels<PicmeViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,6 +39,15 @@ class ProfileFragment : Fragment() {
     ): View? {
         _binding = FragmentProfileBinding.inflate(inflater, container, false);
 
+        setUpObservers()
+
+
+
+        return (binding.root)
+    }
+
+    private fun setUpObservers() {
+        // Observe user
         userViewModel.userLiveData.observe(viewLifecycleOwner) {
             when(it) {
                 is Resource.Success -> {
@@ -44,8 +56,16 @@ class ProfileFragment : Fragment() {
                 else -> {}
             }
         }
-
-        return (binding.root)
+        // Testing (observe picmes)
+        picmeViewModel.picmesLiveData.observe(viewLifecycleOwner) {
+            when(it) {
+                is Resource.Success -> {
+                    val takenPicture = BitmapFactory.decodeFile(it.result[0].imageFile?.absolutePath)
+                    binding.imageProfilePicture.setImageBitmap(takenPicture)
+                }
+                else -> {}
+            }
+        }
     }
 
     override fun onDestroyView() {

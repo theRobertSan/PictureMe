@@ -2,7 +2,10 @@ package com.example.pictureme.data.repository
 
 import com.example.pictureme.data.Resource
 import com.example.pictureme.data.interfaces.UserRepository
+import com.example.pictureme.data.models.Friendship
 import com.example.pictureme.data.models.User
+import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.toObject
 import kotlinx.coroutines.tasks.await
@@ -11,6 +14,9 @@ import javax.inject.Inject
 class UserRepositoryImpl @Inject constructor (
     firestore: FirebaseFirestore
 ) : UserRepository {
+
+    override var currentUser: User? = null
+    override var friendships: List<Friendship>? = null
 
     private val userCollection = firestore.collection("users")
 
@@ -21,7 +27,8 @@ class UserRepositoryImpl @Inject constructor (
 
         return try {
             userCollection.document(id).set(user).await()
-            Resource.Success(User(id, username))
+            currentUser = User(id, username, listOf())
+            Resource.Success(currentUser!!)
         } catch (e: Exception) {
             e.printStackTrace()
             Resource.Failure(e)
@@ -31,20 +38,30 @@ class UserRepositoryImpl @Inject constructor (
 
     override suspend fun loadUser(id: String): Resource<User> {
         return try {
-            lateinit var result : Resource.Success<User>
-            userCollection.document(id).get().addOnSuccessListener { documentSnapshot ->
-                    result = Resource.Success(documentSnapshot.toObject<User>()!!)
-            }.await()
+            // Load user
+            currentUser = userCollection.document(id).get().await().toObject<User>()
 
-//            val result = userCollection.document(id).get().await()
-            println(result)
-            println(result.result)
-            result
+            // Load its friends
+            loadFriends()
+
+            Resource.Success(currentUser!!)
         } catch (e: Exception) {
             e.printStackTrace()
             Resource.Failure(e)
         }
 
+    }
+
+    override suspend fun loadFriends(): Resource<List<Friendship>> {
+        return try {
+            for (friendship in currentUser!!.friendships!!) {
+                friendship.friend = friendship.friendId!!.get().await().toObject<User>()
+            }
+            Resource.Success(currentUser!!.friendships!!)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Resource.Failure(e)
+        }
     }
 
 }

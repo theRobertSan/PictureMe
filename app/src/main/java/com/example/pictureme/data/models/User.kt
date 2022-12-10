@@ -1,11 +1,13 @@
 package com.example.pictureme.data.models
 
 import com.google.firebase.firestore.DocumentId
+import com.google.firebase.firestore.DocumentReference
 
 data class User(
     @DocumentId
-    val id: String,
-    val username: String
+    var id: String?,
+    var username: String?,
+    var friendships: List<Friendship>?
 ) {
-    constructor() : this("", "")
+    constructor() : this(null, null, null)
 }

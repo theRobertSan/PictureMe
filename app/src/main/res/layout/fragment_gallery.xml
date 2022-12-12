@@ -7,14 +7,32 @@
     android:layout_height="match_parent"
     tools:context=".views.explore.GalleryFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Gallery"
+    <GridView
+        android:id="@+id/fragment_gallery_grid_view"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="10dp"
+        android:columnWidth="130dp"
+        android:numColumns="auto_fit"
+        android:paddingStart="15dp"
+        android:paddingTop="10dp"
+        android:verticalSpacing="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/fragment_gallery_text_view">
+
+    </GridView>
+
+    <TextView
+        android:id="@+id/fragment_gallery_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingStart="10dp"
+        android:paddingTop="16dp"
+        android:text="Your PicMe's"
+        android:textSize="20sp"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

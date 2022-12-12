@@ -16,6 +16,7 @@ class HomeAdapter(
     inner class HomeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val tvTitle: TextView
         val rvCategory: RecyclerView
+
         init {
             tvTitle = itemView.findViewById(R.id.tvParentTitle)
             rvCategory = itemView.findViewById(R.id.rvCategory)
@@ -23,7 +24,8 @@ class HomeAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HomeViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.recycler_view_card, parent, false)
+        val view =
+            LayoutInflater.from(parent.context).inflate(R.layout.recycler_view_card, parent, false)
         return HomeViewHolder(view)
     }
 
@@ -31,7 +33,8 @@ class HomeAdapter(
         holder.tvTitle.text = rvs[position].title
 
         val picMeAdapter = PicmeAdapter(rvs[position].picmes)
-        holder.rvCategory.layoutManager = LinearLayoutManager(holder.itemView.context, LinearLayoutManager.HORIZONTAL, false)
+        holder.rvCategory.layoutManager =
+            LinearLayoutManager(holder.itemView.context, LinearLayoutManager.HORIZONTAL, false)
         holder.rvCategory.adapter = picMeAdapter
         //picMeAdapter.notifyDataSetChanged()
     }

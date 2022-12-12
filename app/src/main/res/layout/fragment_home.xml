@@ -7,9 +7,8 @@
     android:layout_height="match_parent"
     tools:context=".views.home.HomeFragment">
 
-
     <TextView
-        android:id="@+id/tvWelcome"
+        android:id="@+id/fragment_home_tv_welcome"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -20,13 +19,12 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvHome"
+        android:id="@+id/fragment_home_rv"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvWelcome" />
-
+        app:layout_constraintTop_toBottomOf="@+id/fragment_home_tv_welcome" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

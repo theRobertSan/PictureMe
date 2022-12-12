@@ -25,6 +25,7 @@ class PicmeAdapter(
     inner class PicMeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val relativeTime: TextView
         val picmeImage: ImageView
+
         init {
             relativeTime = itemView.findViewById(R.id.text_relative_time)
             picmeImage = itemView.findViewById(R.id.image_picme)
@@ -37,8 +38,13 @@ class PicmeAdapter(
     }
 
     override fun onBindViewHolder(holder: PicMeViewHolder, position: Int) {
-        val relativeDate = DateUtils.getRelativeTimeSpanString(picmes[position].createdAt!!.seconds * 1000, System.currentTimeMillis(), DateUtils.DAY_IN_MILLIS);
+        val relativeDate = DateUtils.getRelativeTimeSpanString(
+            picmes[position].createdAt!!.seconds * 1000,
+            System.currentTimeMillis(),
+            DateUtils.DAY_IN_MILLIS
+        );
         holder.relativeTime.text = relativeDate
+
         val takenPicture = BitmapFactory.decodeFile(picmes[position].imageFile?.absolutePath)
         holder.picmeImage.setImageBitmap(takenPicture)
     }

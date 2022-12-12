@@ -5,10 +5,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.pictureme.R
 import com.example.pictureme.databinding.FragmentExploreBinding
-import com.google.android.material.tabs.TabLayout
-import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
+import com.example.pictureme.views.explore.adapters.ViewPagerAdapter
 import com.google.android.material.tabs.TabLayoutMediator
 
 
@@ -26,6 +24,8 @@ class ExploreFragment : Fragment() {
         val pager = binding.fragmentExploreViewPager
         val tl = binding.fragmentExploreTabs
         pager.adapter = ViewPagerAdapter(requireActivity().supportFragmentManager, requireActivity().lifecycle)
+        pager.isUserInputEnabled = false
+
 
         TabLayoutMediator(tl, pager) { tab, position ->
             when (position) {

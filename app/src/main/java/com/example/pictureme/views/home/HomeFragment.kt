@@ -50,7 +50,7 @@ class HomeFragment : Fragment() {
         userViewModel.userLiveData.observe(viewLifecycleOwner) {
             if (it is Resource.Success) {
                 val username = it.result.username
-                val tvWelcome: TextView = binding.tvWelcome
+                val tvWelcome: TextView = binding.fragmentHomeTvWelcome
                 if(currentHour < 12)
                     tvWelcome.text = "Good Morning, $username"
                 else if(currentHour < 18)
@@ -73,7 +73,7 @@ class HomeFragment : Fragment() {
 
                 val picMeList2 = it.result
 
-                val rvHome = binding.rvHome
+                val rvHome = binding.fragmentHomeRv
                 val rvsCategory = arrayListOf<ParentModelClass>()
 
                 val rv1 = ParentModelClass("Your PicMe's with friends", picMeList1)

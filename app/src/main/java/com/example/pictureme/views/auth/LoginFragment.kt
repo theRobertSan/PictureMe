@@ -13,6 +13,7 @@ import com.example.pictureme.R
 import com.example.pictureme.data.Resource
 import com.example.pictureme.databinding.FragmentLoginBinding
 import com.example.pictureme.viewmodels.AuthViewModel
+import com.example.pictureme.viewmodels.PicmeViewModel
 import com.example.pictureme.viewmodels.UserViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -24,6 +25,7 @@ class LoginFragment : Fragment() {
 
     private val authViewModel by activityViewModels<AuthViewModel>()
     private val userViewModel by activityViewModels<UserViewModel>()
+    private val picmeViewModel by activityViewModels<PicmeViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,8 +38,11 @@ class LoginFragment : Fragment() {
         authViewModel.authLiveData.observe(viewLifecycleOwner) {
             when(it) {
                 is Resource.Success -> {
-                    // Load user from Firestore
+                    // Load user & his friends from Firestore
                     userViewModel.loadUser()
+                    // Load user picmes
+                    picmeViewModel.loadPicmes()
+
                     Navigation.findNavController(binding.root).navigate(R.id.action_loginFragment_to_navFragment)
                 }
                 is Resource.Failure -> {

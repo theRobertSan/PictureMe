@@ -35,6 +35,7 @@ class UserViewModel @Inject constructor(
     }
 
     fun loadUser() = viewModelScope.launch {
+        _userLiveData.value = Resource.Loading
         val user = userRepository.loadUser(authRepository.currentUser!!.uid)
         _userLiveData.value = user
     }

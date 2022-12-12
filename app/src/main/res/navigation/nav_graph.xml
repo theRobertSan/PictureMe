@@ -46,5 +46,17 @@
         <action
             android:id="@+id/action_picmePreviewFragment_to_navFragment"
             app:destination="@id/navFragment" />
+        <action
+            android:id="@+id/action_picmePreviewFragment_to_addFriendsFragment"
+            app:destination="@id/addFriendsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addFriendsFragment"
+        android:name="com.example.pictureme.views.addfriends.AddFriendsFragment"
+        android:label="fragment_add_friends"
+        tools:layout="@layout/fragment_add_friends" >
+        <action
+            android:id="@+id/action_addFriendsFragment_to_picmePreviewFragment"
+            app:destination="@id/picmePreviewFragment" />
     </fragment>
 </navigation>

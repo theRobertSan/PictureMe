@@ -1,6 +1,7 @@
 package com.example.pictureme.views.preview
 
 import android.content.ContentValues.TAG
+import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
@@ -33,16 +34,28 @@ class PicmePreviewFragment : Fragment() {
 
     private lateinit var currentImagePath: String
     private lateinit var strUri: String
-    private var uri: Uri? = null
+    private lateinit var uri: Uri
+    private var takenPicture: Bitmap? = null
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        invokeCamera()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentPicmePreviewBinding.inflate(inflater, container, false)
+
         setUpListeners()
         setUpObservers()
-        invokeCamera()
+
+        // Load picture if it has already been taken
+        if (takenPicture != null) {
+            binding.imagePicme.setImageBitmap(takenPicture)
+        }
+
         return (binding.root)
     }
 
@@ -55,6 +68,11 @@ class PicmePreviewFragment : Fragment() {
         // Retake PicMe
         binding.buttonRetake.setOnClickListener {
             invokeCamera()
+        }
+
+        // Add Friends
+        binding.buttonAddFriends.setOnClickListener {
+            Navigation.findNavController(binding.root).navigate(R.id.action_picmePreviewFragment_to_addFriendsFragment)
         }
     }
 
@@ -96,7 +114,7 @@ class PicmePreviewFragment : Fragment() {
         if (success) {
             Log.i(TAG, "Image Location: $uri")
             strUri = uri.toString()
-            val takenPicture = BitmapFactory.decodeFile(currentImagePath)
+            takenPicture = BitmapFactory.decodeFile(currentImagePath)
             Log.i(TAG, "Image obtained from: $currentImagePath")
             binding.imagePicme.setImageBitmap(takenPicture)
 

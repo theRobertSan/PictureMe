@@ -63,6 +63,12 @@ class PicmePreviewFragment : Fragment() {
         // Save PicMe
         binding.buttonSave.setOnClickListener {
             picmeViewModel.addPicme(uri!!)
+
+            // When created picme is created & added, go back to nav
+            picmeViewModel.picmesLiveData.observe(viewLifecycleOwner) {
+                Navigation.findNavController(binding.root).navigate(R.id.action_picmePreviewFragment_to_navFragment)
+            }
+
         }
 
         // Retake PicMe
@@ -77,15 +83,15 @@ class PicmePreviewFragment : Fragment() {
     }
 
     private fun setUpObservers() {
-        // Observe if picme creation was successful
-        picmeViewModel.picmeCreationLiveData.observe(viewLifecycleOwner) {
-            if (it) {
-                Toast.makeText(requireContext(), "PicMe Saved Successfully!", Toast.LENGTH_SHORT).show()
-                Navigation.findNavController(binding.root).navigate(R.id.action_picmePreviewFragment_to_navFragment)
-            } else {
-                Toast.makeText(requireContext(), "Picme couldn't be saved. Try again later", Toast.LENGTH_SHORT).show()
-            }
-        }
+//        // Observe if picme creation was successful
+//        picmeViewModel.picmeCreationLiveData.observe(viewLifecycleOwner) {
+//            if (it) {
+//                Toast.makeText(requireContext(), "PicMe Saved Successfully!", Toast.LENGTH_SHORT).show()
+//                Navigation.findNavController(binding.root).navigate(R.id.action_picmePreviewFragment_to_navFragment)
+//            } else {
+//                Toast.makeText(requireContext(), "Picme couldn't be saved. Try again later", Toast.LENGTH_SHORT).show()
+//            }
+//        }
     }
 
     private fun invokeCamera() {

@@ -10,10 +10,15 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.RequiresApi
+import androidx.appcompat.widget.AppCompatCheckedTextView
+import androidx.appcompat.widget.AppCompatTextView
+import androidx.core.view.isGone
+import androidx.core.widget.ContentLoadingProgressBar
 import androidx.recyclerview.widget.RecyclerView
+import coil.load
 import com.example.pictureme.R
 import com.example.pictureme.data.models.Picme
-
+import com.google.android.material.imageview.ShapeableImageView
 
 class PicmeAdapter(
     private var picmes: List<Picme>
@@ -23,12 +28,14 @@ class PicmeAdapter(
     val dateFormater = RelativeDateTimeFormatter.getInstance()
 
     inner class PicMeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val relativeTime: TextView
-        val picmeImage: ImageView
+        val relativeTime: AppCompatCheckedTextView
+        val picmeImage: ShapeableImageView
+        val loadingBar: ContentLoadingProgressBar
 
         init {
             relativeTime = itemView.findViewById(R.id.text_relative_time)
             picmeImage = itemView.findViewById(R.id.image_picme)
+            loadingBar = itemView.findViewById(R.id.image_loading_bar)
         }
     }
 
@@ -45,8 +52,16 @@ class PicmeAdapter(
         );
         holder.relativeTime.text = relativeDate
 
-        val takenPicture = BitmapFactory.decodeFile(picmes[position].imageFile?.absolutePath)
-        holder.picmeImage.setImageBitmap(takenPicture)
+        holder.picmeImage.load(picmes[position].imagePath) {
+            crossfade(true)
+            crossfade(1000)
+            listener { request, result ->
+                holder.loadingBar.isGone = true
+            }
+        }
+        //Picasso.get().load(picmes[position].imagePath).into(holder.picmeImage)
+//        val takenPicture = BitmapFactory.decodeFile(picmes[position].imageFile?.absolutePath)
+//        holder.picmeImage.setImageBitmap(takenPicture)
     }
 
     override fun getItemCount(): Int {

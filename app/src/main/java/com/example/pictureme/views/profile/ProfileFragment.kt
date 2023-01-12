@@ -1,13 +1,12 @@
 package com.example.pictureme.views.profile
 
-import android.graphics.BitmapFactory
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
-import com.example.pictureme.data.Resource
+import com.example.pictureme.data.Response
 import com.example.pictureme.databinding.FragmentProfileBinding
 import com.example.pictureme.viewmodels.PicmeViewModel
 import com.example.pictureme.viewmodels.UserViewModel
@@ -35,23 +34,24 @@ class ProfileFragment : Fragment() {
 
     private fun setUpObservers() {
         // Observe user
-        userViewModel.userLiveData.observe(viewLifecycleOwner) {
-            when(it) {
-                is Resource.Success -> {
-                    binding.textName.text = it.result.username
-                }
-                else -> {}
-            }
-        }
+//        userViewModel.userLiveData.observe(viewLifecycleOwner) {
+//            when(it) {
+//                is Response.Success -> {
+//                    binding.textName.text = it.result.username
+//                }
+//                else -> {}
+//            }
+//        }
         // Testing (observe picmes)
         picmeViewModel.picmesLiveData.observe(viewLifecycleOwner) {
-            when(it) {
-                is Resource.Success -> {
-                    val takenPicture = BitmapFactory.decodeFile(it.result[0].imageFile?.absolutePath)
-                    binding.imageProfilePicture.setImageBitmap(takenPicture)
-                }
-                else -> {}
-            }
+//            when(it) {
+//                is Resource.Success -> {
+//                    Picasso.get().load(it.result[0].imagePath).into(binding.imageProfilePicture)
+////                    val takenPicture = BitmapFactory.decodeFile(it.result[0].imageFile?.absolutePath)
+////                    binding.imageProfilePicture.setImageBitmap(takenPicture)
+//                }
+//                else -> {}
+//            }
         }
     }
 

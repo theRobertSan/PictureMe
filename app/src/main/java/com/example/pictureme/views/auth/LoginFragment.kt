@@ -7,10 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
 import com.example.pictureme.R
-import com.example.pictureme.data.Resource
+import com.example.pictureme.data.Response
 import com.example.pictureme.databinding.FragmentLoginBinding
 import com.example.pictureme.viewmodels.AuthViewModel
 import com.example.pictureme.viewmodels.PicmeViewModel
@@ -37,7 +36,7 @@ class LoginFragment : Fragment() {
 
         authViewModel.authLiveData.observe(viewLifecycleOwner) {
             when(it) {
-                is Resource.Success -> {
+                is Response.Success -> {
                     // Load user & his friends from Firestore
                     userViewModel.loadUser()
                     // Load user picmes
@@ -45,7 +44,7 @@ class LoginFragment : Fragment() {
 
                     Navigation.findNavController(binding.root).navigate(R.id.action_loginFragment_to_navFragment)
                 }
-                is Resource.Failure -> {
+                is Response.Failure -> {
                     Toast.makeText(context, "Failure!", Toast.LENGTH_SHORT).show()
                 }
                 else -> {}

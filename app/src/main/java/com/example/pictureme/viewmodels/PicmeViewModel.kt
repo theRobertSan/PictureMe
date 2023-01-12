@@ -7,11 +7,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.pictureme.data.Resource
+import com.example.pictureme.data.Response
 import com.example.pictureme.data.interfaces.AuthRepository
 import com.example.pictureme.data.interfaces.PicmeRepository
 import com.example.pictureme.data.models.Picme
-import com.example.pictureme.data.models.User
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -21,39 +20,26 @@ class PicmeViewModel @Inject constructor(
   private val picmeRepository: PicmeRepository,
   private val authRepository: AuthRepository
 ): ViewModel() {
-    // Success of picme creation
-    private val _picmeCreationLiveData = MutableLiveData<Boolean>()
-    val picmeCreationLiveData: LiveData<Boolean> = _picmeCreationLiveData
-
-    private val _picmesLiveData = MutableLiveData<Resource<List<Picme>>?>()
-    val picmesLiveData: LiveData<Resource<List<Picme>>?> = _picmesLiveData
+    // User Picme's
+    private val _picmesLiveData = MutableLiveData<List<Picme>>()
+    val picmesLiveData: LiveData<List<Picme>> = _picmesLiveData
 
     private val currentUserId = authRepository.currentUser!!.uid
 
     fun addPicme(imageUri: Uri) = viewModelScope.launch {
-
-        // Save to storage
-        when(val resultStorage = picmeRepository.storePicmeImage(currentUserId, imageUri)) {
-            // Save to firebase
-            is Resource.Success -> {
-                picmeRepository.addPicme(currentUserId, resultStorage.result)
-                _picmeCreationLiveData.value = true
-            }
-            else -> {
-                Log.e(TAG, "Error saving image to storage")
-                _picmeCreationLiveData.value = false
-            }
-        }
+        // Save to Firebase Storage
+        val resultStorage = picmeRepository.storePicmeImage(currentUserId, imageUri)
+        // Save to Firestore
+        val createdPicme = picmeRepository.addPicme(currentUserId, resultStorage)
+        // Add created picme to current picme list
+        _picmesLiveData.postValue(picmesLiveData.value!! + createdPicme)
     }
 
     fun loadPicmes() = viewModelScope.launch {
-        val result = picmeRepository.loadPicmes(currentUserId)
-//        if (result is Resource.Success) {
-//            Log.i(TAG, "OPENING IMAGE ${result.result[0].imageUri.toString()}")
-//            picmeRepository.loadPicmeImage(currentUserId, result.result[0].imageUri.toString())
-//        }
-        _picmesLiveData.value = result
-
+        val response = picmeRepository.loadPicmes(currentUserId)
+        // Post response from firebase
+        println("Loaded Images from Firebase")
+        _picmesLiveData.postValue(response)
     }
 
 }

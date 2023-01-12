@@ -11,10 +11,10 @@ data class Picme(
     @DocumentId
     var id: String?,
     var imagePath: String?,
-    @Exclude
-    var imageFile: File?,
+//    @Exclude
+//    var imageFile: File?,
     var creator: DocumentReference?,
     var createdAt: Timestamp?
 ) {
-    constructor() : this(null, null, null, null, null)
+    constructor() : this(null, null, null, null)
 }

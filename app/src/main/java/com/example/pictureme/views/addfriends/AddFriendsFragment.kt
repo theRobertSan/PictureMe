@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.pictureme.data.Resource
+import com.example.pictureme.data.Response
 import com.example.pictureme.databinding.FragmentAddFriendsBinding
 import com.example.pictureme.viewmodels.UserViewModel
 import com.example.pictureme.views.addfriends.adapters.AddFriendsAdapter
@@ -29,13 +29,10 @@ class AddFriendsFragment : Fragment() {
 
         setupListeners()
 
-        userViewModel.userLiveData.observe(viewLifecycleOwner) {
-            if (it is Resource.Success) {
-                val adapter = AddFriendsAdapter(it.result.friendships!!)
-                binding.rvFriends.adapter = adapter
-                binding.rvFriends.layoutManager = LinearLayoutManager(activity)
-            }
-
+        userViewModel.userLiveData.observe(viewLifecycleOwner) { user ->
+            val adapter = AddFriendsAdapter(user.friendships!!)
+            binding.rvFriends.adapter = adapter
+            binding.rvFriends.layoutManager = LinearLayoutManager(activity)
         }
 
         return (binding.root)

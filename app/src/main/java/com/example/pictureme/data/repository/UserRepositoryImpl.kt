@@ -1,17 +1,17 @@
 package com.example.pictureme.data.repository
 
-import com.example.pictureme.data.Resource
+import com.example.pictureme.data.Response
 import com.example.pictureme.data.interfaces.UserRepository
 import com.example.pictureme.data.models.Friendship
+import com.example.pictureme.data.models.Picme
 import com.example.pictureme.data.models.User
-import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.toObject
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
-class UserRepositoryImpl @Inject constructor (
+class UserRepositoryImpl @Inject constructor(
     firestore: FirebaseFirestore
 ) : UserRepository {
 
@@ -19,49 +19,59 @@ class UserRepositoryImpl @Inject constructor (
     override var friendships: List<Friendship>? = null
 
     private val userCollection = firestore.collection("users")
+    private val friendshipCollection = firestore.collection("friendships")
 
-    override suspend fun addUser(id: String, username: String): Resource<User> {
+    override suspend fun addUser(id: String, username: String): User {
         val user = hashMapOf(
             "username" to username
         )
 
-        return try {
-            userCollection.document(id).set(user).await()
-            currentUser = User(id, username, listOf())
-            Resource.Success(currentUser!!)
-        } catch (e: Exception) {
-            e.printStackTrace()
-            Resource.Failure(e)
-        }
-
+        userCollection.document(id).set(user).await()
+        currentUser = User(id, username, listOf())
+        return currentUser!!
     }
 
-    override suspend fun loadUser(id: String): Resource<User> {
-        return try {
-            // Load user
-            currentUser = userCollection.document(id).get().await().toObject<User>()
+    override suspend fun loadUser(id: String): User {
+        // Get user document
+        val userReference = userCollection.document(id)
 
-            // Load its friends
-            loadFriends()
+        // Load user
+        currentUser = userReference.get().await().toObject<User>()
 
-            Resource.Success(currentUser!!)
-        } catch (e: Exception) {
-            e.printStackTrace()
-            Resource.Failure(e)
+        // Load its friendships
+        val friendships = ArrayList<Friendship>()
+
+        // User is on the left
+        val userFriendships1 = friendshipCollection
+            .whereEqualTo("user1", userReference)
+            .get()
+            .await()
+        println(userReference)
+        println("---------------------------")
+        println(userFriendships1)
+        // User is on the right
+        val userFriendships2 = friendshipCollection
+            .whereEqualTo("user2", userReference)
+            .get()
+            .await()
+
+        // Iterate over userFriendships
+        for (userFriendship in (userFriendships1 + userFriendships2)) {
+            val friendship = userFriendship.toObject<Friendship>()
+            // Select friend from user1 and user2 and get him (as User)
+            val friend =
+                if (userFriendship.data["user1"]!! == userReference) userFriendship.data["user2"]!! else userFriendship.data["user1"]!!
+            friendship.friend = (friend as DocumentReference).get().await().toObject<User>()
+
+            // Add friendship to current users list
+            friendships.add(friendship)
         }
 
-    }
+        currentUser!!.friendships = friendships
 
-    override suspend fun loadFriends(): Resource<List<Friendship>> {
-        return try {
-            for (friendship in currentUser!!.friendships!!) {
-                friendship.friend = friendship.friendId!!.get().await().toObject<User>()
-            }
-            Resource.Success(currentUser!!.friendships!!)
-        } catch (e: Exception) {
-            e.printStackTrace()
-            Resource.Failure(e)
-        }
+        println(currentUser)
+
+        return currentUser!!
     }
 
 }

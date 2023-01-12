@@ -1,7 +1,7 @@
 package com.example.pictureme.data.repository
 
 import com.example.pictureme.data.interfaces.AuthRepository
-import com.example.pictureme.data.Resource
+import com.example.pictureme.data.Response
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.UserProfileChangeRequest
@@ -14,13 +14,13 @@ class AuthRepositoryImpl @Inject constructor(
     override val currentUser: FirebaseUser?
         get() = firebaseAuth.currentUser
 
-    override suspend fun login(email: String, password: String): Resource<FirebaseUser> {
+    override suspend fun login(email: String, password: String): Response<FirebaseUser> {
         return try {
             val result = firebaseAuth.signInWithEmailAndPassword(email, password).await()
-            Resource.Success(result.user!!)
+            Response.Success(result.user!!)
         } catch (e: Exception) {
             e.printStackTrace()
-            Resource.Failure(e)
+            Response.Failure(e)
         }
     }
 
@@ -28,14 +28,14 @@ class AuthRepositoryImpl @Inject constructor(
         name: String,
         email: String,
         password: String
-    ): Resource<FirebaseUser> {
+    ): Response<FirebaseUser> {
         return try {
             val result = firebaseAuth.createUserWithEmailAndPassword(email, password).await()
             result?.user?.updateProfile(UserProfileChangeRequest.Builder().setDisplayName(name).build())?.await()
-            Resource.Success(result.user!!)
+            Response.Success(result.user!!)
         } catch (e: Exception) {
             e.printStackTrace()
-            Resource.Failure(e)
+            Response.Failure(e)
         }
     }
 

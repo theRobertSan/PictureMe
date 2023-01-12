@@ -3,14 +3,12 @@ package com.example.pictureme.data.repository
 import android.content.ContentValues.TAG
 import android.net.Uri
 import android.util.Log
-import com.example.pictureme.data.Resource
+import com.example.pictureme.data.Response
 import com.example.pictureme.data.interfaces.PicmeRepository
 import com.example.pictureme.data.models.Picme
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.DocumentReference
-import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.coroutines.tasks.await
@@ -33,97 +31,79 @@ class PicmeRepositoryImpl @Inject constructor(
     private val userPicmeCollection = firestore.collection("userPicmes")
     private val picmeCollection = firestore.collection("picmes")
 
-    override suspend fun loadPicmes(userId: String): Resource<ArrayList<Picme>> {
-        return try {
-            println(userId)
-            val userReference = userCollection.document(userId)
-            val userPicmeDocs = userPicmeCollection
-                .whereEqualTo("userId", userReference)
-                .get()
-                .await()
+    override suspend fun loadPicmes(userId: String): List<Picme> {
+        // Get user document
+        val userReference = userCollection.document(userId)
 
-            println("-------------")
-            println(userPicmeDocs)
+        // Get user-picmes documents for that user
+        val userPicmeDocs = userPicmeCollection
+            .whereEqualTo("userId", userReference)
+            .get()
+            .await()
 
-            val picmes = ArrayList<Picme>()
-            for (userPicme in userPicmeDocs) {
-                Log.i(TAG, "Loading PicMe ${userPicme.data["picmeId"]}")
-                val picme = (userPicme.data["picmeId"] as DocumentReference).get().await()
-                picmes.add(picme.toObject<Picme>()!!)
-            }
+        // Store all picme objects for that user
+        val picmes = ArrayList<Picme>()
 
-            // Load images
-            for (picme in picmes) {
-                val result = loadPicmeImage(userId, picme.imagePath.toString())
-                if (result is Resource.Success) {
-                    picme.imageFile = result.result
-                }
-
-            }
-
-            println("-------------")
-            println(picmes)
-            Resource.Success(picmes)
-        } catch (e: Exception) {
-            e.printStackTrace()
-            Resource.Failure(e)
+        // Iterate over user-picmes
+        for (userPicme in userPicmeDocs) {
+            val picme = (userPicme.data["picmeId"] as DocumentReference).get().await()
+            // Convert to Picme object and add to list
+            picmes.add(picme.toObject<Picme>()!!)
         }
+
+        // Get images url (for Coil)
+        for (picme in picmes) {
+            val landRef = storageRef.child(picme.imagePath!!).downloadUrl.await()
+            picme.imagePath = landRef.toString()
+        }
+
+        // Return picmes
+        return picmes
     }
 
-    override suspend fun storePicmeImage(userId: String, imageUri: Uri): Resource<String> {
+    override suspend fun storePicmeImage(userId: String, imageUri: Uri): String {
         // Get reference to storage location
         val picmeRef = storageRef.child("${folder}/${userId}/${imageUri.lastPathSegment}")
-        return try {
-            // Save picture to storage and return download url
-            val picturePath = picmeRef
-                .putFile(imageUri)
-                .await()
-                .storage.path
+        // Save picture to storage and return download url
+        val picturePath = picmeRef
+            .putFile(imageUri)
+            .await()
+            .storage.path
 
-            Resource.Success(picturePath)
-        } catch (e: Exception) {
-            Resource.Failure(e)
-        }
+        return picturePath
     }
 
-    override suspend fun loadPicmeImage(userId: String, imagePath: String): Resource<File> {
-        Log.i(TAG, "Loading image from $imagePath.")
-        //        return Resource.Success
+    override suspend fun loadPicmeImage(userId: String, imagePath: String): File {
         // Get reference to storage location
         val landRef = storageRef.child(imagePath)
-        return try {
-            // Save picture to storage and return download url
-            val localFile = File.createTempFile("picme", "jpg")
-            landRef.getFile(localFile).await()
-            Resource.Success(localFile)
-        } catch (e: Exception) {
-            Resource.Failure(e)
-        }
+        // Save picture to storage and return download url
+        val localFile = File.createTempFile("picme", "jpg")
+        landRef.getFile(localFile).await()
+        return localFile
     }
 
-    override suspend fun addPicme(userId: String, imagePath: String) : Resource<Picme> {
+    override suspend fun addPicme(userId: String, imagePath: String) : Picme {
         val picme = hashMapOf(
             "creator" to userCollection.document(userId),
             "createdAt" to Timestamp(Date()),
             "imagePath" to imagePath
         )
 
-        return try {
-            val result = picmeCollection.add(picme).await()
-            val userPicme = hashMapOf(
-                "userId" to userCollection.document(userId),
-                "picmeId" to picmeCollection.document(result.id)
-            )
-            userPicmeCollection.add(userPicme).await()
+        val result = picmeCollection.add(picme).await()
+        val userPicme = hashMapOf(
+            "userId" to userCollection.document(userId),
+            "picmeId" to picmeCollection.document(result.id)
+        )
+        userPicmeCollection.add(userPicme).await()
 
-            // Get created picme
-            val createdPicme = picmeCollection.document(result.id).get().await()
-            Log.i(TAG, "Created PicMe with id ${createdPicme.id}")
-            Resource.Success(createdPicme.toObject<Picme>()!!)
-        } catch (e: Exception) {
-            e.printStackTrace()
-            Resource.Failure(e)
-        }
+        // Get created picme
+        val createdPicme = picmeCollection.document(result.id).get().await().toObject<Picme>()!!
+        Log.i(TAG, "Created PicMe with id ${createdPicme.id}")
+
+        // Get images url (for Coil)
+        createdPicme.imagePath = storageRef.child(createdPicme.imagePath!!).downloadUrl.await().toString()
+
+        return createdPicme
     }
 
 }

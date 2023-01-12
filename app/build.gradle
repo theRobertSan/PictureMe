@@ -47,15 +47,22 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'androidx.navigation:navigation-fragment-ktx:2.5.3'
     implementation 'androidx.navigation:navigation-ui-ktx:2.5.3'
-    implementation "com.google.firebase:firebase-auth:21.1.0"
-    implementation 'com.google.firebase:firebase-firestore-ktx:24.4.1'
-    implementation 'com.google.firebase:firebase-storage-ktx:20.1.0'
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.4'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.0'
+
+    // Hilt
     implementation "com.google.dagger:hilt-android:2.44"
     kapt "com.google.dagger:hilt-compiler:2.44"
 
-    implementation 'androidx.recyclerview:recyclerview:1.2.1' // Recycler View
+    // Firebase
+    implementation "com.google.firebase:firebase-auth:21.1.0"
+    implementation 'com.google.firebase:firebase-firestore-ktx:24.4.1'
+    implementation 'com.google.firebase:firebase-storage-ktx:20.1.0'
 
+    // Recycler View
+    implementation 'androidx.recyclerview:recyclerview:1.2.1'
+
+    // Coil
+    implementation("io.coil-kt:coil:2.2.2")
 }

@@ -43,13 +43,17 @@ class NavFragment : Fragment() {
 
     private val picmeViewModel by activityViewModels<PicmeViewModel>()
 
+//    override fun onCreate(savedInstanceState: Bundle?) {
+//        super.onCreate(savedInstanceState)
+//        println("Hi")
+//        picmeViewModel.loadPicmes()
+//    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentNavBinding.inflate(inflater, container, false);
-
-        picmeViewModel.loadPicmes()
 
         setupBottomNav()
         setupCameraButton()

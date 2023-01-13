@@ -13,10 +13,10 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="15dp"
-        android:text="Good Morning, John"
         android:textSize="30sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Good Morning, John" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/fragment_home_rv"

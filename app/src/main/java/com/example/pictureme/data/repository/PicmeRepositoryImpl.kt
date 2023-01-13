@@ -7,6 +7,7 @@ import com.example.pictureme.data.Response
 import com.example.pictureme.data.interfaces.PicmeRepository
 import com.example.pictureme.data.models.Feeling
 import com.example.pictureme.data.models.Picme
+import com.example.pictureme.data.models.PreviewPicme
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
@@ -85,16 +86,27 @@ class PicmeRepositoryImpl @Inject constructor(
         return localFile
     }
 
-    override suspend fun addPicme(userId: String, imagePath: String): Picme {
+    override suspend fun addPicme(previewPicme: PreviewPicme): Picme {
         val picme = hashMapOf(
-            "creator" to userCollection.document(userId),
+            "creator" to userCollection.document(previewPicme.creatorId),
             "createdAt" to Timestamp(Date()),
-            "imagePath" to imagePath
+            "imagePath" to previewPicme.imagePath,
+            "feeling" to feelingCollection.document(previewPicme.feeling),
+            "location" to previewPicme.location
         )
 
         val result = picmeCollection.add(picme).await()
+        // Create user-picme documents to represent the connection between the selected friend & the picme
+        for (friend in previewPicme.friendIds) {
+            val userPicme = hashMapOf(
+                "userId" to userCollection.document(friend),
+                "picmeId" to picmeCollection.document(result.id)
+            )
+            userPicmeCollection.add(userPicme).await()
+        }
+        // Also for the creator
         val userPicme = hashMapOf(
-            "userId" to userCollection.document(userId),
+            "userId" to userCollection.document(previewPicme.creatorId),
             "picmeId" to picmeCollection.document(result.id)
         )
         userPicmeCollection.add(userPicme).await()

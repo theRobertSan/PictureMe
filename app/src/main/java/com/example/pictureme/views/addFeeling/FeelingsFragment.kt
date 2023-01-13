@@ -12,7 +12,6 @@ import com.example.pictureme.databinding.FragmentFeelingsBinding
 import com.example.pictureme.viewmodels.PicmeViewModel
 import com.example.pictureme.viewmodels.PreviewPicmeViewModel
 import com.example.pictureme.views.addFeeling.adapters.FeelingsAdapter
-import com.example.pictureme.views.addfriends.adapters.AddFriendsAdapter
 
 class FeelingsFragment(private val selectFoodFeelings: Boolean) : Fragment() {
 
@@ -42,8 +41,6 @@ class FeelingsFragment(private val selectFoodFeelings: Boolean) : Fragment() {
                 adapter.setList(feelings)
             }
         }
-
-
 
 
         return (binding.root)

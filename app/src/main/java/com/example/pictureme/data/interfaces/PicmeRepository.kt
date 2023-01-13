@@ -4,11 +4,12 @@ import android.net.Uri
 import com.example.pictureme.data.Response
 import com.example.pictureme.data.models.Feeling
 import com.example.pictureme.data.models.Picme
+import com.example.pictureme.data.models.PreviewPicme
 import java.io.File
 
 interface PicmeRepository {
     suspend fun storePicmeImage(userId: String, imageUri: Uri): String
-    suspend fun addPicme(userId: String, imagePath: String): Picme
+    suspend fun addPicme(previewPicme: PreviewPicme): Picme
     suspend fun loadPicmes(userId: String): List<Picme>
     suspend fun loadPicmeImage(userId: String, imageUrl: String): File
     suspend fun loadFeelings(): List<Feeling>

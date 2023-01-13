@@ -1,8 +1,14 @@
 package com.example.pictureme.views.preview
 
+import android.Manifest
+import android.annotation.SuppressLint
 import android.content.ContentValues.TAG
+import android.content.Context
+import android.content.Context.LOCATION_SERVICE
+import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.location.*
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
@@ -12,6 +18,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.core.content.FileProvider
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.Navigation
@@ -19,6 +27,9 @@ import com.example.pictureme.R
 import com.example.pictureme.databinding.FragmentPicmePreviewBinding
 import com.example.pictureme.viewmodels.PicmeViewModel
 import com.example.pictureme.viewmodels.PreviewPicmeViewModel
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
+import com.google.firebase.firestore.GeoPoint
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.File
 import java.text.SimpleDateFormat
@@ -41,6 +52,45 @@ class PicmePreviewFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         invokeCamera()
+        saveCurrentLocation()
+    }
+
+    private fun checkPermissions(): Boolean {
+        if (ActivityCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) == PackageManager.PERMISSION_GRANTED &&
+            ActivityCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) == PackageManager.PERMISSION_GRANTED
+        ) {
+            return true
+        }
+        return false
+    }
+
+    private fun saveCurrentLocation() {
+        val locationManager =
+            requireActivity().getSystemService(LOCATION_SERVICE) as LocationManager
+        if (ActivityCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            println("NO PERMISSION")
+            return
+        }
+        val location: Location? =
+            locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)
+        if (location != null) {
+            previewViewModel.setLocation(GeoPoint(location!!.latitude, location!!.longitude))
+        } else {
+            println("NO LOCATION")
+        }
     }
 
     override fun onCreateView(
@@ -63,7 +113,8 @@ class PicmePreviewFragment : Fragment() {
     private fun setUpListeners() {
         // Save PicMe
         binding.buttonSave.setOnClickListener {
-            picmeViewModel.addPicme(uri!!)
+            val previewPicme = previewViewModel.previewLiveData.value
+            picmeViewModel.addPicme(previewPicme!!)
 
             // When created picme is created & added, go back to nav
             picmeViewModel.picmesLiveData.observe(viewLifecycleOwner) {
@@ -112,7 +163,7 @@ class PicmePreviewFragment : Fragment() {
                 file
             )
             // Save it to preview view model
-            previewViewModel.updateImagePath(uri)
+            previewViewModel.updateImageUri(uri)
         } catch (e: Exception) {
             Log.e(TAG, e.message.toString())
         }

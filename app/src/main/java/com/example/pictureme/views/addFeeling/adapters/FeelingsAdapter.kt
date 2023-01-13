@@ -5,15 +5,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.CheckBox
 import android.widget.TextView
+import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.RecyclerView
 import com.example.pictureme.R
 import com.example.pictureme.data.models.Feeling
-import com.example.pictureme.data.models.Friendship
 import com.example.pictureme.viewmodels.PreviewPicmeViewModel
 
 class FeelingsAdapter(
     var feelings: List<Feeling>,
-    val previewPicmeViewModel: PreviewPicmeViewModel
+    val previewPicmeViewModel: PreviewPicmeViewModel,
 ) : RecyclerView.Adapter<FeelingsAdapter.FeelingsViewHolder>() {
 
     inner class FeelingsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -42,6 +42,18 @@ class FeelingsAdapter(
 
         val feelingId = feelings[position].id
 
+        // Only one selected option at a time
+        holder.cbSelectFeeling.isChecked = previewPicmeViewModel.hasFeeling(feelingId)
+
+        holder.cbSelectFeeling.setOnClickListener { view ->
+            if (holder.cbSelectFeeling.isChecked) {
+                previewPicmeViewModel.updateFeeling(feelingId)
+            } else {
+                previewPicmeViewModel.removeFeeling()
+            }
+        }
+
+        println("-.-------------------  Feeling id $feelingId")
 //        // Check if this user was selected before
 //        holder.cbSelectFeeling.isChecked = previewPicmeViewModel.containsFriend(userId)
 //

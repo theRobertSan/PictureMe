@@ -12,6 +12,7 @@ import com.example.pictureme.data.interfaces.AuthRepository
 import com.example.pictureme.data.interfaces.PicmeRepository
 import com.example.pictureme.data.models.Feeling
 import com.example.pictureme.data.models.Picme
+import com.example.pictureme.data.models.PreviewPicme
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -34,11 +35,12 @@ class PicmeViewModel @Inject constructor(
 
     private val currentUserId = authRepository.currentUser!!.uid
 
-    fun addPicme(imageUri: Uri) = viewModelScope.launch {
+    fun addPicme(previewPicme: PreviewPicme) = viewModelScope.launch {
         // Save to Firebase Storage
-        val resultStorage = picmeRepository.storePicmeImage(currentUserId, imageUri)
+        previewPicme.imagePath =
+            picmeRepository.storePicmeImage(currentUserId, previewPicme.imageUri!!)
         // Save to Firestore
-        val createdPicme = picmeRepository.addPicme(currentUserId, resultStorage)
+        val createdPicme = picmeRepository.addPicme(previewPicme)
         // Add created picme to current picme list
         _picmesLiveData.postValue(picmesLiveData.value!! + createdPicme)
     }
@@ -60,8 +62,6 @@ class PicmeViewModel @Inject constructor(
             println(feeling.isFoodPic)
             if (feeling.isFoodPic) foodFeelings.add(feeling) else nonFoodFeelings.add(feeling)
         }
-        println("------------ ${nonFoodFeelings.size} ${foodFeelings.size}")
-
         _foodFeelingsLiveData.postValue(foodFeelings)
         _nonFoodFeelingsLiveData.postValue(nonFoodFeelings)
     }

@@ -35,14 +35,18 @@ class LoginFragment : Fragment() {
         // Observers
 
         authViewModel.authLiveData.observe(viewLifecycleOwner) {
-            when(it) {
+            when (it) {
                 is Response.Success -> {
                     // Load user & his friends from Firestore
                     userViewModel.loadUser()
                     // Load user picmes
                     picmeViewModel.loadPicmes()
 
-                    Navigation.findNavController(binding.root).navigate(R.id.action_loginFragment_to_navFragment)
+                    // Load feelings
+                    picmeViewModel.loadFeelings()
+
+                    Navigation.findNavController(binding.root)
+                        .navigate(R.id.action_loginFragment_to_navFragment)
                 }
                 is Response.Failure -> {
                     Toast.makeText(context, "Failure!", Toast.LENGTH_SHORT).show()
@@ -55,11 +59,15 @@ class LoginFragment : Fragment() {
         // OnClickListeners
 
         binding.textRegister.setOnClickListener {
-            Navigation.findNavController(binding.root).navigate(R.id.action_loginFragment_to_registerFragment)
+            Navigation.findNavController(binding.root)
+                .navigate(R.id.action_loginFragment_to_registerFragment)
         }
 
         binding.buttonLogin.setOnClickListener {
-            authViewModel.login(binding.editEmail.text.toString(), binding.editPassword.text.toString())
+            authViewModel.login(
+                binding.editEmail.text.toString(),
+                binding.editPassword.text.toString()
+            )
         }
 
         authViewModel.login("1@gmail.com", "123456")

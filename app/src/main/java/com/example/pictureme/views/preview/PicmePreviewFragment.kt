@@ -11,7 +11,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.FileProvider
 import androidx.fragment.app.activityViewModels
@@ -19,6 +18,7 @@ import androidx.navigation.Navigation
 import com.example.pictureme.R
 import com.example.pictureme.databinding.FragmentPicmePreviewBinding
 import com.example.pictureme.viewmodels.PicmeViewModel
+import com.example.pictureme.viewmodels.PreviewPicmeViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.File
 import java.text.SimpleDateFormat
@@ -31,6 +31,7 @@ class PicmePreviewFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val picmeViewModel by activityViewModels<PicmeViewModel>()
+    private val previewViewModel by activityViewModels<PreviewPicmeViewModel>()
 
     private lateinit var currentImagePath: String
     private lateinit var strUri: String
@@ -66,7 +67,8 @@ class PicmePreviewFragment : Fragment() {
 
             // When created picme is created & added, go back to nav
             picmeViewModel.picmesLiveData.observe(viewLifecycleOwner) {
-                Navigation.findNavController(binding.root).navigate(R.id.action_picmePreviewFragment_to_navFragment)
+                Navigation.findNavController(binding.root)
+                    .navigate(R.id.action_picmePreviewFragment_to_navFragment)
             }
 
         }
@@ -78,7 +80,14 @@ class PicmePreviewFragment : Fragment() {
 
         // Add Friends
         binding.buttonAddFriends.setOnClickListener {
-            Navigation.findNavController(binding.root).navigate(R.id.action_picmePreviewFragment_to_addFriendsFragment)
+            Navigation.findNavController(binding.root)
+                .navigate(R.id.action_picmePreviewFragment_to_addFriendsFragment)
+        }
+
+        // Add Feeling
+        binding.buttonAddFeeling.setOnClickListener {
+            Navigation.findNavController(binding.root)
+                .navigate(R.id.action_picmePreviewFragment_to_addFeelingFragment)
         }
     }
 
@@ -97,7 +106,13 @@ class PicmePreviewFragment : Fragment() {
     private fun invokeCamera() {
         val file = createImageFile()
         try {
-            uri = FileProvider.getUriForFile(requireContext(), "com.example.pictureme.fileprovider", file)
+            uri = FileProvider.getUriForFile(
+                requireContext(),
+                "com.example.pictureme.fileprovider",
+                file
+            )
+            // Save it to preview view model
+            previewViewModel.updateImagePath(uri)
         } catch (e: Exception) {
             Log.e(TAG, e.message.toString())
         }
@@ -115,20 +130,20 @@ class PicmePreviewFragment : Fragment() {
             }
     }
 
-    private val getCameraImage = registerForActivityResult(ActivityResultContracts.TakePicture()) {
-            success ->
-        if (success) {
-            Log.i(TAG, "Image Location: $uri")
-            strUri = uri.toString()
-            takenPicture = BitmapFactory.decodeFile(currentImagePath)
-            Log.i(TAG, "Image obtained from: $currentImagePath")
-            binding.imagePicme.setImageBitmap(takenPicture)
+    private val getCameraImage =
+        registerForActivityResult(ActivityResultContracts.TakePicture()) { success ->
+            if (success) {
+                Log.i(TAG, "Image Location: $uri")
+                strUri = uri.toString()
+                takenPicture = BitmapFactory.decodeFile(currentImagePath)
+                Log.i(TAG, "Image obtained from: $currentImagePath")
+                binding.imagePicme.setImageBitmap(takenPicture)
 
 //            val photo = Picme(localUri = uri.toString())
-        } else {
-            Log.e(TAG, "Image not saved")
+            } else {
+                Log.e(TAG, "Image not saved")
+            }
         }
-    }
 
     override fun onDestroyView() {
         super.onDestroyView()

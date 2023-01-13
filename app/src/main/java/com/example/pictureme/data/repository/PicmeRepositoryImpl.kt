@@ -5,11 +5,13 @@ import android.net.Uri
 import android.util.Log
 import com.example.pictureme.data.Response
 import com.example.pictureme.data.interfaces.PicmeRepository
+import com.example.pictureme.data.models.Feeling
 import com.example.pictureme.data.models.Picme
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.toObject
+import com.google.firebase.firestore.ktx.toObjects
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.coroutines.tasks.await
 import java.io.File
@@ -30,6 +32,7 @@ class PicmeRepositoryImpl @Inject constructor(
     private val userCollection = firestore.collection("users")
     private val userPicmeCollection = firestore.collection("userPicmes")
     private val picmeCollection = firestore.collection("picmes")
+    private val feelingCollection = firestore.collection("feelings")
 
     override suspend fun loadPicmes(userId: String): List<Picme> {
         // Get user document
@@ -82,7 +85,7 @@ class PicmeRepositoryImpl @Inject constructor(
         return localFile
     }
 
-    override suspend fun addPicme(userId: String, imagePath: String) : Picme {
+    override suspend fun addPicme(userId: String, imagePath: String): Picme {
         val picme = hashMapOf(
             "creator" to userCollection.document(userId),
             "createdAt" to Timestamp(Date()),
@@ -101,9 +104,17 @@ class PicmeRepositoryImpl @Inject constructor(
         Log.i(TAG, "Created PicMe with id ${createdPicme.id}")
 
         // Get images url (for Coil)
-        createdPicme.imagePath = storageRef.child(createdPicme.imagePath!!).downloadUrl.await().toString()
+        createdPicme.imagePath =
+            storageRef.child(createdPicme.imagePath!!).downloadUrl.await().toString()
 
         return createdPicme
     }
 
+    override suspend fun loadFeelings(): List<Feeling> {
+        val feelings = feelingCollection
+            .get()
+            .await()
+
+        return feelings.toObjects()
+    }
 }

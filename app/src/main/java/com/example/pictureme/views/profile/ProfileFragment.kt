@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import com.example.pictureme.data.Response
 import com.example.pictureme.databinding.FragmentProfileBinding
@@ -25,33 +26,51 @@ class ProfileFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentProfileBinding.inflate(inflater, container, false);
+        _binding = FragmentProfileBinding.inflate(inflater, container, false)
 
-        setUpObservers()
+        setUserData()
+        setLayoutClickListeners()
 
         return (binding.root)
     }
 
-    private fun setUpObservers() {
-        // Observe user
-//        userViewModel.userLiveData.observe(viewLifecycleOwner) {
-//            when(it) {
-//                is Response.Success -> {
-//                    binding.textName.text = it.result.username
-//                }
-//                else -> {}
-//            }
-//        }
-        // Testing (observe picmes)
-        picmeViewModel.picmesLiveData.observe(viewLifecycleOwner) {
-//            when(it) {
-//                is Resource.Success -> {
-//                    Picasso.get().load(it.result[0].imagePath).into(binding.imageProfilePicture)
-////                    val takenPicture = BitmapFactory.decodeFile(it.result[0].imageFile?.absolutePath)
-////                    binding.imageProfilePicture.setImageBitmap(takenPicture)
-//                }
-//                else -> {}
-//            }
+    private fun setUserData() {
+
+        userViewModel.userLiveData.observe(viewLifecycleOwner) { user ->
+            binding.textName.text = user.username
+            //TODO set user profile picture
+            //binding.imageProfilePicture.image = user.picture
+
+            // Get num of Friends
+            binding.textFriendsNum.text = user.friendships!!.size.toString()
+        }
+
+        picmeViewModel.picmesLiveData.observe(viewLifecycleOwner) { picmes ->
+            // Get num of PicMes
+            binding.textPicmeNum.text = picmes.size.toString()
+        }
+    }
+
+    private fun setLayoutClickListeners() {
+
+        binding.friendsLayout.setOnClickListener {
+            Toast.makeText(this.context, "Friends Fragment!", Toast.LENGTH_SHORT).show()
+        }
+
+        binding.editLayout.setOnClickListener {
+            Toast.makeText(this.context, "Edit Fragment!", Toast.LENGTH_SHORT).show()
+        }
+
+        binding.copyLayout.setOnClickListener {
+            Toast.makeText(this.context, "Copy Fragment!", Toast.LENGTH_SHORT).show()
+        }
+
+        binding.settingsLayout.setOnClickListener {
+            Toast.makeText(this.context, "Settings Fragment!", Toast.LENGTH_SHORT).show()
+        }
+
+        binding.logoutLayout.setOnClickListener {
+            Toast.makeText(this.context, "Logout Fragment!", Toast.LENGTH_SHORT).show()
         }
     }
 

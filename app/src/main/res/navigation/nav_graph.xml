@@ -9,7 +9,7 @@
         android:id="@+id/loginFragment"
         android:name="com.example.pictureme.views.auth.LoginFragment"
         android:label="fragment_login"
-        tools:layout="@layout/fragment_login" >
+        tools:layout="@layout/fragment_login">
         <action
             android:id="@+id/action_loginFragment_to_registerFragment"
             app:destination="@id/registerFragment" />
@@ -21,7 +21,7 @@
         android:id="@+id/registerFragment"
         android:name="com.example.pictureme.views.auth.RegisterFragment"
         android:label="fragment_register"
-        tools:layout="@layout/fragment_register" >
+        tools:layout="@layout/fragment_register">
         <action
             android:id="@+id/action_registerFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
@@ -33,7 +33,7 @@
         android:id="@+id/navFragment"
         android:name="com.example.pictureme.views.NavFragment"
         android:label="fragment_nav"
-        tools:layout="@layout/fragment_nav" >
+        tools:layout="@layout/fragment_nav">
         <action
             android:id="@+id/action_navFragment_to_picmePreviewFragment"
             app:destination="@id/picmePreviewFragment" />
@@ -42,21 +42,33 @@
         android:id="@+id/picmePreviewFragment"
         android:name="com.example.pictureme.views.preview.PicmePreviewFragment"
         android:label="fragment_picme_preview"
-        tools:layout="@layout/fragment_picme_preview" >
+        tools:layout="@layout/fragment_picme_preview">
         <action
             android:id="@+id/action_picmePreviewFragment_to_navFragment"
             app:destination="@id/navFragment" />
         <action
             android:id="@+id/action_picmePreviewFragment_to_addFriendsFragment"
             app:destination="@id/addFriendsFragment" />
+        <action
+            android:id="@+id/action_picmePreviewFragment_to_addFeelingFragment"
+            app:destination="@id/addFeelingFragment" />
     </fragment>
     <fragment
         android:id="@+id/addFriendsFragment"
         android:name="com.example.pictureme.views.addfriends.AddFriendsFragment"
         android:label="fragment_add_friends"
-        tools:layout="@layout/fragment_add_friends" >
+        tools:layout="@layout/fragment_add_friends">
         <action
             android:id="@+id/action_addFriendsFragment_to_picmePreviewFragment"
+            app:destination="@id/picmePreviewFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addFeelingFragment"
+        android:name="com.example.pictureme.views.addFeeling.AddFeelingFragment"
+        android:label="fragment_add_feeling"
+        tools:layout="@layout/fragment_add_feeling">
+        <action
+            android:id="@+id/action_addFeelingFragment_to_picmePreviewFragment"
             app:destination="@id/picmePreviewFragment" />
     </fragment>
 </navigation>

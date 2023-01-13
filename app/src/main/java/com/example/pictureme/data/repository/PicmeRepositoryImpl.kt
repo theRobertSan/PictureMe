@@ -5,11 +5,14 @@ import android.net.Uri
 import android.util.Log
 import com.example.pictureme.data.Response
 import com.example.pictureme.data.interfaces.PicmeRepository
+import com.example.pictureme.data.models.Feeling
 import com.example.pictureme.data.models.Picme
+import com.example.pictureme.data.models.PreviewPicme
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.toObject
+import com.google.firebase.firestore.ktx.toObjects
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.coroutines.tasks.await
 import java.io.File
@@ -30,6 +33,7 @@ class PicmeRepositoryImpl @Inject constructor(
     private val userCollection = firestore.collection("users")
     private val userPicmeCollection = firestore.collection("userPicmes")
     private val picmeCollection = firestore.collection("picmes")
+    private val feelingCollection = firestore.collection("feelings")
 
     override suspend fun loadPicmes(userId: String): List<Picme> {
         // Get user document
@@ -82,16 +86,27 @@ class PicmeRepositoryImpl @Inject constructor(
         return localFile
     }
 
-    override suspend fun addPicme(userId: String, imagePath: String) : Picme {
+    override suspend fun addPicme(previewPicme: PreviewPicme): Picme {
         val picme = hashMapOf(
-            "creator" to userCollection.document(userId),
+            "creator" to userCollection.document(previewPicme.creatorId),
             "createdAt" to Timestamp(Date()),
-            "imagePath" to imagePath
+            "imagePath" to previewPicme.imagePath,
+            "feeling" to feelingCollection.document(previewPicme.feeling),
+            "location" to previewPicme.location
         )
 
         val result = picmeCollection.add(picme).await()
+        // Create user-picme documents to represent the connection between the selected friend & the picme
+        for (friend in previewPicme.friendIds) {
+            val userPicme = hashMapOf(
+                "userId" to userCollection.document(friend),
+                "picmeId" to picmeCollection.document(result.id)
+            )
+            userPicmeCollection.add(userPicme).await()
+        }
+        // Also for the creator
         val userPicme = hashMapOf(
-            "userId" to userCollection.document(userId),
+            "userId" to userCollection.document(previewPicme.creatorId),
             "picmeId" to picmeCollection.document(result.id)
         )
         userPicmeCollection.add(userPicme).await()
@@ -101,9 +116,17 @@ class PicmeRepositoryImpl @Inject constructor(
         Log.i(TAG, "Created PicMe with id ${createdPicme.id}")
 
         // Get images url (for Coil)
-        createdPicme.imagePath = storageRef.child(createdPicme.imagePath!!).downloadUrl.await().toString()
+        createdPicme.imagePath =
+            storageRef.child(createdPicme.imagePath!!).downloadUrl.await().toString()
 
         return createdPicme
     }
 
+    override suspend fun loadFeelings(): List<Feeling> {
+        val feelings = feelingCollection
+            .get()
+            .await()
+
+        return feelings.toObjects()
+    }
 }

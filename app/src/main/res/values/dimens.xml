@@ -1,4 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Button -->
+    <dimen name="mediumButtonWidth">12dp</dimen>
+    <dimen name="mediumButtonHeight">12dp</dimen>
+    
     <dimen name="corner_radius">12dp</dimen>
+    <dimen name="elevation">6dp</dimen>
+    <dimen name="margin">12dp</dimen>
 </resources>

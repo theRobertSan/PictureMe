@@ -8,6 +8,7 @@ import com.example.pictureme.data.interfaces.PicmeRepository
 import com.example.pictureme.data.models.Feeling
 import com.example.pictureme.data.models.Picme
 import com.example.pictureme.data.models.PreviewPicme
+import com.example.pictureme.data.models.User
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
@@ -51,8 +52,27 @@ class PicmeRepositoryImpl @Inject constructor(
         // Iterate over user-picmes
         for (userPicme in userPicmeDocs) {
             val picme = (userPicme.data["picmeId"] as DocumentReference).get().await()
+
+            val picmeUsers = userPicmeCollection
+                .whereEqualTo("picmeId", userPicme.data["picmeId"] as DocumentReference)
+                .get()
+                .await()
             // Convert to Picme object and add to list
-            picmes.add(picme.toObject<Picme>()!!)
+            val picmeObj = picme.toObject<Picme>()!!
+            val picmeFriends = ArrayList<User>()
+            // Convert Friends
+            for (picmeUser in picmeUsers){
+                picmeFriends.add((picmeUser.data["userId"] as DocumentReference).get().await().toObject<User>()!!)
+            }
+            picmeObj.friends = picmeFriends
+            //Convert Feelings
+            if(picme.data?.get("feeling") != null){
+                val picmeFeeling = (picme.data?.get("feeling") as DocumentReference).get().await().toObject<Feeling>()
+                picmeObj.feelingObj = picmeFeeling
+            }else{
+                picmeObj.feeling = null
+            }
+            picmes.add(picmeObj)
         }
 
         // Get images url (for Coil)

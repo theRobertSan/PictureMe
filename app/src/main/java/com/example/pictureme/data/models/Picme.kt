@@ -16,7 +16,12 @@ data class Picme(
 //    var imageFile: File?,
     var creator: DocumentReference?,
     var createdAt: Timestamp?,
-    var location: GeoPoint?
+    var location: GeoPoint?,
+    var feeling: DocumentReference?,
+    @Exclude
+    var feelingObj: Feeling?,
+    @Exclude
+    var friends: List<User>
 ) {
-    constructor() : this(null, null, null, null, null)
+    constructor() : this(null, null, null, null, null, null, null, emptyList())
 }

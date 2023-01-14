@@ -11,7 +11,9 @@ import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.pictureme.views.home.adapters.HomeAdapter
 import com.example.pictureme.data.Response
+import com.example.pictureme.data.models.Feeling
 import com.example.pictureme.databinding.FragmentHomeBinding
+import com.example.pictureme.utils.FilterPicmes
 import com.example.pictureme.viewmodels.PicmeViewModel
 import com.example.pictureme.viewmodels.UserViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -60,17 +62,20 @@ class HomeFragment : Fragment() {
 
     // Setup PicMe Cards
     private fun setPicMeCards() {
-
+        var feelings: List<Feeling> = emptyList()
+        picmeViewModel.foodFeelingsLiveData.observe(viewLifecycleOwner) { response ->
+            feelings = response
+        }
         picmeViewModel.picmesLiveData.observe(viewLifecycleOwner) { response ->
             println("DATE CHANGED ------------" + response.size)
             val rvHome = binding.fragmentHomeRv
             val rvsCategory = arrayListOf<ParentModelClass>()
 
-            val rv1 = ParentModelClass("Your PicMe's with friends", response)
-            val rv2 = ParentModelClass("Food PicMes", response)
-
-            rvsCategory.add(rv1)
-            rvsCategory.add(rv2)
+            val filteredPicmes = FilterPicmes().getFilteredPicmes(response, feelings)
+            for (filter in filteredPicmes){
+                val rv = ParentModelClass(filter.first, filter.second)
+                rvsCategory.add(rv)
+            }
 
             val adapter = HomeAdapter(rvsCategory)
             rvHome.adapter = adapter

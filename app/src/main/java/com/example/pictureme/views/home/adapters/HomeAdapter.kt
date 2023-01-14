@@ -4,10 +4,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.pictureme.views.home.ParentModelClass
 import com.example.pictureme.R
+import com.google.android.material.card.MaterialCardView
 
 class HomeAdapter(
     private var rvs: List<ParentModelClass>
@@ -16,6 +19,7 @@ class HomeAdapter(
     inner class HomeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val tvTitle: TextView
         val rvCategory: RecyclerView
+
 
         init {
             tvTitle = itemView.findViewById(R.id.tvParentTitle)

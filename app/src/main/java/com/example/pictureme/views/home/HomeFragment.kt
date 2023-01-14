@@ -8,7 +8,9 @@ import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.pictureme.R
 import com.example.pictureme.views.home.adapters.HomeAdapter
 import com.example.pictureme.data.Response
 import com.example.pictureme.data.models.Feeling
@@ -72,7 +74,7 @@ class HomeFragment : Fragment() {
             val rvsCategory = arrayListOf<ParentModelClass>()
 
             val filteredPicmes = FilterPicmes().getFilteredPicmes(response, feelings)
-            for (filter in filteredPicmes){
+            for (filter in filteredPicmes) {
                 val rv = ParentModelClass(filter.first, filter.second)
                 rvsCategory.add(rv)
             }

@@ -37,6 +37,12 @@
         <action
             android:id="@+id/action_navFragment_to_picmePreviewFragment"
             app:destination="@id/picmePreviewFragment" />
+        <action
+            android:id="@+id/action_navFragment_to_picmeDetailsFragment"
+            app:destination="@id/picmeDetailsFragment" />
+        <argument
+            android:name="picme"
+            app:argType="com.example.pictureme.data.models.Picme" />
     </fragment>
     <fragment
         android:id="@+id/picmePreviewFragment"
@@ -70,5 +76,14 @@
         <action
             android:id="@+id/action_addFeelingFragment_to_picmePreviewFragment"
             app:destination="@id/picmePreviewFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/picmeDetailsFragment"
+        android:name="com.example.pictureme.views.picmeDetails.PicmeDetailsFragment"
+        android:label="fragment_picme_details"
+        tools:layout="@layout/fragment_picme_details">
+        <action
+            android:id="@+id/action_picmeDetailsFragment_to_navFragment"
+            app:destination="@id/navFragment" />
     </fragment>
 </navigation>

@@ -5,17 +5,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
-import android.widget.Toast
 import androidx.fragment.app.activityViewModels
-import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.pictureme.R
 import com.example.pictureme.views.home.adapters.HomeAdapter
-import com.example.pictureme.data.Response
 import com.example.pictureme.data.models.Feeling
 import com.example.pictureme.databinding.FragmentHomeBinding
 import com.example.pictureme.utils.FilterPicmes
+import com.example.pictureme.viewmodels.PicmeDetailsViewModel
 import com.example.pictureme.viewmodels.PicmeViewModel
 import com.example.pictureme.viewmodels.UserViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -29,6 +25,7 @@ class HomeFragment : Fragment() {
 
     private val userViewModel by activityViewModels<UserViewModel>()
     private val picmeViewModel by activityViewModels<PicmeViewModel>()
+    private val picmeDetailsViewModelViewModel by activityViewModels<PicmeDetailsViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -73,13 +70,13 @@ class HomeFragment : Fragment() {
             val rvHome = binding.fragmentHomeRv
             val rvsCategory = arrayListOf<ParentModelClass>()
 
-            val filteredPicmes = FilterPicmes().getFilteredPicmes(response, feelings)
+            val filteredPicmes = FilterPicmes.getFilteredPicmes(response, feelings)
             for (filter in filteredPicmes) {
                 val rv = ParentModelClass(filter.first, filter.second)
                 rvsCategory.add(rv)
             }
 
-            val adapter = HomeAdapter(rvsCategory)
+            val adapter = HomeAdapter(rvsCategory, picmeDetailsViewModelViewModel)
             rvHome.adapter = adapter
             rvHome.layoutManager =
                 LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)

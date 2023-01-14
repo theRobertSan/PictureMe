@@ -66,4 +66,8 @@ class PicmeViewModel @Inject constructor(
         _nonFoodFeelingsLiveData.postValue(nonFoodFeelings)
     }
 
+    fun getPicme(picmeId: String): Picme {
+        return _picmesLiveData.value!!.find { it.id == picmeId }!!
+    }
+
 }

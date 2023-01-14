@@ -3,16 +3,19 @@ package com.example.pictureme.utils
 import com.example.pictureme.data.models.Feeling
 import com.example.pictureme.data.models.Picme
 
-class FilterPicmes {
-    fun getFilteredPicmes(picmes: List<Picme>, foodFeelings: List<Feeling>): ArrayList<Pair<String, ArrayList<Picme>>> {
+object FilterPicmes {
+    fun getFilteredPicmes(
+        picmes: List<Picme>,
+        foodFeelings: List<Feeling>
+    ): ArrayList<Pair<String, ArrayList<Picme>>> {
         var picmesWithFriends = ArrayList<Picme>()
         var picmesFood = ArrayList<Picme>()
         var filters = ArrayList<Pair<String, ArrayList<Picme>>>()
         for (picme in picmes) {
-            if(picme.friends.size > 1){
+            if (picme.friends.size > 1) {
                 picmesWithFriends.add(picme)
             }
-            if(picme.feelingObj?.isFoodPic == true){
+            if (picme.feeling?.isFoodPic == true) {
                 picmesFood.add(picme)
             }
         };

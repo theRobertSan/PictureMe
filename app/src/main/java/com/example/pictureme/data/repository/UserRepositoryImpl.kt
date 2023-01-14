@@ -43,7 +43,7 @@ class UserRepositoryImpl @Inject constructor(
 
         // User is on the left
         val userFriendships1 = friendshipCollection
-            .whereEqualTo("user1", userReference)
+            .whereEqualTo("user1Ref", userReference)
             .get()
             .await()
         println(userReference)
@@ -51,7 +51,7 @@ class UserRepositoryImpl @Inject constructor(
         println(userFriendships1)
         // User is on the right
         val userFriendships2 = friendshipCollection
-            .whereEqualTo("user2", userReference)
+            .whereEqualTo("user2Ref", userReference)
             .get()
             .await()
 
@@ -60,7 +60,7 @@ class UserRepositoryImpl @Inject constructor(
             val friendship = userFriendship.toObject<Friendship>()
             // Select friend from user1 and user2 and get him (as User)
             val friend =
-                if (userFriendship.data["user1"]!! == userReference) userFriendship.data["user2"]!! else userFriendship.data["user1"]!!
+                if (userFriendship.data["user1Ref"]!! == userReference) userFriendship.data["user2Ref"]!! else userFriendship.data["user1Ref"]!!
             friendship.friend = (friend as DocumentReference).get().await().toObject<User>()
 
             // Add friendship to current users list

@@ -4,6 +4,7 @@ import com.google.firebase.Timestamp
 import com.google.firebase.firestore.DocumentId
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.Exclude
+import java.io.Serializable
 
 data class Friendship(
     @DocumentId
@@ -11,6 +12,6 @@ data class Friendship(
     @Exclude
     var friend: User?,
     var beganAt: Timestamp?
-) {
+) : Serializable {
     constructor() : this(null, null, null)
 }

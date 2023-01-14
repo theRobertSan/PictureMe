@@ -1,18 +1,12 @@
 package com.example.pictureme.views.home.adapters
 
-import android.graphics.BitmapFactory
-import android.icu.text.RelativeDateTimeFormatter
 import android.os.Build
 import android.os.Bundle
-import android.text.format.DateUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.widget.AppCompatCheckedTextView
-import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.view.isGone
 import androidx.core.widget.ContentLoadingProgressBar
 import androidx.navigation.Navigation
@@ -20,15 +14,15 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.example.pictureme.R
 import com.example.pictureme.data.models.Picme
+import com.example.pictureme.utils.Details
+import com.example.pictureme.viewmodels.PicmeDetailsViewModel
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.imageview.ShapeableImageView
 
 class PicmeAdapter(
-    private var picmes: List<Picme>
+    private var picmes: List<Picme>,
+    private val picmeDetailsViewModelViewModel: PicmeDetailsViewModel
 ) : RecyclerView.Adapter<PicmeAdapter.PicMeViewHolder>() {
-
-    @RequiresApi(Build.VERSION_CODES.N)
-    val dateFormater = RelativeDateTimeFormatter.getInstance()
 
     inner class PicMeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val relativeTime: AppCompatCheckedTextView
@@ -50,13 +44,9 @@ class PicmeAdapter(
         return PicMeViewHolder(view)
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: PicMeViewHolder, position: Int) {
-        val relativeDate = DateUtils.getRelativeTimeSpanString(
-            picmes[position].createdAt!!.seconds * 1000,
-            System.currentTimeMillis(),
-            DateUtils.DAY_IN_MILLIS
-        );
-        holder.relativeTime.text = relativeDate
+        holder.relativeTime.text = Details.getRelativeDate(picmes[position].createdAt!!)
 
         holder.picmeImage.load(picmes[position].imagePath) {
             crossfade(true)
@@ -71,7 +61,7 @@ class PicmeAdapter(
             val navController =
                 Navigation.findNavController(holder.itemView.parent.parent.parent.parent.parent.parent.parent as View)
             val bundle = Bundle()
-            bundle.putSerializable("picme", picmes[position])
+            picmeDetailsViewModelViewModel.selectPicme(picmes[position])
             navController.navigate(R.id.action_navFragment_to_picmeDetailsFragment, bundle)
         }
         //Picasso.get().load(picmes[position].imagePath).into(holder.picmeImage)

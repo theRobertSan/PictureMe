@@ -15,6 +15,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <androidx.core.widget.ContentLoadingProgressBar
+        android:id="@+id/picmeLoadingBar"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="@+id/imagePicme"
+        app:layout_constraintEnd_toEndOf="@+id/imagePicme"
+        app:layout_constraintStart_toStartOf="@+id/imagePicme"
+        app:layout_constraintTop_toTopOf="@+id/imagePicme" />
+
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/imageEmotion"
         android:layout_width="@dimen/smallCircularImageWidth"
@@ -24,6 +35,7 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imagePicme" />
+
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/imageCreator"
@@ -94,6 +106,7 @@
         app:layout_constraintTop_toTopOf="@+id/textExactLocation" />
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rcPicmeFriends"
         android:layout_width="62dp"
         android:layout_height="150dp"
         android:layout_marginTop="16dp"
@@ -110,5 +123,23 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textExactLocation" />
+
+    <TextView
+        android:id="@+id/textCreator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        app:layout_constraintEnd_toEndOf="@+id/imageCreator"
+        app:layout_constraintStart_toStartOf="@+id/imageCreator"
+        app:layout_constraintTop_toBottomOf="@+id/imageCreator" />
+
+    <TextView
+        android:id="@+id/textFeeling"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        app:layout_constraintEnd_toEndOf="@+id/imageEmotion"
+        app:layout_constraintStart_toStartOf="@+id/imageEmotion"
+        app:layout_constraintTop_toBottomOf="@+id/imageEmotion" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

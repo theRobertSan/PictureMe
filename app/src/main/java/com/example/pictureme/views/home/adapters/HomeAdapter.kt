@@ -4,16 +4,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.pictureme.views.home.ParentModelClass
 import com.example.pictureme.R
-import com.google.android.material.card.MaterialCardView
+import com.example.pictureme.viewmodels.PicmeDetailsViewModel
 
 class HomeAdapter(
-    private var rvs: List<ParentModelClass>
+    private var rvs: List<ParentModelClass>,
+    private val picmeDetailsViewModelViewModel: PicmeDetailsViewModel
 ) : RecyclerView.Adapter<HomeAdapter.HomeViewHolder>() {
 
     inner class HomeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -36,7 +35,7 @@ class HomeAdapter(
     override fun onBindViewHolder(holder: HomeViewHolder, position: Int) {
         holder.tvTitle.text = rvs[position].title
 
-        val picMeAdapter = PicmeAdapter(rvs[position].picmes)
+        val picMeAdapter = PicmeAdapter(rvs[position].picmes, picmeDetailsViewModelViewModel)
         holder.rvCategory.layoutManager =
             LinearLayoutManager(holder.itemView.context, LinearLayoutManager.HORIZONTAL, false)
         holder.rvCategory.adapter = picMeAdapter

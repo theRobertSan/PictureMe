@@ -42,7 +42,7 @@ class PicmeRepositoryImpl @Inject constructor(
 
         // Get user-picmes documents for that user
         val userPicmeDocs = userPicmeCollection
-            .whereEqualTo("userId", userReference)
+            .whereEqualTo("userRef", userReference)
             .get()
             .await()
 
@@ -51,27 +51,37 @@ class PicmeRepositoryImpl @Inject constructor(
 
         // Iterate over user-picmes
         for (userPicme in userPicmeDocs) {
-            val picme = (userPicme.data["picmeId"] as DocumentReference).get().await()
+            val picmeSnapshot = (userPicme.data["picmeRef"] as DocumentReference).get().await()
 
             val picmeUsers = userPicmeCollection
-                .whereEqualTo("picmeId", userPicme.data["picmeId"] as DocumentReference)
+                .whereEqualTo("picmeRef", userPicme.data["picmeRef"] as DocumentReference)
                 .get()
                 .await()
+
             // Convert to Picme object and add to list
-            val picmeObj = picme.toObject<Picme>()!!
+            val picmeObj = picmeSnapshot.toObject<Picme>()!!
             val picmeFriends = ArrayList<User>()
             // Convert Friends
-            for (picmeUser in picmeUsers){
-                picmeFriends.add((picmeUser.data["userId"] as DocumentReference).get().await().toObject<User>()!!)
+            for (picmeUser in picmeUsers) {
+                var userReference = (picmeUser.data["userRef"] as DocumentReference)
+                var userObj = userReference.get().await().toObject<User>()!!
+
+                // User is creator
+                if (userReference == (picmeSnapshot.data!!["creatorRef"] as DocumentReference)) {
+                    picmeObj.creator = userObj
+                    // User is friend of creator that is in picme
+                } else {
+                    picmeFriends.add(userObj)
+                }
+
             }
             picmeObj.friends = picmeFriends
-            //Convert Feelings
-            if(picme.data?.get("feeling") != null){
-                val picmeFeeling = (picme.data?.get("feeling") as DocumentReference).get().await().toObject<Feeling>()
-                picmeObj.feelingObj = picmeFeeling
-            }else{
-                picmeObj.feeling = null
-            }
+            // Convert Feelings
+            val picmeFeeling =
+                (picmeSnapshot.data?.get("feelingRef") as DocumentReference).get().await()
+                    .toObject<Feeling>()
+            picmeObj.feeling = picmeFeeling
+
             picmes.add(picmeObj)
         }
 
@@ -108,10 +118,10 @@ class PicmeRepositoryImpl @Inject constructor(
 
     override suspend fun addPicme(previewPicme: PreviewPicme): Picme {
         val picme = hashMapOf(
-            "creator" to userCollection.document(previewPicme.creatorId),
+            "creatorRef" to userCollection.document(previewPicme.creatorId),
             "createdAt" to Timestamp(Date()),
             "imagePath" to previewPicme.imagePath,
-            "feeling" to feelingCollection.document(previewPicme.feeling),
+            "feelingRef" to feelingCollection.document(previewPicme.feeling),
             "location" to previewPicme.location
         )
 
@@ -119,15 +129,15 @@ class PicmeRepositoryImpl @Inject constructor(
         // Create user-picme documents to represent the connection between the selected friend & the picme
         for (friend in previewPicme.friendIds) {
             val userPicme = hashMapOf(
-                "userId" to userCollection.document(friend),
-                "picmeId" to picmeCollection.document(result.id)
+                "userRef" to userCollection.document(friend),
+                "picmeRef" to picmeCollection.document(result.id)
             )
             userPicmeCollection.add(userPicme).await()
         }
         // Also for the creator
         val userPicme = hashMapOf(
-            "userId" to userCollection.document(previewPicme.creatorId),
-            "picmeId" to picmeCollection.document(result.id)
+            "userRef" to userCollection.document(previewPicme.creatorId),
+            "picmeRef" to picmeCollection.document(result.id)
         )
         userPicmeCollection.add(userPicme).await()
 

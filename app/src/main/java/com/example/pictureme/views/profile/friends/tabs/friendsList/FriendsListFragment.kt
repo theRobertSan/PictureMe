@@ -1,4 +1,4 @@
-package com.example.pictureme.views.addfriends
+package com.example.pictureme.views.profile.friends.tabs.friendsList
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -9,22 +9,18 @@ import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.pictureme.data.models.Friendship
-import com.example.pictureme.databinding.FragmentAddFriendsBinding
-import com.example.pictureme.viewmodels.PreviewPicmeViewModel
+import com.example.pictureme.databinding.FragmentFriendsListBinding
 import com.example.pictureme.viewmodels.UserViewModel
 import com.example.pictureme.views.addfriends.adapters.AddFriendsAdapter
 import dagger.hilt.android.AndroidEntryPoint
-import java.util.*
-import kotlin.collections.ArrayList
 
 @AndroidEntryPoint
-class AddFriendsFragment : Fragment() {
+class FriendsListFragment : Fragment() {
 
-    private var _binding: FragmentAddFriendsBinding? = null
+    private var _binding: FragmentFriendsListBinding? = null
     private val binding get() = _binding!!
 
     private val userViewModel by activityViewModels<UserViewModel>()
-    private val previewViewModel by activityViewModels<PreviewPicmeViewModel>()
 
     private var friendships: List<Friendship> = emptyList()
 
@@ -32,17 +28,28 @@ class AddFriendsFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentAddFriendsBinding.inflate(inflater, container, false);
+        _binding = FragmentFriendsListBinding.inflate(inflater, container, false)
 
+        val adapter = setFriendListAdapter()
+        setSearchBar(adapter)
+
+        return (binding.root)
+    }
+
+    private fun setFriendListAdapter(): FriendsListAdapter {
+        val adapter = FriendsListAdapter(friendships)
+        binding.friendsRecyclerView.adapter = adapter
+        binding.friendsRecyclerView.layoutManager = LinearLayoutManager(activity)
+
+        return adapter
+    }
+
+    private fun setSearchBar(adapter: FriendsListAdapter) {
         binding.searchView.clearFocus()
-
-        val adapter = AddFriendsAdapter(friendships, previewViewModel)
-        binding.rvFriends.adapter = adapter
-        binding.rvFriends.layoutManager = LinearLayoutManager(activity)
 
         userViewModel.userLiveData.observe(viewLifecycleOwner) { user ->
             val friendships = user.friendships!!
-            adapter.setList(friendships)
+            adapter.setFriendList(friendships)
 
             binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
                 override fun onQueryTextSubmit(p0: String?): Boolean {
@@ -55,26 +62,17 @@ class AddFriendsFragment : Fragment() {
 
                     val filteredList = ArrayList<Friendship>()
                     for (friendship in friendships) {
-                        println("----------------------")
-                        println(friendship.friend!!.username!!)
+
                         if (friendship.friend!!.username!!.lowercase().contains(p0.lowercase())) {
                             filteredList.add(friendship)
                         }
                     }
 
-                    adapter.setList(filteredList)
+                    adapter.setFriendList(filteredList)
                     return true
                 }
-
             })
-
         }
-
-        return (binding.root)
-    }
-
-    private fun setupListeners() {
-
     }
 
     override fun onDestroyView() {

@@ -7,6 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.Navigation
+import com.example.pictureme.R
 import com.example.pictureme.data.Response
 import com.example.pictureme.databinding.FragmentProfileBinding
 import com.example.pictureme.viewmodels.PicmeViewModel
@@ -54,6 +56,9 @@ class ProfileFragment : Fragment() {
     private fun setLayoutClickListeners() {
 
         binding.friendsLayout.setOnClickListener {
+            Navigation.findNavController(binding.root)
+                .navigate(R.id.action_profileFragment_to_friendsFragment)
+
             Toast.makeText(this.context, "Friends Fragment!", Toast.LENGTH_SHORT).show()
         }
 

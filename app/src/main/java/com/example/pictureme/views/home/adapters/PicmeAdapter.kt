@@ -3,6 +3,7 @@ package com.example.pictureme.views.home.adapters
 import android.graphics.BitmapFactory
 import android.icu.text.RelativeDateTimeFormatter
 import android.os.Build
+import android.os.Bundle
 import android.text.format.DateUtils
 import android.view.LayoutInflater
 import android.view.View
@@ -14,10 +15,12 @@ import androidx.appcompat.widget.AppCompatCheckedTextView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.view.isGone
 import androidx.core.widget.ContentLoadingProgressBar
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.example.pictureme.R
 import com.example.pictureme.data.models.Picme
+import com.google.android.material.card.MaterialCardView
 import com.google.android.material.imageview.ShapeableImageView
 
 class PicmeAdapter(
@@ -31,11 +34,14 @@ class PicmeAdapter(
         val relativeTime: AppCompatCheckedTextView
         val picmeImage: ShapeableImageView
         val loadingBar: ContentLoadingProgressBar
+        val cvPicme: MaterialCardView
 
         init {
             relativeTime = itemView.findViewById(R.id.text_relative_time)
             picmeImage = itemView.findViewById(R.id.image_picme)
             loadingBar = itemView.findViewById(R.id.image_loading_bar)
+            cvPicme = itemView.findViewById(R.id.cvPicme)
+
         }
     }
 
@@ -58,6 +64,15 @@ class PicmeAdapter(
             listener { request, result ->
                 holder.loadingBar.isGone = true
             }
+        }
+
+        holder.cvPicme.setOnClickListener {
+            // Navigate to details
+            val navController =
+                Navigation.findNavController(holder.itemView.parent.parent.parent.parent.parent.parent.parent as View)
+            val bundle = Bundle()
+            bundle.putSerializable("picme", picmes[position])
+            navController.navigate(R.id.action_navFragment_to_picmeDetailsFragment, bundle)
         }
         //Picasso.get().load(picmes[position].imagePath).into(holder.picmeImage)
 //        val takenPicture = BitmapFactory.decodeFile(picmes[position].imageFile?.absolutePath)

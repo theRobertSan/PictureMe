@@ -6,6 +6,7 @@ import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.Exclude
 import com.google.firebase.firestore.GeoPoint
 import java.io.File
+import java.io.Serializable
 import java.util.*
 
 data class Picme(
@@ -22,6 +23,6 @@ data class Picme(
     var feelingObj: Feeling?,
     @Exclude
     var friends: List<User>
-) {
+) : Serializable {
     constructor() : this(null, null, null, null, null, null, null, emptyList())
 }

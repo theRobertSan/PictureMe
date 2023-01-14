@@ -3,7 +3,11 @@
     <!-- Button -->
     <dimen name="mediumButtonWidth">12dp</dimen>
     <dimen name="mediumButtonHeight">12dp</dimen>
-    
+
+    <!-- Images -->
+    <dimen name="smallCircularImageWidth">75dp</dimen>
+    <dimen name="smallCircularImageHeight">75dp</dimen>
+
     <dimen name="corner_radius">12dp</dimen>
     <dimen name="elevation">6dp</dimen>
     <dimen name="margin">12dp</dimen>

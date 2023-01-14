@@ -8,6 +8,7 @@
     android:padding="10dp">
 
     <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cvPicme"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:cardCornerRadius="@dimen/corner_radius"

@@ -62,7 +62,7 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="0dp"
                 android:padding="5dp"
-                android:text="27"
+                android:text="0"
                 android:textAlignment="center"
                 android:textColor="@color/purple_200"
                 android:textSize="40dp" />
@@ -102,7 +102,7 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="0dp"
                 android:padding="5dp"
-                android:text="134"
+                android:text="0"
                 android:textAlignment="center"
                 android:textColor="@color/purple_200"
                 android:textSize="40dp" />

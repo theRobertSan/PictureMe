@@ -1,12 +1,20 @@
 package com.example.pictureme.utils
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.location.Address
 import android.location.Geocoder
+import android.location.Location
 import android.os.Build
 import androidx.annotation.RequiresApi
+import com.example.pictureme.data.utils.await
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.GeoPoint
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import org.json.JSONObject
 import java.text.SimpleDateFormat
 import java.time.Duration
 import java.time.Instant
@@ -58,4 +66,8 @@ object Details {
         return "$city, $country"
     }
 
+//    @SuppressLint("MissingPermission")
+//    suspend fun getRelativeLocation(picmeLocation: GeoPoint, context: Context): String {
+//
+//    }
 }

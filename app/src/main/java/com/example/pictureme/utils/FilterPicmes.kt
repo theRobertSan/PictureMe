@@ -12,7 +12,7 @@ object FilterPicmes {
         var picmesFood = ArrayList<Picme>()
         var filters = ArrayList<Pair<String, ArrayList<Picme>>>()
         for (picme in picmes) {
-            if (picme.friends.size > 1) {
+            if (picme.friends.isNotEmpty()) {
                 picmesWithFriends.add(picme)
             }
             if (picme.feeling?.isFoodPic == true) {

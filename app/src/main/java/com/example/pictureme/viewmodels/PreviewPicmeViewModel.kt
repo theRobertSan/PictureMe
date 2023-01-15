@@ -48,7 +48,10 @@ class PreviewPicmeViewModel @Inject constructor(
 
     fun setLocation(geoPoint: GeoPoint) {
         _previewLiveData.value!!.location = geoPoint
+    }
 
+    fun clear() {
+        _previewLiveData.postValue(PreviewPicme(authRepository.currentUser!!.uid))
     }
 
 }

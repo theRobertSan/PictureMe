@@ -1,6 +1,7 @@
 package com.example.pictureme.views.explore.adapters
 
 import android.content.Context
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,12 +9,15 @@ import android.widget.AbsListView
 import android.widget.BaseAdapter
 import android.widget.GridView
 import android.widget.ImageView
+import androidx.navigation.Navigation
 import coil.load
+import com.example.pictureme.R
 import com.example.pictureme.data.models.Picme
+import com.example.pictureme.viewmodels.PicmeDetailsViewModel
 
 class ImageAdapter(
     private var picmes: List<Picme>,
-    var context: Context
+    var context: Context,
 ) : BaseAdapter() {
 
     var layoutInflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater

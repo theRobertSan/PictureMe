@@ -31,41 +31,47 @@
         android:layout_width="@dimen/smallCircularImageWidth"
         android:layout_height="@dimen/smallCircularImageWidth"
         android:layout_marginTop="16dp"
+        android:scaleType="centerCrop"
         app:layout_constraintEnd_toStartOf="@+id/imageCreator"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imagePicme" />
+        app:layout_constraintTop_toBottomOf="@+id/imagePicme"
+        app:shapeAppearanceOverlay="@style/circle_image"
+        app:srcCompat="@drawable/img1" />
 
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/imageCreator"
         android:layout_width="@dimen/smallCircularImageWidth"
         android:layout_height="@dimen/smallCircularImageWidth"
+        android:scaleType="centerCrop"
         app:layout_constraintBottom_toBottomOf="@+id/imageEmotion"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/imageEmotion"
-        app:layout_constraintTop_toTopOf="@+id/imageEmotion" />
+        app:layout_constraintTop_toTopOf="@+id/imageEmotion"
+        app:shapeAppearanceOverlay="@style/circle_image"
+        app:srcCompat="@drawable/img1" />
 
     <View
         android:id="@+id/divider"
         android:layout_width="350dp"
         android:layout_height="1dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:background="?android:attr/listDivider"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageEmotion" />
+        app:layout_constraintTop_toBottomOf="@+id/textFeeling" />
 
     <TextView
         android:id="@+id/textExactTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
         android:text="TextView"
-        android:textSize="24sp"
-        app:layout_constraintEnd_toStartOf="@+id/textRelativeTime"
-        app:layout_constraintHorizontal_bias="0.5"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toStartOf="@+id/divider2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/divider" />
 
@@ -73,43 +79,44 @@
         android:id="@+id/textRelativeTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="24dp"
         android:text="TextView"
-        android:textSize="20sp"
+        android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="@+id/textExactTime"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/textExactTime"
+        app:layout_constraintStart_toEndOf="@+id/divider2"
         app:layout_constraintTop_toTopOf="@+id/textExactTime" />
 
     <TextView
         android:id="@+id/textExactLocation"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="32dp"
         android:text="TextView"
-        android:textSize="24sp"
-        app:layout_constraintEnd_toStartOf="@+id/textRelativeLocation"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="@+id/textExactTime"
+        app:layout_constraintStart_toStartOf="@+id/textExactTime"
         app:layout_constraintTop_toBottomOf="@+id/textExactTime" />
 
     <TextView
         android:id="@+id/textRelativeLocation"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="24dp"
         android:text="TextView"
-        android:textSize="20sp"
+        android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="@+id/textExactLocation"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/textExactLocation"
+        app:layout_constraintStart_toEndOf="@+id/divider2"
         app:layout_constraintTop_toTopOf="@+id/textExactLocation" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rcPicmeFriends"
-        android:layout_width="62dp"
+        android:layout_width="wrap_content"
         android:layout_height="150dp"
+        android:layout_marginStart="32dp"
         android:layout_marginTop="16dp"
+        android:layout_marginEnd="32dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/divider4" />
@@ -141,5 +148,16 @@
         app:layout_constraintEnd_toEndOf="@+id/imageEmotion"
         app:layout_constraintStart_toStartOf="@+id/imageEmotion"
         app:layout_constraintTop_toBottomOf="@+id/imageEmotion" />
+
+    <View
+        android:id="@+id/divider2"
+        android:layout_width="1dp"
+        android:layout_height="100dp"
+        android:layout_marginStart="64dp"
+        android:background="?android:attr/listDivider"
+        app:layout_constraintBottom_toBottomOf="@+id/textExactLocation"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/textExactTime" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

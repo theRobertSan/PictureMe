@@ -21,6 +21,7 @@ import com.example.pictureme.viewmodels.PicmeViewModel
 import com.example.pictureme.views.home.adapters.PicmeAdapter
 import com.example.pictureme.views.picmeDetails.adapters.PicmeFriendsAdapter
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.coroutineScope
 
 @AndroidEntryPoint
 class PicmeDetailsFragment : Fragment() {
@@ -44,13 +45,13 @@ class PicmeDetailsFragment : Fragment() {
             this.picme = picme
             loadImages()
             loadDetails()
-            loadPicmeFriens()
+            loadPicmeFriends()
         }
 
         return (binding.root)
     }
 
-    private fun loadPicmeFriens() {
+    private fun loadPicmeFriends() {
         val picmeFriendsAdapter = PicmeFriendsAdapter(picme.friends)
         binding.rcPicmeFriends.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
@@ -92,6 +93,13 @@ class PicmeDetailsFragment : Fragment() {
 
         binding.textFeeling.text = picme.feeling!!.feeling
         binding.textCreator.text = picme.creator!!.username
+
+//        picmeDetailsViewModelViewModel.getRelativeLocation(picme.location!!, requireContext())
+//        // When data received, update text
+//        picmeDetailsViewModelViewModel.relativeLocationLiveData.observe(viewLifecycleOwner) { relativeLocation ->
+//            binding.textRelativeLocation.text = relativeLocation
+//        }
+
     }
 
     override fun onDestroyView() {

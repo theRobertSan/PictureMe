@@ -22,4 +22,9 @@
     <color name="g_red">#FF0000</color>
     <color name="g_gray500">#969899</color>
     <color name="g_orange_yellow">#F8BA00</color>
+
+    <color name="primary">#f66966</color>
+    <color name="textOnPrimary">#F8F8FD</color>
+    <color name="lightBlack">#373248</color>
+    <color name="gray">#666666</color>
 </resources>

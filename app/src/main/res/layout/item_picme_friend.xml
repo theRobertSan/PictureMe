@@ -11,7 +11,10 @@
         android:layout_height="@dimen/smallCircularImageHeight"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/img1"
+        android:scaleType="centerCrop"
+        app:shapeAppearanceOverlay="@style/circle_image" />
 
     <TextView
         android:id="@+id/textFriend"

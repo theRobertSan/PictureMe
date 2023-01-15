@@ -8,7 +8,7 @@
     <dimen name="smallCircularImageWidth">75dp</dimen>
     <dimen name="smallCircularImageHeight">75dp</dimen>
 
-    <dimen name="corner_radius">12dp</dimen>
+    <dimen name="corner_radius">32dp</dimen>
     <dimen name="elevation">6dp</dimen>
     <dimen name="margin">12dp</dimen>
 </resources>

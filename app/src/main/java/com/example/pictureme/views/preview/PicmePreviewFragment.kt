@@ -115,6 +115,8 @@ class PicmePreviewFragment : Fragment() {
         binding.buttonSave.setOnClickListener {
             val previewPicme = previewViewModel.previewLiveData.value
             picmeViewModel.addPicme(previewPicme!!)
+            // Clear preview
+            previewViewModel.clear()
 
             // When created picme is created & added, go back to nav
             picmeViewModel.picmesLiveData.observe(viewLifecycleOwner) {

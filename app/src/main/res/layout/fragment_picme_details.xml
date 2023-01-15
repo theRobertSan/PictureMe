@@ -14,6 +14,7 @@
         android:layout_height="300dp"
         android:scaleType="centerCrop"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:shapeAppearanceOverlay="@style/lower_rounded_corner"
@@ -22,8 +23,8 @@
     <androidx.core.widget.ContentLoadingProgressBar
         android:id="@+id/picmeLoadingBar"
         style="?android:attr/progressBarStyleLarge"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="@+id/imagePicme"
         app:layout_constraintEnd_toEndOf="@+id/imagePicme"
@@ -299,6 +300,14 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cvFriends" />
+
+    <ImageView
+        android:id="@+id/buttonGoBack"
+        style="@style/go_back_button"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

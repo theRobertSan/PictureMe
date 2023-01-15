@@ -1,29 +1,32 @@
 package com.example.pictureme.utils
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.location.Address
 import android.location.Geocoder
-import android.location.Location
 import android.os.Build
 import androidx.annotation.RequiresApi
-import com.example.pictureme.data.utils.await
-import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationServices
+import com.example.pictureme.R
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.GeoPoint
-import okhttp3.OkHttpClient
-import okhttp3.Request
-import org.json.JSONObject
 import java.text.SimpleDateFormat
 import java.time.Duration
 import java.time.Instant
-import java.time.LocalDate
-import java.time.format.DateTimeFormatter
 import java.util.*
 
 
 object Details {
+
+    val feelingToImage = hashMapOf(
+        "Excited" to R.drawable.ic_excited,
+        "Sad" to R.drawable.ic_sad,
+        "Happy" to R.drawable.ic_happy,
+        "Shocked" to R.drawable.ic_shocked,
+        "Dead" to R.drawable.ic_shocked,
+        "Calm" to R.drawable.ic_calm,
+        "In Love" to R.drawable.ic_in_love,
+        "Yummy" to R.drawable.ic_yummy,
+        "Disgusting" to R.drawable.ic_disgusting
+    )
 
     fun getExactDate(timestamp: Timestamp): String {
         val formatter = SimpleDateFormat("dd MMM yyyy")
@@ -64,6 +67,10 @@ object Details {
         val country = addresses[0].countryCode
 
         return "$city, $country"
+    }
+
+    fun getFeelingImage(feeling: String): Int? {
+        return feelingToImage[feeling]
     }
 
 //    @SuppressLint("MissingPermission")

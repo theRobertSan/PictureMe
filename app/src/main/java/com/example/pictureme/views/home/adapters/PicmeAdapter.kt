@@ -18,6 +18,7 @@ import com.example.pictureme.R
 import com.example.pictureme.data.models.Picme
 import com.example.pictureme.utils.Details
 import com.example.pictureme.viewmodels.PicmeDetailsViewModel
+import com.example.pictureme.views.home.ParentModelClass
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.imageview.ShapeableImageView
 
@@ -25,6 +26,12 @@ class PicmeAdapter(
     private var picmes: List<Picme>,
     private val picmeDetailsViewModelViewModel: PicmeDetailsViewModel
 ) : RecyclerView.Adapter<PicmeAdapter.PicMeViewHolder>() {
+
+    fun setList(newList: List<Picme>) {
+        
+        this.picmes = newList
+        notifyDataSetChanged()
+    }
 
     inner class PicMeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val relativeTime: TextView

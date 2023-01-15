@@ -49,11 +49,17 @@ class PicmePreviewFragment : Fragment() {
     private lateinit var uri: Uri
     private var takenPicture: Bitmap? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
         invokeCamera()
         saveCurrentLocation()
     }
+
+//    override fun onCreate(savedInstanceState: Bundle?) {
+//        super.onCreate(savedInstanceState)
+//        invokeCamera()
+//        saveCurrentLocation()
+//    }
 
     private fun checkPermissions(): Boolean {
         if (ActivityCompat.checkSelfPermission(
@@ -90,6 +96,7 @@ class PicmePreviewFragment : Fragment() {
             previewViewModel.setLocation(GeoPoint(location!!.latitude, location!!.longitude))
         } else {
             println("NO LOCATION")
+            throw Exception("No location")
         }
     }
 

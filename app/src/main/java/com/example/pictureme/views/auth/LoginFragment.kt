@@ -70,7 +70,7 @@ class LoginFragment : Fragment() {
             )
         }
 
-        authViewModel.login("1@gmail.com", "123456")
+        authViewModel.login("yes@com.pt", "123456")
 
         return (binding.root)
     }

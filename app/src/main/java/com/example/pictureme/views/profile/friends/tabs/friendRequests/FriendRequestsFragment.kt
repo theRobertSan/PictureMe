@@ -5,12 +5,22 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.pictureme.R
+import androidx.fragment.app.activityViewModels
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.pictureme.data.models.FriendRequest
 import com.example.pictureme.databinding.FragmentFriendRequestsBinding
+import com.example.pictureme.viewmodels.UserViewModel
+import com.example.pictureme.views.profile.friends.tabs.friendsList.FriendsListAdapter
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class FriendRequestsFragment : Fragment() {
     private var _binding: FragmentFriendRequestsBinding? = null
     private val binding get() = _binding!!
+
+    private val userViewModel by activityViewModels<UserViewModel>()
+
+    private var friendRequests: List<FriendRequest> = emptyList()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -18,9 +28,22 @@ class FriendRequestsFragment : Fragment() {
     ): View? {
         _binding = FragmentFriendRequestsBinding.inflate(inflater, container, false)
 
-
+        setFriendRequestsAdapter()
 
         return (binding.root)
+    }
+
+    private fun setFriendRequestsAdapter() {
+
+        userViewModel.userLiveData.observe(viewLifecycleOwner) { user ->
+            friendRequests = user.friendRequests!!
+
+            val adapter = FriendRequestsAdapter(friendRequests)
+            binding.requestsRecyclerView.adapter = adapter
+            binding.requestsRecyclerView.layoutManager = LinearLayoutManager(activity)
+
+            adapter.setFriendRequests(friendRequests)
+        }
     }
 
     override fun onDestroyView() {

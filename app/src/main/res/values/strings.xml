@@ -9,4 +9,6 @@
     <string name="opt_copy_username">Copy Username</string>
     <string name="opt_settings">Settings</string>
     <string name="opt_log_out">Log Out</string>
+    <string name="accept">Accept</string>
+    <string name="decline">Decline</string>
 </resources>

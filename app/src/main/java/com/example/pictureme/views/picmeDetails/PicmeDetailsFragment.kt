@@ -52,10 +52,16 @@ class PicmeDetailsFragment : Fragment() {
     }
 
     private fun loadPicmeFriends() {
-        val picmeFriendsAdapter = PicmeFriendsAdapter(picme.friends)
-        binding.rcPicmeFriends.layoutManager =
-            LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-        binding.rcPicmeFriends.adapter = picmeFriendsAdapter
+        // If no friends, hide rv
+        if (picme.friends.isEmpty()) {
+            binding.cvFriends.visibility = View.GONE
+        } else {
+            val picmeFriendsAdapter = PicmeFriendsAdapter(picme.friends)
+            binding.rcPicmeFriends.layoutManager =
+                LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+            binding.rcPicmeFriends.adapter = picmeFriendsAdapter
+        }
+
     }
 
     private fun loadImages() {

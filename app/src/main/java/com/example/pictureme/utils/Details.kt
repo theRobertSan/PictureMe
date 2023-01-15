@@ -61,7 +61,7 @@ object Details {
             geocoder.getFromLocation(location.latitude, location.longitude, 1)
 
         val city = addresses[0].locality
-        val country = addresses[0].countryName
+        val country = addresses[0].countryCode
 
         return "$city, $country"
     }

@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.pictureme.views.home.ParentModelClass
 import com.example.pictureme.R
+import com.example.pictureme.data.models.Picme
 import com.example.pictureme.viewmodels.PicmeDetailsViewModel
 
 class HomeAdapter(
@@ -15,10 +16,15 @@ class HomeAdapter(
     private val picmeDetailsViewModelViewModel: PicmeDetailsViewModel
 ) : RecyclerView.Adapter<HomeAdapter.HomeViewHolder>() {
 
+    fun setList(newList: List<ParentModelClass>) {
+        println("ADAPTER CHANGED")
+        this.rvs = newList
+        notifyDataSetChanged()
+    }
+
     inner class HomeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val tvTitle: TextView
         val rvCategory: RecyclerView
-
 
         init {
             tvTitle = itemView.findViewById(R.id.tvParentTitle)
@@ -36,6 +42,7 @@ class HomeAdapter(
         holder.tvTitle.text = rvs[position].title
 
         val picMeAdapter = PicmeAdapter(rvs[position].picmes, picmeDetailsViewModelViewModel)
+        //picMeAdapter.setList(rvs[position].picmes)
         holder.rvCategory.layoutManager =
             LinearLayoutManager(holder.itemView.context, LinearLayoutManager.HORIZONTAL, false)
         holder.rvCategory.adapter = picMeAdapter
@@ -45,4 +52,6 @@ class HomeAdapter(
     override fun getItemCount(): Int {
         return rvs.size
     }
+
+
 }

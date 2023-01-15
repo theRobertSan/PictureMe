@@ -5,10 +5,11 @@
     <dimen name="mediumButtonHeight">12dp</dimen>
 
     <!-- Images -->
-    <dimen name="smallCircularImageWidth">75dp</dimen>
-    <dimen name="smallCircularImageHeight">75dp</dimen>
+    <dimen name="smallCircularImageWidth">50dp</dimen>
+    <dimen name="smallCircularImageHeight">50dp</dimen>
 
     <dimen name="corner_radius">32dp</dimen>
+    <dimen name="image_corner_radius">16dp</dimen>
     <dimen name="elevation">6dp</dimen>
     <dimen name="margin">12dp</dimen>
 </resources>

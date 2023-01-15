@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import androidx.core.view.isGone
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import coil.load
 import com.example.pictureme.R
@@ -48,14 +49,24 @@ class PicmeDetailsFragment : Fragment() {
             loadPicmeFriends()
         }
 
+        binding.buttonGoBack.setOnClickListener {
+            findNavController().popBackStack()
+        }
+
         return (binding.root)
     }
 
     private fun loadPicmeFriends() {
-        val picmeFriendsAdapter = PicmeFriendsAdapter(picme.friends)
-        binding.rcPicmeFriends.layoutManager =
-            LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-        binding.rcPicmeFriends.adapter = picmeFriendsAdapter
+        // If no friends, hide rv
+        if (picme.friends.isEmpty()) {
+            binding.cvFriends.visibility = View.GONE
+        } else {
+            val picmeFriendsAdapter = PicmeFriendsAdapter(picme.friends)
+            binding.rcPicmeFriends.layoutManager =
+                LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+            binding.rcPicmeFriends.adapter = picmeFriendsAdapter
+        }
+
     }
 
     private fun loadImages() {
@@ -67,6 +78,8 @@ class PicmeDetailsFragment : Fragment() {
                 binding.picmeLoadingBar.isGone = true
             }
         }
+
+        binding.imageEmotion.setImageResource(Details.getFeelingImage(picme.feeling!!.feeling)!!)
 
 //        binding.imagePicme.setOnClickListener {
 //            if (zoomOut) {

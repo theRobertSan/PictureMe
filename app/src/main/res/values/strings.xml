@@ -3,7 +3,7 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="card_friends">Friends</string>
-    <string name="card_picmes">PicMes</string>
+    <string name="card_picmes">PicMe\'s</string>
     <string name="profile_opt_friends">Friends</string>
     <string name="opt_edit_profile">Edit Profile</string>
     <string name="opt_copy_username">Copy Username</string>

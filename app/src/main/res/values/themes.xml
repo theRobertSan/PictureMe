@@ -6,11 +6,14 @@
         <item name="colorPrimaryVariant">@color/textOnPrimary</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/teal_200</item>
+        <item name="colorSecondary">@color/primary</item>
         <item name="colorSecondaryVariant">@color/teal_700</item>
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
-        <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
+        <!--        <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>-->
+        <item name="android:statusBarColor">@color/lightBlack</item>
+        <!--        <item name="android:windowTranslucentStatus">true</item>-->
+        <!--        <item name="android:fitsSystemWindows">true</item>-->
         <!-- Customize your theme here. -->
     </style>
 
@@ -41,7 +44,7 @@
     <style name="smallText">
         <item name="android:textSize">15sp</item>
         <item name="fontFamily">@font/nunito</item>
-        <item name="android:textColor">@color/lightBlack</item>
+        <item name="android:textColor">@color/black</item>
     </style>
 
     <style name="editTextLayout">
@@ -75,6 +78,10 @@
         <item name="cornerSize">@dimen/corner_radius</item>
     </style>
 
+    <style name="small_rounded_corner">
+        <item name="cornerSize">@dimen/image_corner_radius</item>
+    </style>
+
     <style name="circle_image">
         <item name="cornerSize">50%</item>
     </style>
@@ -84,6 +91,37 @@
         <item name="android:textSize">10sp</item>
         <item name="android:scaleX">1.6</item>
         <item name="android:scaleY">1.6</item>
+    </style>
+
+    <style name="small_drawable">
+        <item name="android:textSize">10sp</item>
+        <item name="android:scaleX">1.6</item>
+        <item name="android:scaleY">1.6</item>
+    </style>
+
+    <style name="lower_rounded_corner">
+        <item name="cornerSizeBottomLeft">@dimen/corner_radius</item>
+        <item name="cornerSizeBottomRight">@dimen/corner_radius</item>
+        <item name="cornerFamilyBottomLeft">rounded</item>
+        <item name="cornerFamilyBottomRight">rounded</item>
+    </style>
+
+    <style name="round_floating_button">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="tint">@color/textOnPrimary</item>
+        <item name="fabAlignmentMode">center</item>
+        <item name="fabCustomSize">60dp</item>
+        <item name="maxImageSize">40dp</item>
+    </style>
+
+    <style name="go_back_button">
+        <item name="android:layout_width">40dp</item>
+        <item name="android:layout_height">40dp</item>
+        <item name="tint">@color/textOnPrimary</item>
+        <item name="android:src">@drawable/ic_back</item>
+        <item name="fabCustomSize">150dp</item>
+        <item name="maxImageSize">100dp</item>
     </style>
 
 </resources>

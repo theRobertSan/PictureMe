@@ -5,8 +5,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.widget.AppCompatCheckedTextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.isGone
 import androidx.core.widget.ContentLoadingProgressBar
 import androidx.navigation.Navigation
@@ -16,6 +18,7 @@ import com.example.pictureme.R
 import com.example.pictureme.data.models.Picme
 import com.example.pictureme.utils.Details
 import com.example.pictureme.viewmodels.PicmeDetailsViewModel
+import com.example.pictureme.views.home.ParentModelClass
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.imageview.ShapeableImageView
 
@@ -24,17 +27,23 @@ class PicmeAdapter(
     private val picmeDetailsViewModelViewModel: PicmeDetailsViewModel
 ) : RecyclerView.Adapter<PicmeAdapter.PicMeViewHolder>() {
 
+    fun setList(newList: List<Picme>) {
+        
+        this.picmes = newList
+        notifyDataSetChanged()
+    }
+
     inner class PicMeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val relativeTime: AppCompatCheckedTextView
+        val relativeTime: TextView
         val picmeImage: ShapeableImageView
         val loadingBar: ContentLoadingProgressBar
-        val cvPicme: MaterialCardView
+        val cl: ConstraintLayout
 
         init {
             relativeTime = itemView.findViewById(R.id.text_relative_time)
             picmeImage = itemView.findViewById(R.id.image_picme)
             loadingBar = itemView.findViewById(R.id.image_loading_bar)
-            cvPicme = itemView.findViewById(R.id.cvPicme)
+            cl = itemView.findViewById(R.id.clItem)
 
         }
     }
@@ -56,7 +65,7 @@ class PicmeAdapter(
             }
         }
 
-        holder.cvPicme.setOnClickListener {
+        holder.cl.setOnClickListener {
             // Navigate to details
             println("--+++++++++")
             println(holder.itemView.parent.parent.parent.parent.parent.parent.parent)

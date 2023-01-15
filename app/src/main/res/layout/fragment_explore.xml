@@ -19,7 +19,8 @@
             android:id="@+id/fragment_explore_tabs"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:tabBackground="@color/purple_200"
+            app:tabBackground="@color/primary"
+            app:tabTextColor="@color/textOnPrimary"
             app:tabGravity="fill"
             app:tabInlineLabel="true"
             app:tabMode="fixed">

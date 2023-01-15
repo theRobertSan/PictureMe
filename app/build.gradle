@@ -69,6 +69,10 @@ dependencies {
     // Coil
     implementation("io.coil-kt:coil:2.2.2")
 
+    // Dependency to include Maps SDK for Android
+    implementation 'com.google.android.gms:play-services-maps:18.0.2'
+    implementation 'com.google.maps.android:android-maps-utils:2.2.0'
+
     apply plugin: "kotlin-kapt"
 
     // Loading button

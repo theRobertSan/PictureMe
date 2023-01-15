@@ -11,6 +11,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginBottom="16dp"
+        android:scaleType="centerCrop"
         app:layout_constraintBottom_toTopOf="@+id/button_save"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -19,6 +20,7 @@
 
     <Button
         android:id="@+id/button_save"
+        style="@style/largeButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="32dp"
@@ -30,6 +32,7 @@
 
     <Button
         android:id="@+id/button_retake"
+        style="@style/largeButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Retake"
@@ -38,23 +41,27 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <Button
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/buttonAddFriends"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="@style/round_floating_button"
+        android:layout_marginEnd="16dp"
+        android:clickable="true"
+        android:contentDescription="Add friend"
+        android:src="@drawable/ic_add_friend"
+        app:layout_constraintBottom_toBottomOf="@+id/buttonAddFeeling"
+        app:layout_constraintEnd_toStartOf="@+id/buttonAddFeeling"
+        app:layout_constraintTop_toTopOf="@+id/buttonAddFeeling" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/buttonAddFeeling"
+        style="@style/round_floating_button"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
-        android:text="Add Friends"
+        android:clickable="true"
+        android:contentDescription="Add Feeling"
+        android:src="@drawable/ic_add_feeling"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/buttonAddFeeling"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="Add Feeling"
-        app:layout_constraintEnd_toEndOf="@+id/buttonAddFriends"
-        app:layout_constraintTop_toBottomOf="@+id/buttonAddFriends" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

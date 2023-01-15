@@ -51,45 +51,15 @@ class PicmeRepositoryImpl @Inject constructor(
 
         // Iterate over user-picmes
         for (userPicme in userPicmeDocs) {
-            val picmeSnapshot = (userPicme.data["picmeRef"] as DocumentReference).get().await()
-
-            val picmeUsers = userPicmeCollection
-                .whereEqualTo("picmeRef", userPicme.data["picmeRef"] as DocumentReference)
-                .get()
-                .await()
-
-            // Convert to Picme object and add to list
-            val picmeObj = picmeSnapshot.toObject<Picme>()!!
-            val picmeFriends = ArrayList<User>()
-            // Convert Friends
-            for (picmeUser in picmeUsers) {
-                var userReference = (picmeUser.data["userRef"] as DocumentReference)
-                var userObj = userReference.get().await().toObject<User>()!!
-
-                // User is creator
-                if (userReference == (picmeSnapshot.data!!["creatorRef"] as DocumentReference)) {
-                    picmeObj.creator = userObj
-                    // User is friend of creator that is in picme
-                } else {
-                    picmeFriends.add(userObj)
-                }
-
-            }
-            picmeObj.friends = picmeFriends
-            // Convert Feelings
-            val picmeFeeling =
-                (picmeSnapshot.data?.get("feelingRef") as DocumentReference).get().await()
-                    .toObject<Feeling>()
-            picmeObj.feeling = picmeFeeling
-
-            picmes.add(picmeObj)
+            // Load picme
+            picmes.add(loadPicme(userPicme.data["picmeRef"] as DocumentReference))
         }
 
         // Get images url (for Coil)
-        for (picme in picmes) {
-            val landRef = storageRef.child(picme.imagePath!!).downloadUrl.await()
-            picme.imagePath = landRef.toString()
-        }
+//        for (picme in picmes) {
+//            val landRef = storageRef.child(picme.imagePath!!).downloadUrl.await()
+//            picme.imagePath = landRef.toString()
+//        }
 
         // Return picmes
         return picmes
@@ -142,12 +112,13 @@ class PicmeRepositoryImpl @Inject constructor(
         userPicmeCollection.add(userPicme).await()
 
         // Get created picme
-        val createdPicme = picmeCollection.document(result.id).get().await().toObject<Picme>()!!
+//        val createdPicme = picmeCollection.document(result.id).get().await().toObject<Picme>()!!
+        val createdPicme = loadPicme(result)
         Log.i(TAG, "Created PicMe with id ${createdPicme.id}")
 
         // Get images url (for Coil)
-        createdPicme.imagePath =
-            storageRef.child(createdPicme.imagePath!!).downloadUrl.await().toString()
+//        createdPicme.imagePath =
+//            storageRef.child(createdPicme.imagePath!!).downloadUrl.await().toString()
 
         return createdPicme
     }
@@ -158,5 +129,46 @@ class PicmeRepositoryImpl @Inject constructor(
             .await()
 
         return feelings.toObjects()
+    }
+
+    override suspend fun loadPicme(picmeReference: DocumentReference): Picme {
+        val picmeSnapshot = picmeReference.get().await()
+
+        // Get all users associated with this picme
+        val picmeUsers = userPicmeCollection
+            .whereEqualTo("picmeRef", picmeReference)
+            .get()
+            .await()
+
+        // Convert to Picme object and add to list
+        val picmeObj = picmeSnapshot.toObject<Picme>()!!
+
+        val picmeFriends = ArrayList<User>()
+        // Convert Friends
+        for (picmeUser in picmeUsers) {
+            var userReference = (picmeUser.data["userRef"] as DocumentReference)
+            var userObj = userReference.get().await().toObject<User>()!!
+
+            // User is creator
+            if (userReference == (picmeSnapshot.data!!["creatorRef"] as DocumentReference)) {
+                picmeObj.creator = userObj
+                // User is friend of creator that is in picme
+            } else {
+                picmeFriends.add(userObj)
+            }
+
+        }
+        picmeObj.friends = picmeFriends
+        // Convert Feelings
+        val picmeFeeling =
+            (picmeSnapshot.data?.get("feelingRef") as DocumentReference).get().await()
+                .toObject<Feeling>()
+        picmeObj.feeling = picmeFeeling
+
+        // Turn to link
+        val landRef = storageRef.child(picmeObj.imagePath!!).downloadUrl.await()
+        picmeObj.imagePath = landRef.toString()
+
+        return picmeObj
     }
 }

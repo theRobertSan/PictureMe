@@ -5,6 +5,7 @@ import android.location.Address
 import android.location.Geocoder
 import android.os.Build
 import androidx.annotation.RequiresApi
+import com.example.pictureme.R
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.GeoPoint
 import java.text.SimpleDateFormat
@@ -13,6 +14,18 @@ import java.time.Instant
 import java.util.*
 
 object Details {
+
+    val feelingToImage = hashMapOf(
+        "Excited" to R.drawable.ic_excited,
+        "Sad" to R.drawable.ic_sad,
+        "Happy" to R.drawable.ic_happy,
+        "Shocked" to R.drawable.ic_shocked,
+        "Dead" to R.drawable.ic_shocked,
+        "Calm" to R.drawable.ic_calm,
+        "In Love" to R.drawable.ic_in_love,
+        "Yummy" to R.drawable.ic_yummy,
+        "Disgusting" to R.drawable.ic_disgusting
+    )
 
     fun getExactDate(timestamp: Timestamp): String {
         val formatter = SimpleDateFormat("dd MMM yyyy")
@@ -48,9 +61,13 @@ object Details {
             geocoder.getFromLocation(location.latitude, location.longitude, 1)
 
         val city = addresses[0].locality
-        val country = addresses[0].countryName
+        val country = addresses[0].countryCode
 
         return "$city, $country"
+    }
+
+    fun getFeelingImage(feeling: String): Int? {
+        return feelingToImage[feeling]
     }
 
 //    @SuppressLint("MissingPermission")

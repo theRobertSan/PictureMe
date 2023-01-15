@@ -5,14 +5,16 @@
     android:id="@+id/frameLayout3"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".views.NavFragment" >
+    tools:context=".views.NavFragment">
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/button_camera"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_camera"
+        app:tint="@color/textOnPrimary"
         app:fabCustomSize="80dp"
+        app:backgroundTint="@color/primary"
         app:layout_anchor="@id/bottom_app_bar"
         app:maxImageSize="40dp" />
 

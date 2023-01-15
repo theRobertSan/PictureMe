@@ -9,8 +9,11 @@ import com.example.pictureme.R
 import com.example.pictureme.data.models.Friendship
 
 class FriendsListAdapter (
-    private var friendships: List<Friendship>
+    private var friendships: List<Friendship>,
+    private val numPicmesWithEachFriend: HashMap<String, Int>
 ) : RecyclerView.Adapter<FriendsListAdapter.FriendsViewHolder>() {
+    val PICMES_TOGETHER = " PicMe's together"
+    val NO_PICMES_TOGETHER = "No PicMe's together"
 
     inner class FriendsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         // TODO friends profile picture
@@ -35,7 +38,14 @@ class FriendsListAdapter (
     }
 
     override fun onBindViewHolder(holder: FriendsListAdapter.FriendsViewHolder, position: Int) {
-        holder.friendName.text = friendships[position].friend!!.username
+        val currentFriend = friendships[position].friend!!
+
+        holder.friendName.text = currentFriend.username
+        if (numPicmesWithEachFriend[currentFriend.id] != 0) {
+            holder.numPicmesTogether.text = numPicmesWithEachFriend[currentFriend.id].toString() + PICMES_TOGETHER
+        } else {
+            holder.numPicmesTogether.text = NO_PICMES_TOGETHER
+        }
     }
 
     override fun getItemCount(): Int {

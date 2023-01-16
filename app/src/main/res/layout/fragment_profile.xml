@@ -249,7 +249,7 @@
             android:layout_height="35dp"
             app:tint="@color/lightBlack"
             android:layout_marginLeft="40dp"
-            app:srcCompat="@drawable/ic_copy" />
+            app:srcCompat="@drawable/ic_logout" />
 
         <TextView
             android:layout_width="wrap_content"

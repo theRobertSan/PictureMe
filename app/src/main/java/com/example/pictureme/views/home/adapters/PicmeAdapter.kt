@@ -66,9 +66,6 @@ class PicmeAdapter(
         }
 
         holder.cl.setOnClickListener {
-            // Navigate to details
-            println("--+++++++++")
-            println(holder.itemView.parent.parent.parent.parent.parent.parent.parent)
             val navController =
                 Navigation.findNavController(holder.itemView.parent.parent.parent.parent.parent.parent.parent as View)
             picmeDetailsViewModelViewModel.selectPicme(picmes[position])

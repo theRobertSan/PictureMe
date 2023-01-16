@@ -7,7 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.core.widget.doAfterTextChanged
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.Navigation
@@ -18,6 +18,7 @@ import com.example.pictureme.viewmodels.AuthViewModel
 import com.example.pictureme.viewmodels.PicmeViewModel
 import com.example.pictureme.viewmodels.UserViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import java.lang.Thread.sleep
 
 @AndroidEntryPoint
 class LoginFragment : Fragment() {
@@ -38,30 +39,6 @@ class LoginFragment : Fragment() {
     ): View? {
         _binding = FragmentLoginBinding.inflate(inflater, container, false);
 
-        // Observers
-
-        authViewModel.authLiveData.observe(viewLifecycleOwner) {
-            when (it) {
-                is Response.Success -> {
-                    // Load user & his friends from Firestore
-                    userViewModel.loadUser()
-                    // Load user picmes
-                    picmeViewModel.loadPicmes()
-
-                    // Load feelings
-                    picmeViewModel.loadFeelings()
-
-                    Navigation.findNavController(binding.root)
-                        .navigate(R.id.action_loginFragment_to_navFragment)
-                }
-                is Response.Failure -> {
-                    Toast.makeText(context, "Failure!", Toast.LENGTH_SHORT).show()
-                }
-                else -> {}
-            }
-
-        }
-
         // OnClickListeners
 
         binding.textRegister.setOnClickListener {
@@ -79,9 +56,49 @@ class LoginFragment : Fragment() {
         emailValidation()
         passwordValidation()
 
+        // Observers
+        authViewModel.authLiveData.observe(viewLifecycleOwner) {
+            when (it) {
+                is Response.Success -> {
+                    loadUserDataAndEnterApp()
+                }
+                is Response.Failure -> {
+                    Toast.makeText(context, "Failure!", Toast.LENGTH_SHORT).show()
+                }
+                else -> {}
+            }
+
+        }
+
         //authViewModel.login("1@gmail.com", "123456")
 
         return (binding.root)
+    }
+
+    override fun onStart() {
+        super.onStart()
+
+        checkIfUserIsAlreadyLoggedIn()
+    }
+
+    private fun loadUserDataAndEnterApp() {
+        // Load user & his friends from Firestore
+        userViewModel.loadUser()
+        // Load user picmes
+        picmeViewModel.loadPicmes()
+        // Load feelings
+        picmeViewModel.loadFeelings()
+
+        println(binding.root)
+
+        Navigation.findNavController(binding.root)
+            .navigate(R.id.action_loginFragment_to_navFragment)
+    }
+
+    private fun checkIfUserIsAlreadyLoggedIn() {
+        if(authViewModel.currentUser != null) {
+            loadUserDataAndEnterApp()
+        }
     }
 
     private fun passwordValidation() {

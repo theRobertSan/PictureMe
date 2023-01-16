@@ -11,4 +11,7 @@
     <string name="opt_log_out">Log Out</string>
     <string name="accept">Accept</string>
     <string name="decline">Decline</string>
+    <string name="logout_alert_message">Are you sure you want to logout?</string>
+    <string name="logout_yes">Yes</string>
+    <string name="logout_no">No</string>
 </resources>

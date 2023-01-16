@@ -15,7 +15,7 @@ import javax.inject.Inject
 import kotlin.collections.ArrayList
 
 class UserRepositoryImpl @Inject constructor(
-    firestore: FirebaseFirestore,
+    val firestore: FirebaseFirestore,
     val firestorage: FirebaseStorage
 ) : UserRepository {
 

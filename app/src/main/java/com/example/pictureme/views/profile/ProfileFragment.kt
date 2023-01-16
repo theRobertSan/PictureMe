@@ -11,8 +11,10 @@ import androidx.navigation.Navigation
 import com.example.pictureme.R
 import com.example.pictureme.data.Response
 import com.example.pictureme.databinding.FragmentProfileBinding
+import com.example.pictureme.viewmodels.AuthViewModel
 import com.example.pictureme.viewmodels.PicmeViewModel
 import com.example.pictureme.viewmodels.UserViewModel
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -23,6 +25,7 @@ class ProfileFragment : Fragment() {
 
     private val userViewModel by activityViewModels<UserViewModel>()
     private val picmeViewModel by activityViewModels<PicmeViewModel>()
+    private val authViewModel by activityViewModels<AuthViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -58,25 +61,45 @@ class ProfileFragment : Fragment() {
         binding.friendsLayout.setOnClickListener {
             Navigation.findNavController(binding.root)
                 .navigate(R.id.action_profileFragment_to_friendsFragment)
-
-            Toast.makeText(this.context, "Friends Fragment!", Toast.LENGTH_SHORT).show()
         }
 
         binding.editLayout.setOnClickListener {
-            Toast.makeText(this.context, "Edit Fragment!", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this.context, "Edit Fragment! DELETE THIS", Toast.LENGTH_SHORT).show()
         }
 
         binding.copyLayout.setOnClickListener {
-            Toast.makeText(this.context, "Copy Fragment!", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this.context, "Copy Fragment! DELETE THIS", Toast.LENGTH_SHORT).show()
         }
 
         binding.settingsLayout.setOnClickListener {
-            Toast.makeText(this.context, "Settings Fragment!", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this.context, "Settings Fragment! DELETE THIS", Toast.LENGTH_SHORT).show()
         }
 
         binding.logoutLayout.setOnClickListener {
-            Toast.makeText(this.context, "Logout Fragment!", Toast.LENGTH_SHORT).show()
+            // Create logout alert dialog
+            MaterialAlertDialogBuilder(it.context)
+                .setTitle(resources.getString(R.string.opt_log_out))
+                .setMessage(resources.getString(R.string.logout_alert_message))
+                .setPositiveButton(resources.getString(R.string.logout_yes)) { dialog, which ->
+                    logout(it)
+                }
+                .setNegativeButton(resources.getString(R.string.logout_no)) { dialog, which ->
+                    dialog.cancel()
+                }
+                .show()
         }
+    }
+
+    private fun logout(view: View) {
+        val navController = Navigation.findNavController(view.parent.parent.parent as View)
+
+        navController.navigate(R.id.action_navFragment_to_loginFragment)
+        authViewModel.logout()
+
+        // Clear all view models
+        requireActivity().viewModelStore.clear()
+
+        Toast.makeText(this.context, "Successfully Logged Out", Toast.LENGTH_SHORT).show()
     }
 
     override fun onDestroyView() {

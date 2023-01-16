@@ -32,4 +32,8 @@ class UserViewModel @Inject constructor(
         _userLiveData.postValue(user)
     }
 
+    fun sendFriendRequest(username: String) = viewModelScope.launch {
+        userRepository.createFriendRequest(username, _userLiveData.value!!.id!!)
+    }
+
 }

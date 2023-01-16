@@ -17,11 +17,11 @@ class FriendsListAdapter (
 
     inner class FriendsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         // TODO friends profile picture
-        val friendName: TextView
+        val friendUsername: TextView
         val numPicmesTogether: TextView
 
         init {
-            friendName = itemView.findViewById(R.id.friend_name)
+            friendUsername = itemView.findViewById(R.id.friend_username)
             numPicmesTogether = itemView.findViewById(R.id.num_picmes_together)
         }
     }
@@ -40,7 +40,7 @@ class FriendsListAdapter (
     override fun onBindViewHolder(holder: FriendsListAdapter.FriendsViewHolder, position: Int) {
         val currentFriend = friendships[position].friend!!
 
-        holder.friendName.text = currentFriend.username
+        holder.friendUsername.text = currentFriend.username
         if (numPicmesWithEachFriend[currentFriend.id] != 0) {
             holder.numPicmesTogether.text = numPicmesWithEachFriend[currentFriend.id].toString() + PICMES_TOGETHER
         } else {

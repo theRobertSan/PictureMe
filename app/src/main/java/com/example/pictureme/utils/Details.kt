@@ -13,7 +13,6 @@ import java.time.Duration
 import java.time.Instant
 import java.util.*
 
-
 object Details {
 
     val feelingToImage = hashMapOf(
@@ -57,8 +56,6 @@ object Details {
     }
 
     fun getExactLocation(location: GeoPoint, context: Context): String {
-        println("-------------------")
-        println(location)
         val geocoder = Geocoder(context, Locale.getDefault())
         val addresses: List<Address> =
             geocoder.getFromLocation(location.latitude, location.longitude, 1)

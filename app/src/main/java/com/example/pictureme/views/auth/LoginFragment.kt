@@ -29,6 +29,9 @@ class LoginFragment : Fragment() {
     private val userViewModel by activityViewModels<UserViewModel>()
     private val picmeViewModel by activityViewModels<PicmeViewModel>()
 
+    private var startedTypingEmail = false
+    private var startedTypingPassword = false
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -76,7 +79,7 @@ class LoginFragment : Fragment() {
         emailValidation()
         passwordValidation()
 
-        authViewModel.login("1@gmail.com", "123456")
+        //authViewModel.login("1@gmail.com", "123456")
 
         return (binding.root)
     }
@@ -85,26 +88,40 @@ class LoginFragment : Fragment() {
         binding.editPassword.setOnFocusChangeListener { _, focused ->
             if (!focused) {
                 binding.editPasswordLayout.helperText = validPassword()
+                startedTypingPassword = true
             }
         }
         binding.editPassword.doOnTextChanged { text, start, before, count ->
-            if (validPassword() == null) {
+            val validity = validPassword()
+            if (validity == null) {
                 binding.editPasswordLayout.helperText = null
                 handleButton()
+            } else {
+                if (startedTypingPassword) {
+                    binding.editPasswordLayout.helperText = validity
+                    handleButton()
+                }
             }
         }
     }
 
     private fun emailValidation() {
         binding.editEmail.doOnTextChanged { text, start, before, count ->
+            val validity = validEmail()
             if (validEmail() == null) {
                 binding.editEmailLayout.helperText = null
                 handleButton()
+            } else {
+                if (startedTypingEmail) {
+                    binding.editEmailLayout.helperText = validity
+                    handleButton()
+                }
             }
         }
         binding.editEmail.setOnFocusChangeListener { _, focused ->
             if (!focused) {
                 binding.editEmailLayout.helperText = validEmail()
+                startedTypingEmail = true
             }
         }
     }
@@ -115,7 +132,7 @@ class LoginFragment : Fragment() {
             binding.buttonLogin.setBackgroundColor(resources.getColor(R.color.primary))
             binding.buttonLogin.setTextColor(resources.getColor(R.color.textOnPrimary))
         } else {
-            binding.buttonLogin.isEnabled = true
+            binding.buttonLogin.isEnabled = false
             binding.buttonLogin.setBackgroundColor(resources.getColor(R.color.disabledBackground))
             binding.buttonLogin.setTextColor(resources.getColor(R.color.disabledText))
         }

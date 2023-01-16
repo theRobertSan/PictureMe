@@ -1,5 +1,6 @@
 package com.example.pictureme.views.picmeDetails
 
+import android.annotation.SuppressLint
 import android.os.Build
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -14,15 +15,22 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import coil.load
 import com.example.pictureme.R
 import com.example.pictureme.data.models.Picme
+import com.example.pictureme.data.utils.await
 import com.example.pictureme.databinding.FragmentHomeBinding
 import com.example.pictureme.databinding.FragmentPicmeDetailsBinding
+import com.example.pictureme.network.ApiClient
 import com.example.pictureme.utils.Details
 import com.example.pictureme.viewmodels.PicmeDetailsViewModel
 import com.example.pictureme.viewmodels.PicmeViewModel
 import com.example.pictureme.views.home.adapters.PicmeAdapter
 import com.example.pictureme.views.picmeDetails.adapters.PicmeFriendsAdapter
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class PicmeDetailsFragment : Fragment() {
@@ -97,6 +105,7 @@ class PicmeDetailsFragment : Fragment() {
 //        }
     }
 
+    @SuppressLint("MissingPermission")
     @RequiresApi(Build.VERSION_CODES.O)
     private fun loadDetails() {
         binding.textExactTime.text = Details.getExactDate(picme.createdAt!!)
@@ -107,7 +116,10 @@ class PicmeDetailsFragment : Fragment() {
         binding.textFeeling.text = picme.feeling!!.feeling
         binding.textCreator.text = picme.creator!!.username
 
-//        picmeDetailsViewModelViewModel.getRelativeLocation(picme.location!!, requireContext())
+//        val client = ApiClient.apiService.getDistance()
+//        GlobalScope.launch(Dispatchers.IO) {
+//            picmeDetailsViewModelViewModel.getRelativeLocation(picme.location!!, requireContext())
+//        }
 //        // When data received, update text
 //        picmeDetailsViewModelViewModel.relativeLocationLiveData.observe(viewLifecycleOwner) { relativeLocation ->
 //            binding.textRelativeLocation.text = relativeLocation

@@ -9,12 +9,14 @@ import com.google.firebase.Timestamp
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.toObject
+import com.google.firebase.storage.FirebaseStorage
 import java.util.*
 import javax.inject.Inject
 import kotlin.collections.ArrayList
 
 class UserRepositoryImpl @Inject constructor(
-    firestore: FirebaseFirestore
+    firestore: FirebaseFirestore,
+    val firestorage: FirebaseStorage
 ) : UserRepository {
 
     override var currentUser: User? = null
@@ -25,13 +27,14 @@ class UserRepositoryImpl @Inject constructor(
     private val friendshipCollection = firestore.collection("friendships")
     private val friendRequestCollection = firestore.collection("friendRequests")
 
-    override suspend fun addUser(id: String, username: String): User {
+    override suspend fun addUser(id: String, username: String, fullName: String): User {
         val user = hashMapOf(
-            "username" to username
+            "username" to username,
+            "fullName" to fullName
         )
 
         userCollection.document(id).set(user).await()
-        currentUser = User(id, username, listOf(), listOf())
+        currentUser = User(id, username, fullName, null, listOf(), listOf())
         return currentUser!!
     }
 
@@ -47,7 +50,10 @@ class UserRepositoryImpl @Inject constructor(
         return currentUser!!
     }
 
-    private suspend fun loadUserFriendships(userReference: DocumentReference, currentUser: User?) : User {
+    private suspend fun loadUserFriendships(
+        userReference: DocumentReference,
+        currentUser: User?
+    ): User {
         // Load its friendships
         val friendships = ArrayList<Friendship>()
 
@@ -80,7 +86,10 @@ class UserRepositoryImpl @Inject constructor(
         return this.currentUser!!
     }
 
-    private suspend fun loadUserFriendRequests(userReference: DocumentReference, currentUser: User?) : User {
+    private suspend fun loadUserFriendRequests(
+        userReference: DocumentReference,
+        currentUser: User?
+    ): User {
         // Load the friend requests
         val loadedFriendRequests = ArrayList<FriendRequest>()
 
@@ -94,7 +103,8 @@ class UserRepositoryImpl @Inject constructor(
             val friendRequest = request.toObject<FriendRequest>()
             // Set the sending User which sent the request
             val sendingUser = request.data["creatorRef"]!!
-            friendRequest.sendingUser = (sendingUser as DocumentReference).get().await().toObject<User>()
+            friendRequest.sendingUser =
+                (sendingUser as DocumentReference).get().await().toObject<User>()
             // Add friend request to current users list
             loadedFriendRequests.add(friendRequest)
         }
@@ -105,7 +115,7 @@ class UserRepositoryImpl @Inject constructor(
     }
 
     override suspend fun createFriendRequest(username: String, currentUserId: String) {
-        val currentUserRef =  userCollection.document(currentUserId)
+        val currentUserRef = userCollection.document(currentUserId)
         val otherUserRef = userCollection
             .whereEqualTo("username", username).get().await().documents[0].reference
 

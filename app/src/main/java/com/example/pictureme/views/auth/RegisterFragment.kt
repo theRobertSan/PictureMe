@@ -33,16 +33,17 @@ class RegisterFragment : Fragment() {
         // Observers
 
         authViewModel.authLiveData.observe(viewLifecycleOwner) {
-
             when (it) {
                 is Response.Success -> {
+                    val username = binding.editUsername.text.toString()
+                    val fullName = binding.editName.text.toString()
                     // Save user to firestore
-                    userViewModel.addUser(binding.editUsername.text.toString())
+                    userViewModel.addUser(username, fullName)
                     Navigation.findNavController(binding.root)
                         .navigate(R.id.action_registerFragment_to_navFragment)
                 }
                 is Response.Failure -> {
-                    Toast.makeText(context, "Failure!", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(activity, "Failure!", Toast.LENGTH_SHORT).show()
                 }
                 else -> {}
             }
@@ -55,6 +56,7 @@ class RegisterFragment : Fragment() {
             Navigation.findNavController(binding.root)
                 .navigate(R.id.action_registerFragment_to_loginFragment)
         }
+
 
         binding.buttonSignUp.setOnClickListener {
             authViewModel?.signup(

@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.pictureme.data.Response
 import com.example.pictureme.data.interfaces.AuthRepository
 import com.example.pictureme.data.interfaces.UserRepository
 import com.example.pictureme.data.models.User
@@ -16,13 +15,13 @@ import javax.inject.Inject
 class UserViewModel @Inject constructor(
     private val userRepository: UserRepository,
     private val authRepository: AuthRepository
-): ViewModel() {
+) : ViewModel() {
     private val _userLiveData = MutableLiveData<User>()
     val userLiveData: LiveData<User> = _userLiveData
 
-    fun addUser(username: String) = viewModelScope.launch {
+    fun addUser(username: String, fullName: String) = viewModelScope.launch {
         // Add user to firestore
-        val user = userRepository.addUser(authRepository.currentUser!!.uid, username)
+        val user = userRepository.addUser(authRepository.currentUser!!.uid, username, fullName)
         // Post it
         _userLiveData.postValue(user)
     }

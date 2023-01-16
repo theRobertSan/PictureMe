@@ -66,17 +66,11 @@ class PicmeAdapter(
         }
 
         holder.cl.setOnClickListener {
-            // Navigate to details
-            println("--+++++++++")
-            println(holder.itemView.parent.parent.parent.parent.parent.parent.parent)
             val navController =
                 Navigation.findNavController(holder.itemView.parent.parent.parent.parent.parent.parent.parent as View)
             picmeDetailsViewModelViewModel.selectPicme(picmes[position])
             navController.navigate(R.id.action_navFragment_to_picmeDetailsFragment)
         }
-        //Picasso.get().load(picmes[position].imagePath).into(holder.picmeImage)
-//        val takenPicture = BitmapFactory.decodeFile(picmes[position].imageFile?.absolutePath)
-//        holder.picmeImage.setImageBitmap(takenPicture)
     }
 
     override fun getItemCount(): Int {

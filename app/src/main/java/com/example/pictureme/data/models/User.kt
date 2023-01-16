@@ -12,9 +12,9 @@ data class User(
     var fullName: String?,
     var profilePicturePath: String?,
     @Exclude
-    var friendships: List<Friendship>?,
+    var friendships: List<Friendship>,
     @Exclude
-    var friendRequests: List<FriendRequest>?
+    var friendRequests: List<FriendRequest>
 ) : Serializable {
-    constructor() : this(null, null, null, null, null, null)
+    constructor() : this(null, null, null, null, emptyList(), emptyList())
 }

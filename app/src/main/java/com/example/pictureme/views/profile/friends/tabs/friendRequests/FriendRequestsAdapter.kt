@@ -11,9 +11,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.pictureme.R
 import com.example.pictureme.data.models.FriendRequest
 import com.example.pictureme.utils.Details
+import com.example.pictureme.viewmodels.UserViewModel
 
 class FriendRequestsAdapter (
-        private var friendRequests: List<FriendRequest>
+        private var friendRequests: List<FriendRequest>,
+        private val userViewModel: UserViewModel
         ) : RecyclerView.Adapter<FriendRequestsAdapter.RequestsViewHolder>() {
 
         inner class RequestsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -32,10 +34,14 @@ class FriendRequestsAdapter (
 
                 fun updateRequestStatus(request: FriendRequest) {
                         acceptButton.setOnClickListener{
+                                userViewModel.handleFriendRequestAnswer(request.id!!, true)
+                                // Delete request artificially to speed up the deletion
                                 deleteRequest(request)
                         }
 
                         declineButton.setOnClickListener{
+                                userViewModel.handleFriendRequestAnswer(request.id!!, false)
+                                // Delete request artificially to speed up the deletion
                                 deleteRequest(request)
                         }
                 }

@@ -16,7 +16,7 @@ import javax.inject.Inject
 import kotlin.collections.ArrayList
 
 class UserRepositoryImpl @Inject constructor(
-    firestore: FirebaseFirestore,
+    val firestore: FirebaseFirestore,
     val firestorage: FirebaseStorage
 ) : UserRepository {
 
@@ -131,6 +131,30 @@ class UserRepositoryImpl @Inject constructor(
         )
 
         friendRequestCollection.add(friendRequest).await()
+    }
+
+    override suspend fun handleFriendRequestAnswer(requestId: String, accepted: Boolean) : Friendship? {
+        val currentRequest = friendRequestCollection.document(requestId).get().await()
+        var friendshipObj: Friendship? = null
+
+        // If the friend request has been accepted
+        if(accepted) {
+            val friendship = hashMapOf(
+                "user1Ref" to currentRequest.data!!["creatorRef"] as DocumentReference,
+                "user2Ref" to currentRequest.data!!["receiverRef"] as DocumentReference,
+                "beganAt" to Timestamp(Date())
+            )
+            val friendshipSnapshot = friendshipCollection.add(friendship).await().get().await()
+            // Populate friend from friendship
+            val friendObj = (friendshipSnapshot.data!!["user1Ref"] as DocumentReference).get().await().toObject<User>()
+            friendshipObj = friendshipSnapshot.toObject<Friendship>()
+            friendshipObj!!.friend = friendObj
+        }
+
+        // Delete friend request from database
+        friendRequestCollection.document(requestId).delete()
+
+        return friendshipObj
     }
 
     override suspend fun storeProfileImage(currentUserId: String, imageUri: Uri): String {

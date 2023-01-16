@@ -43,6 +43,9 @@
         <argument
             android:name="picme"
             app:argType="com.example.pictureme.data.models.Picme" />
+        <action
+            android:id="@+id/action_navFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
     </fragment>
     <fragment
         android:id="@+id/picmePreviewFragment"

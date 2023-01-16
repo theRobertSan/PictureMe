@@ -10,9 +10,10 @@ import com.example.pictureme.data.models.Friendship
 
 class FriendsListAdapter (
     private var friendships: List<Friendship>,
-    private val numPicmesWithEachFriend: HashMap<String, Int>
+    private var numPicmesWithEachFriend: HashMap<String, Int>
 ) : RecyclerView.Adapter<FriendsListAdapter.FriendsViewHolder>() {
     val PICMES_TOGETHER = " PicMe's together"
+    val ONE_PICME_TOGETHER = "1 PicMe together"
     val NO_PICMES_TOGETHER = "No PicMe's together"
 
     inner class FriendsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -24,6 +25,12 @@ class FriendsListAdapter (
             friendUsername = itemView.findViewById(R.id.friend_username)
             numPicmesTogether = itemView.findViewById(R.id.num_picmes_together)
         }
+    }
+
+    fun setFriendListAndPicmeNum(newList: List<Friendship>, numPicmesWithEachFriend: HashMap<String, Int>) {
+        this.friendships = newList
+        this.numPicmesWithEachFriend = numPicmesWithEachFriend
+        notifyDataSetChanged()
     }
 
     fun setFriendList(newList: List<Friendship>) {
@@ -41,8 +48,10 @@ class FriendsListAdapter (
         val currentFriend = friendships[position].friend!!
 
         holder.friendUsername.text = currentFriend.username
-        if (numPicmesWithEachFriend[currentFriend.id] != 0) {
+        if (numPicmesWithEachFriend[currentFriend.id]!! > 1) {
             holder.numPicmesTogether.text = numPicmesWithEachFriend[currentFriend.id].toString() + PICMES_TOGETHER
+        } else if (numPicmesWithEachFriend[currentFriend.id] == 1){
+            holder.numPicmesTogether.text = ONE_PICME_TOGETHER
         } else {
             holder.numPicmesTogether.text = NO_PICMES_TOGETHER
         }

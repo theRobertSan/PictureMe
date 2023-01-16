@@ -126,7 +126,7 @@
                     android:id="@+id/editEmail"
                     style="@style/editText"
                     android:hint="Email"
-                    android:inputType="textPersonName"
+                    android:inputType="textEmailAddress"
                     app:layout_constraintEnd_toEndOf="parent" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -145,7 +145,7 @@
                     android:id="@+id/editPassword"
                     style="@style/editText"
                     android:hint="Password"
-                    android:inputType="textPersonName"
+                    android:inputType="textPassword"
                     app:layout_constraintEnd_toEndOf="parent" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -164,7 +164,7 @@
                     android:id="@+id/editPasswordRepeat"
                     style="@style/editText"
                     android:hint="Repeat Password"
-                    android:inputType="textPersonName" />
+                    android:inputType="textPassword" />
 
             </com.google.android.material.textfield.TextInputLayout>
 

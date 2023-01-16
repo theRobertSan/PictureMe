@@ -32,36 +32,13 @@ class LoginFragment : Fragment() {
     private var startedTypingEmail = false
     private var startedTypingPassword = false
 
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentLoginBinding.inflate(inflater, container, false);
-
-        // Observers
-
-        authViewModel.authLiveData.observe(viewLifecycleOwner) {
-            when (it) {
-                is Response.Success -> {
-                    // Load user & his friends from Firestore
-                    userViewModel.loadUser()
-                    // Load user picmes
-                    picmeViewModel.loadPicmes()
-
-                    // Load feelings
-                    picmeViewModel.loadFeelings()
-
-                    Navigation.findNavController(binding.root)
-                        .navigate(R.id.action_loginFragment_to_navFragment)
-                }
-                is Response.Failure -> {
-                    Toast.makeText(context, "Failure!", Toast.LENGTH_SHORT).show()
-                }
-                else -> {}
-            }
-
-        }
-
+        
         // OnClickListeners
 
         binding.textRegister.setOnClickListener {
@@ -119,7 +96,7 @@ class LoginFragment : Fragment() {
     }
 
     private fun checkIfUserIsAlreadyLoggedIn() {
-        if(authViewModel.currentUser != null) {
+        if (authViewModel.currentUser != null) {
             loadUserDataAndEnterApp()
         }
     }

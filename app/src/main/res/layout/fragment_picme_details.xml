@@ -90,6 +90,17 @@
                 app:shapeAppearanceOverlay="@style/circle_image"
                 app:srcCompat="@drawable/img1" />
 
+            <androidx.core.widget.ContentLoadingProgressBar
+                android:id="@+id/image_loading_bar"
+                style="?android:attr/progressBarStyleLarge"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:visibility="visible"
+                app:layout_constraintEnd_toEndOf="@+id/imageCreator"
+                app:layout_constraintTop_toTopOf="@+id/imageCreator"
+                app:layout_constraintBottom_toBottomOf="@+id/imageCreator"
+                app:layout_constraintStart_toStartOf="@+id/imageCreator" />
+
             <TextView
                 android:id="@+id/textCreator"
                 style="@style/smallMediumText"

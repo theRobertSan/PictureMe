@@ -16,6 +16,17 @@
         android:scaleType="centerCrop"
         app:shapeAppearanceOverlay="@style/circle_image" />
 
+    <androidx.core.widget.ContentLoadingProgressBar
+        android:id="@+id/imageLoadingBar"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="@+id/imageFriend"
+        app:layout_constraintEnd_toEndOf="@+id/imageFriend"
+        app:layout_constraintStart_toStartOf="@+id/imageFriend"
+        app:layout_constraintTop_toTopOf="@+id/imageFriend" />
+
     <TextView
         android:id="@+id/textFriend"
         style="@style/smallText"

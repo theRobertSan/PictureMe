@@ -1,5 +1,6 @@
 package com.example.pictureme.viewmodels
 
+import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -19,6 +20,8 @@ class UserViewModel @Inject constructor(
     private val _userLiveData = MutableLiveData<User>()
     val userLiveData: LiveData<User> = _userLiveData
 
+    private val currentUserId = authRepository.currentUser!!.uid
+
     fun addUser(username: String, fullName: String) = viewModelScope.launch {
         // Add user to firestore
         val user = userRepository.addUser(authRepository.currentUser!!.uid, username, fullName)
@@ -33,6 +36,20 @@ class UserViewModel @Inject constructor(
 
     fun sendFriendRequest(username: String) = viewModelScope.launch {
         userRepository.createFriendRequest(username, _userLiveData.value!!.id!!)
+    }
+
+    fun updateProfile(imageUri: Uri?) = viewModelScope.launch {
+        // Save to Firebase Storage
+        val updatedUser = _userLiveData.value!!
+        updatedUser.profilePicturePath = userRepository.storeProfileImage(currentUserId, imageUri!!)
+        // Save to Firestore
+        userRepository.updateUserProfilePicture(currentUserId, updatedUser.profilePicturePath!!)
+        // Add created picme to current picme list
+        println("Updated User $updatedUser")
+        _userLiveData.postValue(updatedUser)
+//        _userLiveData.postValue(_userLiveData.value).imagePath =
+//            picmeRepository.storePicmeImage(currentUserId, previewPicme.imageUri!!)
+
     }
 
 }

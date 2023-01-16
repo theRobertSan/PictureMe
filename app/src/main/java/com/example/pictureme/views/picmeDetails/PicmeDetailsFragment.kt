@@ -13,24 +13,13 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import coil.load
-import com.example.pictureme.R
 import com.example.pictureme.data.models.Picme
-import com.example.pictureme.data.utils.await
-import com.example.pictureme.databinding.FragmentHomeBinding
 import com.example.pictureme.databinding.FragmentPicmeDetailsBinding
-import com.example.pictureme.network.ApiClient
 import com.example.pictureme.utils.Details
+import com.example.pictureme.utils.Pictures
 import com.example.pictureme.viewmodels.PicmeDetailsViewModel
-import com.example.pictureme.viewmodels.PicmeViewModel
-import com.example.pictureme.views.home.adapters.PicmeAdapter
 import com.example.pictureme.views.picmeDetails.adapters.PicmeFriendsAdapter
-import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationServices
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class PicmeDetailsFragment : Fragment() {
@@ -79,15 +68,21 @@ class PicmeDetailsFragment : Fragment() {
 
     private fun loadImages() {
         // Load picme image
-        binding.imagePicme.load(picme.imagePath) {
-            crossfade(true)
-            crossfade(1000)
-            listener { _, _ ->
-                binding.picmeLoadingBar.isGone = true
-            }
-        }
+        Pictures.loadPicme(
+            picme.imagePath,
+            binding.imagePicme,
+            binding.picmeLoadingBar
+        )
 
+        // Load feeling
         binding.imageEmotion.setImageResource(Details.getFeelingImage(picme.feeling!!.feeling)!!)
+
+        // Check whether the user has a profile picture or not
+        Pictures.loadProfilePicture(
+            picme.creator!!.profilePicturePath,
+            binding.imageCreator,
+            binding.imageLoadingBar
+        )
 
 //        binding.imagePicme.setOnClickListener {
 //            if (zoomOut) {

@@ -37,9 +37,7 @@ class LoginFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentLoginBinding.inflate(inflater, container, false);
-
         // Observers
-
         authViewModel.authLiveData.observe(viewLifecycleOwner) {
             when (it) {
                 is Response.Success -> {
@@ -79,7 +77,7 @@ class LoginFragment : Fragment() {
         emailValidation()
         passwordValidation()
 
-        //authViewModel.login("1@gmail.com", "123456")
+        authViewModel.login("2@gmail.com", "123456")
 
         return (binding.root)
     }

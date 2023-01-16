@@ -13,12 +13,24 @@
         android:layout_width="120dp"
         android:layout_height="120dp"
         android:layout_marginTop="32dp"
+        android:scaleType="fitXY"
         app:layout_constraintEnd_toStartOf="@+id/text_name"
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toStartOf="@+id/cardView2"
         app:layout_constraintTop_toTopOf="parent"
         app:shapeAppearanceOverlay="@style/circle_image"
         app:srcCompat="@drawable/img1" />
+
+    <androidx.core.widget.ContentLoadingProgressBar
+        android:id="@+id/image_loading_bar"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="@+id/image_profile_picture"
+        app:layout_constraintEnd_toEndOf="@+id/image_profile_picture"
+        app:layout_constraintStart_toStartOf="@+id/image_profile_picture"
+        app:layout_constraintTop_toTopOf="@+id/image_profile_picture" />
 
     <TextView
         android:id="@+id/text_name"

@@ -17,6 +17,7 @@ import com.example.pictureme.R
 import com.example.pictureme.data.models.Picme
 import com.example.pictureme.data.models.User
 import com.example.pictureme.utils.Details
+import com.example.pictureme.utils.Pictures
 import com.example.pictureme.viewmodels.PicmeDetailsViewModel
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.imageview.ShapeableImageView
@@ -28,10 +29,12 @@ class PicmeFriendsAdapter(
     inner class PicmeFriendsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val textFriend: TextView
         val imageFriend: ShapeableImageView
+        val imageLoadingBar: ContentLoadingProgressBar
 
         init {
             textFriend = itemView.findViewById(R.id.textFriend)
             imageFriend = itemView.findViewById(R.id.imageFriend)
+            imageLoadingBar = itemView.findViewById(R.id.imageLoadingBar)
         }
     }
 
@@ -44,6 +47,12 @@ class PicmeFriendsAdapter(
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: PicmeFriendsViewHolder, position: Int) {
         holder.textFriend.text = friends[position].username
+        Pictures.loadProfilePicture(
+            friends[position].profilePicturePath,
+            holder.imageFriend,
+            holder.imageLoadingBar
+        )
+
     }
 
     override fun getItemCount(): Int {

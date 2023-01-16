@@ -1,15 +1,16 @@
 package com.example.pictureme.data.repository
 
+import android.net.Uri
 import com.example.pictureme.data.interfaces.UserRepository
 import com.example.pictureme.data.models.FriendRequest
 import com.example.pictureme.data.models.Friendship
 import com.example.pictureme.data.models.User
-import com.example.pictureme.data.utils.await
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.storage.FirebaseStorage
+import kotlinx.coroutines.tasks.await
 import java.util.*
 import javax.inject.Inject
 import kotlin.collections.ArrayList
@@ -18,6 +19,10 @@ class UserRepositoryImpl @Inject constructor(
     firestore: FirebaseFirestore,
     val firestorage: FirebaseStorage
 ) : UserRepository {
+
+    // Storage
+    private val storageRef = firestorage.reference
+    private val folder = "profile_pictures"
 
     override var currentUser: User? = null
     override var friendships: List<Friendship>? = null
@@ -126,6 +131,28 @@ class UserRepositoryImpl @Inject constructor(
         )
 
         friendRequestCollection.add(friendRequest).await()
+    }
+
+    override suspend fun storeProfileImage(currentUserId: String, imageUri: Uri): String {
+        // Get reference to storage location
+        val profilePicRef =
+            storageRef.child("${folder}/${currentUserId}_${imageUri.lastPathSegment}")
+        // Save picture to storage and return download url
+        val profilePicPath = profilePicRef
+            .putFile(imageUri)
+            .await()
+            .storage.downloadUrl.await().toString()
+
+        return profilePicPath
+    }
+
+    override suspend fun updateUserProfilePicture(
+        currentUserId: String,
+        profilePicturePath: String
+    ) {
+        userCollection.document(currentUserId)
+            .update("profilePicturePath", profilePicturePath)
+            .await()
     }
 
 }

@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AbsListView.MultiChoiceModeListener
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
@@ -19,6 +20,12 @@ import com.example.pictureme.R
 import com.example.pictureme.databinding.FragmentNavBinding
 import com.example.pictureme.utils.Permissions
 import com.example.pictureme.viewmodels.PicmeViewModel
+import com.karumi.dexter.Dexter
+import com.karumi.dexter.MultiplePermissionsReport
+import com.karumi.dexter.PermissionToken
+import com.karumi.dexter.listener.PermissionRequest
+import com.karumi.dexter.listener.multi.DialogOnAnyDeniedMultiplePermissionsListener
+import com.karumi.dexter.listener.multi.MultiplePermissionsListener
 import dagger.hilt.android.AndroidEntryPoint
 import kotlin.collections.ArrayList
 
@@ -42,8 +49,11 @@ class NavFragment : Fragment() {
     ): View? {
         _binding = FragmentNavBinding.inflate(inflater, container, false);
 
+        binding.buttonCamera.setOnClickListener {
+            setupCameraButton()
+        }
+
         setupBottomNav()
-        setupCameraButton()
 
         return (binding.root)
     }
@@ -61,59 +71,37 @@ class NavFragment : Fragment() {
 
     private fun setupCameraButton() {
 
-        val requestPermissionLauncher: ActivityResultLauncher<Array<String>> =
-            registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
-                println("2")
-                println(permissions)
+        // Dialog warning user to enable permissions
+        val listener = DialogOnAnyDeniedMultiplePermissionsListener.Builder
+            .withContext(requireContext())
+            .withTitle("Permissions Required")
+            .withMessage("To take a PicMe, you have to enable those permissions.")
+            .withButtonText("OK")
+            .build()
 
-                val permissionsRejected: MutableList<String> = ArrayList()
-                for (permission in permissions) {
-                    if (!permission.value) {
-                        println("REJECTED: " + permission.key)
-                        permissionsRejected.add(permission.key)
+        Dexter.withContext(requireContext())
+            .withPermissions(
+                Manifest.permission.CAMERA,
+                Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE
+            ).withListener(object : MultiplePermissionsListener {
+                override fun onPermissionsChecked(report: MultiplePermissionsReport) {
+                    if (report.areAllPermissionsGranted()) {
+                        Navigation.findNavController(binding.root)
+                            .navigate(R.id.action_navFragment_to_picmePreviewFragment)
+                    } else {
+                        listener.onPermissionsChecked(report)
                     }
                 }
 
-                // If all permissions granted, go to camera
-                if (permissionsRejected.isEmpty()) {
-                    Navigation.findNavController(binding.root)
-                        .navigate(R.id.action_navFragment_to_picmePreviewFragment)
-                }
-
-            }
-
-        // Required Permissions
-        val permissions = listOf(
-            Manifest.permission.CAMERA,
-            Manifest.permission.ACCESS_FINE_LOCATION,
-            Manifest.permission.WRITE_EXTERNAL_STORAGE
-        )
-
-        binding.buttonCamera.setOnClickListener {
-
-            // Check if permission has already been granted
-            val permissionRequests: MutableList<String> = ArrayList()
-            for (permission in permissions) {
-                if (ContextCompat.checkSelfPermission(
-                        activity as Activity,
-                        permission
-                    ) != PackageManager.PERMISSION_GRANTED
+                override fun onPermissionRationaleShouldBeShown(
+                    permissions: List<PermissionRequest>,
+                    token: PermissionToken
                 ) {
-                    permissionRequests.add(permission)
+                    token.continuePermissionRequest()
+                    listener.onPermissionRationaleShouldBeShown(permissions, token)
                 }
-            }
-
-            println("1")
-            println(permissionRequests)
-
-            if (permissionRequests.isNotEmpty()) {
-                requestPermissionLauncher.launch(permissions.toTypedArray())
-            } else {
-                Navigation.findNavController(binding.root)
-                    .navigate(R.id.action_navFragment_to_picmePreviewFragment)
-            }
-
-        }
+            }).check()
     }
 
     override fun onDestroyView() {

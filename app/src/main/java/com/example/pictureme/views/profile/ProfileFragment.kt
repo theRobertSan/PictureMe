@@ -6,8 +6,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.view.isGone
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.Navigation
+import coil.load
 import com.example.pictureme.R
 import com.example.pictureme.data.Response
 import com.example.pictureme.databinding.FragmentProfileBinding
@@ -40,7 +42,22 @@ class ProfileFragment : Fragment() {
 
         userViewModel.userLiveData.observe(viewLifecycleOwner) { user ->
             binding.textName.text = user.username
-            //TODO set user profile picture
+
+            // Check whether the user has a profile picture or not
+            if (user.profilePicturePath == null) {
+                binding.imageProfilePicture.setImageResource(R.drawable.default_profile_picture)
+                binding.imageLoadingBar.isGone = true
+            } else {
+                binding.imageProfilePicture.load(user.profilePicturePath) {
+                    crossfade(true)
+                    crossfade(1000)
+                    listener { _, _ ->
+                        binding.imageLoadingBar.isGone = true
+                    }
+                }
+            }
+
+
             //binding.imageProfilePicture.image = user.picture
 
             // Get num of Friends
@@ -58,12 +75,11 @@ class ProfileFragment : Fragment() {
         binding.friendsLayout.setOnClickListener {
             Navigation.findNavController(binding.root)
                 .navigate(R.id.action_profileFragment_to_friendsFragment)
-
-            Toast.makeText(this.context, "Friends Fragment!", Toast.LENGTH_SHORT).show()
         }
 
         binding.editLayout.setOnClickListener {
-            Toast.makeText(this.context, "Edit Fragment!", Toast.LENGTH_SHORT).show()
+            Navigation.findNavController(binding.root)
+                .navigate(R.id.action_profileFragment_to_editProfile)
         }
 
         binding.copyLayout.setOnClickListener {

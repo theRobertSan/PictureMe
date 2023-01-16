@@ -4,24 +4,31 @@ import android.Manifest
 import android.content.pm.PackageManager
 import android.location.Location
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import com.example.pictureme.R
 import com.example.pictureme.databinding.FragmentMapBinding
+import com.example.pictureme.viewmodels.PicmeDetailsViewModel
+import com.example.pictureme.viewmodels.PicmeViewModel
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.GoogleMap.OnMapClickListener
+import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.firebase.firestore.GeoPoint
 
-class MapFragment : Fragment(), OnMapReadyCallback{
+class MapFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener, OnMapClickListener {
 
     private var _binding: FragmentMapBinding? = null
     private val binding get() = _binding!!
@@ -30,6 +37,10 @@ class MapFragment : Fragment(), OnMapReadyCallback{
     private lateinit var mMap: GoogleMap
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
     private lateinit var currentLocation: Location
+
+    // PicMes
+    private val picmeViewModel by activityViewModels<PicmeViewModel>()
+    private val picmeDetailsViewModel by activityViewModels<PicmeDetailsViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,7 +53,7 @@ class MapFragment : Fragment(), OnMapReadyCallback{
     ): View? {
         _binding = FragmentMapBinding.inflate(inflater, container, false)
 
-        val mapFragment = childFragmentManager.findFragmentById(R.id.googleMap) as SupportMapFragment
+        val mapFragment = childFragmentManager.findFragmentById(R.id.fragment_map_googleMap) as SupportMapFragment
         mapFragment.getMapAsync(this)
 
         getCurrentLocation()
@@ -51,25 +62,14 @@ class MapFragment : Fragment(), OnMapReadyCallback{
     }
 
     private fun getCurrentLocation() {
-        if (context?.let {
-                ActivityCompat.checkSelfPermission(
-                    it,
-                    Manifest.permission.ACCESS_FINE_LOCATION
-                )
-            } != PackageManager.PERMISSION_GRANTED && context?.let {
-                ActivityCompat.checkSelfPermission(
-                    it,
-                    Manifest.permission.ACCESS_COARSE_LOCATION
-                )
-            } != PackageManager.PERMISSION_GRANTED
+        if (ActivityCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
         ) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
             return
         }
         val task = fusedLocationProviderClient.lastLocation
@@ -82,11 +82,64 @@ class MapFragment : Fragment(), OnMapReadyCallback{
 
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
+        setUpMap()
+        setUpPicMeMarkers()
+    }
+
+    private fun setUpMap() {
         mMap.uiSettings.isZoomControlsEnabled = true
-        //mMap.isMyLocationEnabled = true
-        mMap.addMarker(MarkerOptions().position(LatLng(-34.0,151.0)))
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(LatLng(-34.0,151.0)))
+        if (ActivityCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            return
+        }
+        mMap.isMyLocationEnabled = true
+        fusedLocationProviderClient.lastLocation.addOnSuccessListener { location ->
+            if(location != null) {
+                currentLocation = location
+                val currentLatLong = LatLng(location.latitude, location.longitude)
+                placeMarker(currentLatLong)
+                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLatLong, 12f))
+
+            }
+        }
+
 
     }
+
+    private fun setUpPicMeMarkers() {
+        picmeViewModel.picmesLiveData.observe(viewLifecycleOwner) { response ->
+            println("DATE CHANGED ------------" + response.size)
+            for (picme in response) {
+                val geoPoint = picme.location
+                if(geoPoint is GeoPoint) {
+                    val lat = geoPoint.latitude
+                    val lng = geoPoint.longitude
+                    val latLng = LatLng(lat, lng)
+                    placeMarker(latLng)
+                }
+            }
+        }
+    }
+
+    private fun placeMarker(currentLatLong: LatLng) {
+        val markerOptions = MarkerOptions().position(currentLatLong)
+        markerOptions.title("$currentLatLong")
+        mMap.addMarker(markerOptions)
+    }
+
+    override fun onMarkerClick(marker: Marker): Boolean {
+        TODO("Not yet implemented")
+    }
+
+    override fun onMapClick(p0: LatLng) {
+        TODO("Not yet implemented")
+    }
+
 
 }

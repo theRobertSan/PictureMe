@@ -76,7 +76,7 @@ class LoginFragment : Fragment() {
         emailValidation()
         passwordValidation()
 
-        authViewModel.login("1@gmail.com", "123456")
+        //authViewModel.login("1@gmail.com", "123456")
 
         return (binding.root)
     }

@@ -22,7 +22,6 @@ class GalleryFragment : Fragment() {
     private val picmeViewModel by activityViewModels<PicmeViewModel>()
     private val picmeDetailsViewModel by activityViewModels<PicmeDetailsViewModel>()
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -32,23 +31,10 @@ class GalleryFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentGalleryBinding.inflate(inflater, container, false)
+
         // PicMe Cards Setup
         setPicMeCards()
-        /*
-        val images = arrayOf(R.drawable.img1, R.drawable.img2, R.drawable.img3, R.drawable.img3,
-            R.drawable.img3, R.drawable.img3, R.drawable.img3, R.drawable.img3, R.drawable.img3,
-            R.drawable.img3, R.drawable.img3, R.drawable.img3, R.drawable.img3, R.drawable.img3,
-            R.drawable.img3, R.drawable.img3, R.drawable.img3, R.drawable.img3, R.drawable.img3,
-            R.drawable.img3, R.drawable.img3, R.drawable.img3, R.drawable.img3, R.drawable.img3,
-            R.drawable.img3)
 
-        val gridView = binding.fragmentGalleryGridView;
-        gridView.adapter = context?.let { ImageAdapter(images, it) }
-        gridView.setOnItemClickListener {
-            adapter, view, i, l ->
-                Toast.makeText(context, "clicked here", Toast.LENGTH_SHORT).show()
-        }
-        */
         return (binding.root)
     }
 

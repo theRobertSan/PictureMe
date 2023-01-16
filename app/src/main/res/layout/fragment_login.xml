@@ -96,6 +96,8 @@
                 android:layout_marginStart="64dp"
                 android:layout_marginTop="32dp"
                 android:layout_marginEnd="64dp"
+                app:helperTextEnabled="true"
+                app:helperTextTextColor="@color/primary"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView10">
@@ -104,18 +106,20 @@
                     android:id="@+id/editEmail"
                     style="@style/editText"
                     android:hint="Email"
-                    android:inputType="textPersonName"
+                    android:inputType="textEmailAddress"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView10" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/textInputLayout"
+                android:id="@+id/editPasswordLayout"
                 style="@style/editTextLayout"
                 android:layout_marginStart="64dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="64dp"
+                app:helperTextEnabled="true"
+                app:helperTextTextColor="@color/primary"
                 app:endIconMode="password_toggle"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -134,10 +138,13 @@
             <Button
                 android:id="@+id/button_login"
                 style="@style/largeButton"
+                android:enabled="false"
                 android:layout_marginStart="64dp"
                 android:layout_marginTop="32dp"
                 android:layout_marginEnd="64dp"
                 android:layout_marginBottom="120dp"
+                android:backgroundTint="@color/disabledBackground"
+                android:textColor="@color/disabledText"
                 android:text="Login"
                 app:layout_constraintBottom_toTopOf="@+id/textView12"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -151,8 +158,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:text="Forgot your Password?"
-                app:layout_constraintEnd_toEndOf="@+id/textInputLayout"
-                app:layout_constraintTop_toBottomOf="@+id/textInputLayout" />
+                app:layout_constraintEnd_toEndOf="@+id/editPasswordLayout"
+                app:layout_constraintTop_toBottomOf="@+id/editPasswordLayout" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

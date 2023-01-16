@@ -1,11 +1,14 @@
 package com.example.pictureme.views.auth
 
 import android.os.Bundle
+import android.util.Patterns
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.widget.doAfterTextChanged
+import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.Navigation
 import com.example.pictureme.R
@@ -70,9 +73,68 @@ class LoginFragment : Fragment() {
             )
         }
 
-        authViewModel.login("yes@com.pt", "123456")
+        emailValidation()
+        passwordValidation()
+
+        authViewModel.login("1@gmail.com", "123456")
 
         return (binding.root)
+    }
+
+    private fun passwordValidation() {
+        binding.editPassword.setOnFocusChangeListener { _, focused ->
+            if (!focused) {
+                binding.editPasswordLayout.helperText = validPassword()
+            }
+        }
+        binding.editPassword.doOnTextChanged { text, start, before, count ->
+            if (validPassword() == null) {
+                binding.editPasswordLayout.helperText = null
+                handleButton()
+            }
+        }
+    }
+
+    private fun emailValidation() {
+        binding.editEmail.doOnTextChanged { text, start, before, count ->
+            if (validEmail() == null) {
+                binding.editEmailLayout.helperText = null
+                handleButton()
+            }
+        }
+        binding.editEmail.setOnFocusChangeListener { _, focused ->
+            if (!focused) {
+                binding.editEmailLayout.helperText = validEmail()
+            }
+        }
+    }
+
+    private fun handleButton() {
+        if (validPassword() == null && validEmail() == null) {
+            binding.buttonLogin.isEnabled = true
+            binding.buttonLogin.setBackgroundColor(resources.getColor(R.color.primary))
+            binding.buttonLogin.setTextColor(resources.getColor(R.color.textOnPrimary))
+        } else {
+            binding.buttonLogin.isEnabled = true
+            binding.buttonLogin.setBackgroundColor(resources.getColor(R.color.disabledBackground))
+            binding.buttonLogin.setTextColor(resources.getColor(R.color.disabledText))
+        }
+    }
+
+    private fun validPassword(): CharSequence? {
+        val passwordText = binding.editPassword.text.toString()
+        if (passwordText.length < 6) {
+            return "Password must have at least 6 characters"
+        }
+        return null
+    }
+
+    private fun validEmail(): String? {
+        val emailText = binding.editEmail.text.toString()
+        if (!Patterns.EMAIL_ADDRESS.matcher(emailText).matches()) {
+            return "Invalid Email Address"
+        }
+        return null
     }
 
     override fun onDestroyView() {

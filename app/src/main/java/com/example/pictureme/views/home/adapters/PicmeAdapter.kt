@@ -74,9 +74,6 @@ class PicmeAdapter(
             picmeDetailsViewModelViewModel.selectPicme(picmes[position])
             navController.navigate(R.id.action_navFragment_to_picmeDetailsFragment)
         }
-        //Picasso.get().load(picmes[position].imagePath).into(holder.picmeImage)
-//        val takenPicture = BitmapFactory.decodeFile(picmes[position].imageFile?.absolutePath)
-//        holder.picmeImage.setImageBitmap(takenPicture)
     }
 
     override fun getItemCount(): Int {

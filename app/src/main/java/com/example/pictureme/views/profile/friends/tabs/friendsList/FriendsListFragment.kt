@@ -43,16 +43,15 @@ class FriendsListFragment : Fragment() {
     private fun setFriendListAdapter(picmes: List<Picme>) {
         binding.searchView.clearFocus()
 
+        val adapter = FriendsListAdapter(emptyList(), HashMap<String, Int>())
+        binding.friendsRecyclerView.adapter = adapter
+        binding.friendsRecyclerView.layoutManager = LinearLayoutManager(activity)
+
         userViewModel.userLiveData.observe(viewLifecycleOwner) { user ->
-            friendships = user.friendships!!
-
+            friendships = user.friendships
+            println("USER UPDATED")
             val numPicmesWithEachFriend = getNumPicmesWithEachFriend(picmes)
-
-            val adapter = FriendsListAdapter(friendships, numPicmesWithEachFriend)
-            binding.friendsRecyclerView.adapter = adapter
-            binding.friendsRecyclerView.layoutManager = LinearLayoutManager(activity)
-
-            adapter.setFriendList(friendships)
+            adapter.setFriendListAndPicmeNum(friendships, numPicmesWithEachFriend)
             setSearchView(adapter)
         }
     }

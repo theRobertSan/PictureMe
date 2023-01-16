@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.pictureme.data.Response
 import com.example.pictureme.data.interfaces.AuthRepository
 import com.example.pictureme.data.interfaces.UserRepository
+import com.example.pictureme.data.models.Friendship
 import com.example.pictureme.data.models.User
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -34,6 +35,20 @@ class UserViewModel @Inject constructor(
 
     fun sendFriendRequest(username: String) = viewModelScope.launch {
         userRepository.createFriendRequest(username, _userLiveData.value!!.id!!)
+    }
+
+    fun handleFriendRequestAnswer(requestId: String, accepted: Boolean) = viewModelScope.launch {
+        val friendship = userRepository.handleFriendRequestAnswer(requestId, accepted)
+
+        val currentUser = _userLiveData.value!!
+        currentUser.friendRequests = currentUser.friendRequests.filter{ it.id != requestId }
+
+        if(accepted) {
+            val newFriendships = currentUser.friendships.toMutableList()
+            newFriendships.add(friendship!!)
+            currentUser.friendships = newFriendships
+        }
+        _userLiveData.postValue(currentUser)
     }
 
 }

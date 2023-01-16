@@ -11,4 +11,5 @@ interface UserRepository {
     suspend fun addUser(id: String, username: String): User
     suspend fun loadUser(id: String): User
     suspend fun createFriendRequest(username: String, currentUserId: String)
+    suspend fun handleFriendRequestAnswer(requestId: String, accepted: Boolean): Friendship?
 }

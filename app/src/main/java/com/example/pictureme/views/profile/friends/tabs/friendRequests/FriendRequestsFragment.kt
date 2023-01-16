@@ -34,14 +34,14 @@ class FriendRequestsFragment : Fragment() {
     }
 
     private fun setFriendRequestsAdapter() {
+        val adapter = FriendRequestsAdapter(emptyList(), userViewModel)
+        binding.requestsRecyclerView.adapter = adapter
+        binding.requestsRecyclerView.layoutManager = LinearLayoutManager(activity)
 
         userViewModel.userLiveData.observe(viewLifecycleOwner) { user ->
-            friendRequests = user.friendRequests!!
-
-            val adapter = FriendRequestsAdapter(friendRequests)
-            binding.requestsRecyclerView.adapter = adapter
-            binding.requestsRecyclerView.layoutManager = LinearLayoutManager(activity)
-
+            println("CHANGING REQUEST LIST")
+            friendRequests = user.friendRequests
+            println(friendRequests)
             adapter.setFriendRequests(friendRequests)
         }
     }

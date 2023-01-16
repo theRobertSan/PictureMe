@@ -4,11 +4,11 @@ import com.example.pictureme.data.interfaces.UserRepository
 import com.example.pictureme.data.models.FriendRequest
 import com.example.pictureme.data.models.Friendship
 import com.example.pictureme.data.models.User
-import com.example.pictureme.data.utils.await
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.toObject
+import kotlinx.coroutines.tasks.await
 import java.util.*
 import javax.inject.Inject
 import kotlin.collections.ArrayList
@@ -116,6 +116,30 @@ class UserRepositoryImpl @Inject constructor(
         )
 
         friendRequestCollection.add(friendRequest).await()
+    }
+
+    override suspend fun handleFriendRequestAnswer(requestId: String, accepted: Boolean) : Friendship? {
+        val currentRequest = friendRequestCollection.document(requestId).get().await()
+        var friendshipObj: Friendship? = null
+
+        // If the friend request has been accepted
+        if(accepted) {
+            val friendship = hashMapOf(
+                "user1Ref" to currentRequest.data!!["creatorRef"] as DocumentReference,
+                "user2Ref" to currentRequest.data!!["receiverRef"] as DocumentReference,
+                "beganAt" to Timestamp(Date())
+            )
+            val friendshipSnapshot = friendshipCollection.add(friendship).await().get().await()
+            // Populate friend from friendship
+            val friendObj = (friendshipSnapshot.data!!["user1Ref"] as DocumentReference).get().await().toObject<User>()
+            friendshipObj = friendshipSnapshot.toObject<Friendship>()
+            friendshipObj!!.friend = friendObj
+        }
+
+        // Delete friend request from database
+        friendRequestCollection.document(requestId).delete()
+
+        return friendshipObj
     }
 
 }

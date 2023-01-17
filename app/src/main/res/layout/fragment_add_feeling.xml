@@ -5,23 +5,25 @@
     android:id="@+id/frameLayout8"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".views.addFeeling.AddFeelingFragment">
+    tools:context=".views.addFeeling.AddFeelingFragment"
+    android:background="@color/textOnPrimary">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/fragment_explore_appbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:elevation="0dp">
 
         <com.google.android.material.tabs.TabLayout
+            android:background="@color/textOnPrimary"
             android:id="@+id/fragment_explore_tabs"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:tabBackground="@color/purple_200"
-            app:tabGravity="fill"
-            app:tabInlineLabel="true"
-            app:tabMode="fixed" />
+            style="@style/tab" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -30,7 +32,10 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_alignParentStart="true"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/fragment_explore_appbar" />
 

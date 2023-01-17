@@ -9,50 +9,72 @@
     android:backgroundTint="@color/textOnPrimary"
     tools:context=".views.profile.friends.tabs.addFriends.AddFriendsTabFragment">
 
-    <TextView
-        android:id="@+id/text_send_request"
-        style="@style/smallMediumText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="16dp"
-        android:text="Send friend request to"
-        android:textColor="@color/black"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/input_username_layout"
-        style="@style/editTextLayout"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="24dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/text_send_request"
-        app:layout_constraintTop_toBottomOf="@+id/text_send_request"
-        app:endIconMode="clear_text">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/input_username"
-            style="@style/editText"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:hint="Type friend's username"
-            android:inputType="textPersonName" />
-
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/button_send"
+    <com.google.android.material.card.MaterialCardView
+        app:cardCornerRadius="@dimen/corner_radius"
         android:layout_width="0dp"
-        style="@style/largeButton"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:drawableLeft="@drawable/ic_add_friend"
-        android:drawablePadding="10dp"
-        android:text="Send"
-        app:layout_constraintStart_toStartOf="@+id/input_username_layout"
-        app:layout_constraintTop_toBottomOf="@+id/input_username_layout" />
+        android:layout_marginEnd="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/text_send_request"
+                style="@style/smallMediumText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="16dp"
+                android:text="Send friend request to"
+                android:textColor="@color/black"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/input_username_layout"
+                style="@style/editTextLayout"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="24dp"
+                app:endIconMode="clear_text"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/text_send_request"
+                app:layout_constraintTop_toBottomOf="@+id/text_send_request">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/input_username"
+                    style="@style/editText"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:hint="Enter friend's username"
+                    android:inputType="textPersonName" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <Button
+                android:id="@+id/button_send"
+                style="@style/largeButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
+                android:drawableLeft="@drawable/ic_go"
+                android:drawablePadding="10dp"
+                android:drawableTint="@color/textOnPrimary"
+                android:text="Send"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/input_username_layout"
+                app:layout_constraintTop_toBottomOf="@+id/input_username_layout" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

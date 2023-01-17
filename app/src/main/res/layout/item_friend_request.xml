@@ -22,19 +22,31 @@
                 android:layout_height="100dp"
 
                 android:layout_marginStart="16dp"
+                android:scaleType="centerCrop"
                 app:layout_constraintBottom_toTopOf="@+id/button_accept"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:shapeAppearanceOverlay="@style/circle_image"
                 app:srcCompat="@drawable/img1" />
 
+            <androidx.core.widget.ContentLoadingProgressBar
+                android:id="@+id/imageLoadingBar"
+                style="?android:attr/progressBarStyleLarge"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="@+id/friend_profile_pic"
+                app:layout_constraintEnd_toEndOf="@+id/friend_profile_pic"
+                app:layout_constraintStart_toStartOf="@+id/friend_profile_pic"
+                app:layout_constraintTop_toTopOf="@+id/friend_profile_pic" />
+
             <TextView
                 android:id="@+id/sending_user_username"
-                android:layout_width="wrap_content"
+                style="@style/mediumText"
+                android:layout_width="210dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="25dp"
                 android:text="TextView"
-                android:textSize="25sp"
                 app:layout_constraintBottom_toTopOf="@+id/request_date"
                 app:layout_constraintStart_toEndOf="@+id/friend_profile_pic"
                 app:layout_constraintTop_toTopOf="@+id/friend_profile_pic"
@@ -42,17 +54,18 @@
 
             <TextView
                 android:id="@+id/request_date"
+                style="@style/smallText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="TextView"
-                android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="@+id/friend_profile_pic"
                 app:layout_constraintStart_toStartOf="@+id/sending_user_username"
                 app:layout_constraintTop_toBottomOf="@+id/sending_user_username" />
 
-            <androidx.appcompat.widget.AppCompatButton
-                style="@style/largeButton"
+            <Button
+                style="@style/mediumButton"
                 android:drawableLeft="@drawable/ic_accept"
+                android:backgroundTint="@color/accept"
                 android:drawablePadding="3dp"
                 android:id="@+id/button_accept"
                 android:layout_width="wrap_content"
@@ -64,10 +77,11 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/friend_profile_pic" />
 
-            <androidx.appcompat.widget.AppCompatButton
-                style="@style/largeButton"
+            <Button
+                style="@style/mediumButton"
                 android:drawableLeft="@drawable/ic_decline"
                 android:drawablePadding="3dp"
+                android:backgroundTint="@color/refuse"
                 android:id="@+id/button_decline"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

@@ -29,4 +29,6 @@
     <color name="textOnPrimary">#F8F8FD</color>
     <color name="lightBlack">#373248</color>
     <color name="gray">#666666</color>
+    <color name="accept">#f66966</color>
+    <color name="refuse">#f66966</color>
 </resources>

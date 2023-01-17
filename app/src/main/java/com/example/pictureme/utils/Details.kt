@@ -20,7 +20,7 @@ object Details {
         "Sad" to R.drawable.ic_sad,
         "Happy" to R.drawable.ic_happy,
         "Shocked" to R.drawable.ic_shocked,
-        "Dead" to R.drawable.ic_shocked,
+        "Dead" to R.drawable.ic_dead,
         "Calm" to R.drawable.ic_calm,
         "In Love" to R.drawable.ic_in_love,
         "Yummy" to R.drawable.ic_yummy,

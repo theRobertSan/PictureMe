@@ -4,17 +4,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".views.preview.PicmePreviewFragment">
+    tools:context=".views.preview.PicmePreviewFragment"
+    android:background="@color/textOnPrimary">
 
-    <ImageView
+    <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/image_picme"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginBottom="16dp"
         android:scaleType="centerCrop"
-        app:layout_constraintBottom_toTopOf="@+id/button_save"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
+
         app:layout_constraintTop_toTopOf="parent"
         tools:src="@tools:sample/avatars" />
 
@@ -23,45 +25,48 @@
         style="@style/largeButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="32dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
         android:text="Save"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/button_retake" />
-
-    <Button
-        android:id="@+id/button_retake"
-        style="@style/largeButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Retake"
-        app:layout_constraintBottom_toBottomOf="@+id/button_save"
-        app:layout_constraintEnd_toStartOf="@+id/button_save"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent" />
 
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
+    <ImageView
         android:id="@+id/buttonAddFriends"
-        style="@style/round_floating_button"
-        android:layout_marginEnd="16dp"
-        android:clickable="true"
-        android:contentDescription="Add friend"
+        style="@style/preview_button"
+        android:layout_marginEnd="24dp"
         android:src="@drawable/ic_add_friend"
         app:layout_constraintBottom_toBottomOf="@+id/buttonAddFeeling"
         app:layout_constraintEnd_toStartOf="@+id/buttonAddFeeling"
         app:layout_constraintTop_toTopOf="@+id/buttonAddFeeling" />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
+    <ImageView
         android:id="@+id/buttonAddFeeling"
-        style="@style/round_floating_button"
+        style="@style/preview_button"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
-        android:clickable="true"
-        android:contentDescription="Add Feeling"
         android:src="@drawable/ic_add_feeling"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/buttonExit"
+        style="@style/preview_button"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:src="@drawable/ic_decline"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/button_retake"
+        style="@style/preview_button"
+        android:layout_marginStart="24dp"
+        android:src="@drawable/ic_again"
+        app:layout_constraintBottom_toBottomOf="@+id/buttonExit"
+        app:layout_constraintStart_toEndOf="@+id/buttonExit"
+        app:layout_constraintTop_toTopOf="@+id/buttonExit" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

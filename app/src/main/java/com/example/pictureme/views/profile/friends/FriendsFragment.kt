@@ -31,14 +31,17 @@ class FriendsFragment : Fragment() {
 
         val pager = binding.friendsViewPager
         val tl = binding.friendsTabs
-        pager.adapter = FriendsViewPagerAdapter(requireActivity().supportFragmentManager, requireActivity().lifecycle)
+        pager.adapter = FriendsViewPagerAdapter(
+            requireActivity().supportFragmentManager,
+            requireActivity().lifecycle
+        )
         pager.isUserInputEnabled = false
 
         TabLayoutMediator(tl, pager) { tab, position ->
             when (position) {
                 0 -> tab.text = "Friends"
                 1 -> tab.text = "Requests"
-                2 -> tab.setIcon(R.drawable.ic_add_friend)
+                2 -> /*tab.setIcon(R.drawable.ic_add_friend)*/ tab.text = "Add"
             }
         }.attach()
 

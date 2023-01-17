@@ -9,7 +9,9 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.RecyclerView
 import com.example.pictureme.R
 import com.example.pictureme.data.models.Feeling
+import com.example.pictureme.utils.Details
 import com.example.pictureme.viewmodels.PreviewPicmeViewModel
+import com.google.android.material.imageview.ShapeableImageView
 
 class FeelingsAdapter(
     var feelings: List<Feeling>,
@@ -19,10 +21,12 @@ class FeelingsAdapter(
     inner class FeelingsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val textFeeling: TextView
         val cbSelectFeeling: CheckBox
+        val imageFeeling: ShapeableImageView
 
         init {
             textFeeling = itemView.findViewById(R.id.textFeeling)
             cbSelectFeeling = itemView.findViewById(R.id.cbSelectFeeling)
+            imageFeeling = itemView.findViewById(R.id.imageFeeling)
         }
     }
 
@@ -52,6 +56,10 @@ class FeelingsAdapter(
                 previewPicmeViewModel.removeFeeling()
             }
         }
+
+        // Load feeling
+        holder.imageFeeling.setImageResource(Details.getFeelingImage(feelings[position].feeling)!!)
+
 
         println("-.-------------------  Feeling id $feelingId")
 //        // Check if this user was selected before

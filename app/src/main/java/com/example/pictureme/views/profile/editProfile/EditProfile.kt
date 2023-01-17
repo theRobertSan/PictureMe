@@ -13,6 +13,8 @@ import androidx.fragment.app.activityViewModels
 import com.example.pictureme.R
 import com.example.pictureme.databinding.FragmentEditProfileBinding
 import com.example.pictureme.databinding.FragmentFriendsBinding
+import com.example.pictureme.utils.Pictures
+import com.example.pictureme.viewmodels.PicmeViewModel
 import com.example.pictureme.viewmodels.UserViewModel
 
 class EditProfile : Fragment() {
@@ -26,12 +28,23 @@ class EditProfile : Fragment() {
     var imageUri: Uri? = null
 
     private val userViewModel by activityViewModels<UserViewModel>()
+    private val picmeViewModel by activityViewModels<PicmeViewModel>()
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentEditProfileBinding.inflate(inflater, container, false)
+
+        // Load user profile picture
+        userViewModel.userLiveData.observe(viewLifecycleOwner) { user ->
+            Pictures.loadProfilePicture(
+                user.profilePicturePath,
+                binding.imageProfile,
+                binding.imageLoadingBar
+            )
+        }
 
         binding.imageProfile.setOnClickListener {
             chooseImageFromGallery()
@@ -46,6 +59,11 @@ class EditProfile : Fragment() {
 
     private fun save() {
         userViewModel.updateProfile(imageUri)
+        // Reload picmes so that icons update
+        userViewModel.userLiveData.observe(viewLifecycleOwner) {
+            println("YWYYWYWYWYYWYYWW")
+            picmeViewModel.loadPicmes()
+        }
     }
 
     private fun chooseImageFromGallery() {

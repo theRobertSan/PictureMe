@@ -5,6 +5,7 @@
     android:id="@+id/frameLayout4"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/textOnPrimary"
     tools:context=".views.addfriends.AddFriendsFragment">
 
     <com.google.android.material.card.MaterialCardView
@@ -22,6 +23,7 @@
             android:id="@+id/searchView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:iconTint="@color/primary"
             app:queryHint="Search here..."
             app:iconifiedByDefault="false"
             app:queryBackground="@android:color/transparent" />

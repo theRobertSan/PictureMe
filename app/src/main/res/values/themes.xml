@@ -2,7 +2,7 @@
     <!-- Base application theme. -->
     <style name="Theme.PictureMe" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Background launcher color -->
-        <!--        <item name="android:windowBackground">@color/primary</item>-->
+        <item name="android:windowBackground">@color/textOnPrimary</item>
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/lightBlack</item>
         <item name="colorPrimaryVariant">@color/textOnPrimary</item>

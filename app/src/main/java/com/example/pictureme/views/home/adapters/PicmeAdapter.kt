@@ -28,7 +28,7 @@ class PicmeAdapter(
 ) : RecyclerView.Adapter<PicmeAdapter.PicMeViewHolder>() {
 
     fun setList(newList: List<Picme>) {
-        
+
         this.picmes = newList
         notifyDataSetChanged()
     }
@@ -60,7 +60,7 @@ class PicmeAdapter(
         holder.picmeImage.load(picmes[position].imagePath) {
             crossfade(true)
             crossfade(1000)
-            listener { request, result ->
+            listener { _, _ ->
                 holder.loadingBar.isGone = true
             }
         }

@@ -83,7 +83,7 @@ class ProfileFragment : Fragment() {
 
         binding.editLayout.setOnClickListener {
             Navigation.findNavController(binding.root.parent.parent as View)
-                .navigate(R.id.action_navFragment_to_friendsFragment)
+                .navigate(R.id.action_navFragment_to_editProfile)
         }
 
         binding.copyLayout.setOnClickListener {

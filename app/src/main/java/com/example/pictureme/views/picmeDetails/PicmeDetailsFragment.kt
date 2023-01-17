@@ -57,8 +57,6 @@ class PicmeDetailsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentPicmeDetailsBinding.inflate(inflater, container, false)
-        // Get picme passed as argument
-//        picme = (arguments?.getSerializable("picme")!!) as Picme
         picmeDetailsViewModelViewModel.picmeLiveData.observe(viewLifecycleOwner) { picme ->
             this.picme = picme
             loadImages()

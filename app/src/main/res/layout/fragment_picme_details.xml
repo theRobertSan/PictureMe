@@ -51,7 +51,6 @@
                 android:id="@+id/imageEmotion"
                 android:layout_width="@dimen/smallCircularImageWidth"
                 android:layout_height="@dimen/smallCircularImageWidth"
-                android:layout_marginStart="16dp"
                 android:scaleType="centerCrop"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/textFeeling"
@@ -65,7 +64,7 @@
             <TextView
                 android:id="@+id/textFeeling"
                 style="@style/smallMediumText"
-                android:layout_width="wrap_content"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:text="Happy"
@@ -104,7 +103,7 @@
             <TextView
                 android:id="@+id/textCreator"
                 style="@style/smallMediumText"
-                android:layout_width="wrap_content"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:textStyle="bold"
@@ -113,7 +112,7 @@
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toEndOf="@+id/imageCreator"
                 app:layout_constraintTop_toBottomOf="@+id/textView14"
-                tools:text="John Smith" />
+                tools:text="John S." />
 
             <TextView
                 android:id="@+id/textFeelingTitle"
@@ -218,7 +217,7 @@
             <TextView
                 android:id="@+id/textExactLocation"
                 style="@style/smallMediumText"
-                android:layout_width="wrap_content"
+                android:layout_width="110dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 app:layout_constraintBottom_toTopOf="@+id/textRelativeLocation"
@@ -261,7 +260,7 @@
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/cvFriends"
         android:layout_width="0dp"
-        android:layout_height="130dp"
+        android:layout_height="150dp"
         android:layout_marginTop="8dp"
         app:cardCornerRadius="@dimen/corner_radius"
         app:layout_constraintEnd_toEndOf="@+id/materialCardView4"
@@ -287,8 +286,10 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rcPicmeFriends"
                 android:layout_width="wrap_content"
-                android:layout_height="80dp"
-                android:layout_marginTop="8dp"
+                android:layout_height="100dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="8dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="@+id/textFriendsTitle"
                 app:layout_constraintStart_toStartOf="@+id/textFriendsTitle"

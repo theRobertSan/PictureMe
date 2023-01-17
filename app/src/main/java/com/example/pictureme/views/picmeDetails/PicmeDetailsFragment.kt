@@ -1,6 +1,11 @@
 package com.example.pictureme.views.picmeDetails
 
+import android.Manifest
 import android.annotation.SuppressLint
+import android.content.Context
+import android.content.pm.PackageManager
+import android.location.Location
+import android.location.LocationManager
 import android.os.Build
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -8,17 +13,23 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
+import androidx.core.app.ActivityCompat
 import androidx.core.view.isGone
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import coil.load
+import com.example.pictureme.R
 import com.example.pictureme.data.models.Picme
 import com.example.pictureme.databinding.FragmentPicmeDetailsBinding
 import com.example.pictureme.utils.Details
 import com.example.pictureme.utils.Pictures
+import com.example.pictureme.viewmodels.DistanceViewModel
 import com.example.pictureme.viewmodels.PicmeDetailsViewModel
 import com.example.pictureme.views.picmeDetails.adapters.PicmeFriendsAdapter
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
+import com.google.firebase.firestore.GeoPoint
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -28,8 +39,17 @@ class PicmeDetailsFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val picmeDetailsViewModelViewModel by activityViewModels<PicmeDetailsViewModel>()
+    private val distanceViewModel by activityViewModels<DistanceViewModel>()
+
+    private lateinit var mFusedLocationClient: FusedLocationProviderClient
 
     private lateinit var picme: Picme
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        mFusedLocationClient =
+            LocationServices.getFusedLocationProviderClient(requireContext())
+    }
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(
@@ -109,7 +129,26 @@ class PicmeDetailsFragment : Fragment() {
         binding.textRelativeTime.text = Details.getRelativeDate(picme.createdAt!!)
 
         binding.textFeeling.text = picme.feeling!!.feeling
-        binding.textCreator.text = picme.creator!!.username
+        binding.textCreator.text = Details.getPrettyNameFormat(picme.creator!!.fullName!!)
+
+        // Get current location
+        mFusedLocationClient.lastLocation.addOnSuccessListener { location ->
+            if (location != null) {
+                println("HELEELELELELE")
+                val currentLocation = "${location.latitude},${location.longitude}"
+                val destinationLocation =
+                    "${picme.location!!.latitude},${picme.location!!.longitude}"
+                val apiKey = requireContext().getString(R.string.MAPS_API_KEY)
+                distanceViewModel.getDistanceTo(currentLocation, destinationLocation, apiKey)
+            } else {
+                println("NO LOCATION")
+                throw Exception("No location")
+            }
+        }
+
+        distanceViewModel.distanceLiveData.observe(viewLifecycleOwner) { distance ->
+            binding.textRelativeLocation.text = distance
+        }
 
 //        val client = ApiClient.apiService.getDistance()
 //        GlobalScope.launch(Dispatchers.IO) {

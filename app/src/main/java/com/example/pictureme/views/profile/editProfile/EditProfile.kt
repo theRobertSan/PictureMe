@@ -10,6 +10,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import com.example.pictureme.R
 import com.example.pictureme.databinding.FragmentEditProfileBinding
 import com.example.pictureme.databinding.FragmentFriendsBinding
@@ -54,7 +55,15 @@ class EditProfile : Fragment() {
             save()
         }
 
+        setGoBackButton()
+
         return (binding.root)
+    }
+
+    private fun setGoBackButton() {
+        binding.buttonGoBack.setOnClickListener {
+            findNavController().popBackStack()
+        }
     }
 
     private fun save() {

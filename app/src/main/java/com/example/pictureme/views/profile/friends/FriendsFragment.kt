@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.example.pictureme.R
 import com.example.pictureme.databinding.FragmentFriendsBinding
 import com.example.pictureme.views.explore.adapters.ViewPagerAdapter
@@ -23,8 +24,15 @@ class FriendsFragment : Fragment() {
         _binding = FragmentFriendsBinding.inflate(inflater, container, false)
 
         setFriendsTabs()
+        setGoBackButton()
 
         return (binding.root)
+    }
+
+    private fun setGoBackButton() {
+        binding.buttonGoBack.setOnClickListener {
+            findNavController().popBackStack()
+        }
     }
 
     private fun setFriendsTabs() {

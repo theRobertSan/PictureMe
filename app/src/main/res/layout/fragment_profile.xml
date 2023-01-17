@@ -35,20 +35,21 @@
     <TextView
         android:id="@+id/text_name"
         style="@style/mediumText"
-        android:layout_width="wrap_content"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        tools:text="user's name"
-        app:layout_constraintBottom_toBottomOf="@+id/image_profile_picture"
+        app:layout_constraintBottom_toTopOf="@+id/textUsername"
         app:layout_constraintStart_toEndOf="@+id/image_profile_picture"
-        app:layout_constraintTop_toTopOf="@+id/image_profile_picture" />
+        app:layout_constraintTop_toTopOf="@+id/image_profile_picture"
+        app:layout_constraintVertical_chainStyle="packed"
+        tools:text="user's name" />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView"
         android:layout_width="140dp"
         android:layout_height="120dp"
-        app:cardCornerRadius="@dimen/image_corner_radius"
         android:elevation="@dimen/elevation"
+        app:cardCornerRadius="@dimen/image_corner_radius"
         app:layout_constraintBottom_toBottomOf="@+id/cardView2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -74,7 +75,8 @@
 
             <TextView
                 android:id="@+id/text_friends_num"
-                style="@style/logoText"
+                style="@style/largeText"
+                android:textStyle="bold"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/text_friends"
@@ -83,6 +85,18 @@
                 android:text="0"
                 android:textAlignment="center"
                 android:textColor="@color/primary"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/text_friends"
+                app:layout_constraintStart_toStartOf="@+id/text_friends"
+                app:layout_constraintTop_toBottomOf="@+id/imageView4" />
+
+            <ImageView
+                android:id="@+id/imageView4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="-8dp"
+                android:src="@drawable/ic_friends"
+                app:tint="@color/primary"
                 app:layout_constraintEnd_toEndOf="@+id/text_friends"
                 app:layout_constraintStart_toStartOf="@+id/text_friends"
                 app:layout_constraintTop_toBottomOf="@+id/text_friends" />
@@ -95,8 +109,8 @@
         android:layout_width="140dp"
         android:layout_height="120dp"
         android:layout_marginTop="20dp"
-        app:cardCornerRadius="@dimen/image_corner_radius"
         android:elevation="@dimen/elevation"
+        app:cardCornerRadius="@dimen/image_corner_radius"
         app:layout_constraintEnd_toStartOf="@+id/cardView"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
@@ -121,7 +135,7 @@
 
             <TextView
                 android:id="@+id/text_picme_num"
-                style="@style/logoText"
+                style="@style/largeText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
@@ -130,6 +144,19 @@
                 android:text="0"
                 android:textAlignment="center"
                 android:textColor="@color/primary"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/text_picme"
+                app:layout_constraintStart_toStartOf="@+id/text_picme"
+                app:layout_constraintTop_toBottomOf="@+id/imageView3" />
+
+            <ImageView
+                android:id="@+id/imageView3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="-8dp"
+                android:src="@drawable/ic_camera"
+                app:tint="@color/primary"
                 app:layout_constraintEnd_toEndOf="@+id/text_picme"
                 app:layout_constraintStart_toStartOf="@+id/text_picme"
                 app:layout_constraintTop_toBottomOf="@+id/text_picme" />
@@ -146,16 +173,15 @@
         tools:layout_editor_absoluteX="0dp">
 
         <ImageView
-            android:layout_width="35dp"
-            android:layout_height="35dp"
-            app:tint="@color/lightBlack"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
             android:layout_marginLeft="40dp"
-            app:srcCompat="@drawable/ic_friends" />
+            app:srcCompat="@drawable/ic_friends_2"
+            app:tint="@color/lightBlack" />
 
         <TextView
             android:id="@+id/opt_friends"
-            style="@style/mediumText"
-            android:textSize="26sp"
+            style="@style/smallMediumText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
@@ -175,16 +201,15 @@
         tools:layout_editor_absoluteX="0dp">
 
         <ImageView
-            android:layout_width="35dp"
-            android:layout_height="35dp"
-            app:tint="@color/lightBlack"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
             android:layout_marginLeft="40dp"
-            app:srcCompat="@drawable/ic_copy" />
+            app:srcCompat="@drawable/ic_copy"
+            app:tint="@color/lightBlack" />
 
         <TextView
             android:id="@+id/textView2"
-            style="@style/mediumText"
-            android:textSize="26sp"
+            style="@style/smallMediumText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
@@ -201,16 +226,15 @@
         app:layout_constraintTop_toBottomOf="@+id/friends_layout">
 
         <ImageView
-            android:layout_width="35dp"
-            android:layout_height="35dp"
-            app:tint="@color/lightBlack"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
             android:layout_marginLeft="40dp"
-            app:srcCompat="@drawable/ic_edit" />
+            app:srcCompat="@drawable/ic_edit"
+            app:tint="@color/lightBlack" />
 
         <TextView
             android:id="@+id/textView4"
-            style="@style/mediumText"
-            android:textSize="26sp"
+            style="@style/smallMediumText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
@@ -229,16 +253,15 @@
         tools:layout_editor_absoluteX="16dp">
 
         <ImageView
-            android:layout_width="35dp"
-            android:layout_height="35dp"
-            app:tint="@color/lightBlack"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
             android:layout_marginLeft="40dp"
-            app:srcCompat="@drawable/ic_settings" />
+            app:srcCompat="@drawable/ic_settings"
+            app:tint="@color/lightBlack" />
 
         <TextView
             android:id="@+id/textView5"
-            style="@style/mediumText"
-            android:textSize="26sp"
+            style="@style/smallMediumText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
@@ -257,22 +280,32 @@
         tools:layout_editor_absoluteX="-26dp">
 
         <ImageView
-            android:layout_width="35dp"
-            android:layout_height="35dp"
-            app:tint="@color/lightBlack"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
             android:layout_marginLeft="40dp"
-            app:srcCompat="@drawable/ic_logout" />
+            app:srcCompat="@drawable/ic_logout"
+            app:tint="@color/lightBlack" />
 
         <TextView
+            style="@style/smallMediumText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="@style/mediumText"
-            android:textSize="26sp"
-            android:text="@string/opt_log_out"
             android:layout_marginLeft="10dp"
+            android:text="@string/opt_log_out"
             app:layout_constraintStart_toStartOf="@+id/textView5"
             app:layout_constraintTop_toBottomOf="@+id/textView5" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <TextView
+        android:id="@+id/textUsername"
+        style="@style/smallText"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:textColor="@color/gray"
+        app:layout_constraintBottom_toBottomOf="@+id/image_profile_picture"
+        app:layout_constraintStart_toStartOf="@+id/text_name"
+        app:layout_constraintTop_toBottomOf="@+id/text_name" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

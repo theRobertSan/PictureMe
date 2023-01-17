@@ -5,10 +5,11 @@
     android:id="@+id/frameLayout11"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".views.profile.editProfile.EditProfile">
+    tools:context=".views.profile.editProfile.EditProfile"
+    android:background="@color/textOnPrimary">
 
     <ImageView
-        android:id="@+id/imageView3"
+        android:id="@+id/buttonGoBack"
         style="@style/go_back_button"
         app:tint="@color/lightBlack"
         android:layout_marginStart="16dp"
@@ -23,10 +24,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Edit Profile"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView3"
+        app:layout_constraintBottom_toBottomOf="@+id/buttonGoBack"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/imageView3" />
+        app:layout_constraintTop_toTopOf="@+id/buttonGoBack" />
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/imageProfile"

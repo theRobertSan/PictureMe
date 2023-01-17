@@ -2,7 +2,7 @@
     <!-- Base application theme. -->
     <style name="Theme.PictureMe" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Background launcher color -->
-        <item name="android:windowBackground">@color/primary</item>
+        <!--        <item name="android:windowBackground">@color/primary</item>-->
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/lightBlack</item>
         <item name="colorPrimaryVariant">@color/textOnPrimary</item>
@@ -46,7 +46,13 @@
     <style name="smallText">
         <item name="android:textSize">15sp</item>
         <item name="fontFamily">@font/nunito</item>
-        <item name="android:textColor">@color/black</item>
+        <item name="android:textColor">@color/lightBlack</item>
+    </style>
+
+    <style name="extraSmallText">
+        <item name="android:textSize">10sp</item>
+        <item name="fontFamily">@font/nunito</item>
+        <item name="android:textColor">@color/lightBlack</item>
     </style>
 
     <style name="editTextLayout">

@@ -44,7 +44,8 @@ class ProfileFragment : Fragment() {
     private fun setUserData() {
 
         userViewModel.userLiveData.observe(viewLifecycleOwner) { user ->
-            binding.textName.text = user.username
+            binding.textName.text = user.fullName
+            binding.textUsername.text = user.username
 
             // Check whether the user has a profile picture or not
             if (user.profilePicturePath == null) {
@@ -76,13 +77,13 @@ class ProfileFragment : Fragment() {
     private fun setLayoutClickListeners() {
 
         binding.friendsLayout.setOnClickListener {
-            Navigation.findNavController(binding.root)
-                .navigate(R.id.action_profileFragment_to_friendsFragment)
+            Navigation.findNavController(binding.root.parent.parent as View)
+                .navigate(R.id.action_navFragment_to_friendsFragment)
         }
 
         binding.editLayout.setOnClickListener {
-            Navigation.findNavController(binding.root)
-                .navigate(R.id.action_profileFragment_to_editProfile)
+            Navigation.findNavController(binding.root.parent.parent as View)
+                .navigate(R.id.action_navFragment_to_friendsFragment)
         }
 
         binding.copyLayout.setOnClickListener {
@@ -90,7 +91,8 @@ class ProfileFragment : Fragment() {
         }
 
         binding.settingsLayout.setOnClickListener {
-            Toast.makeText(this.context, "Settings Fragment! DELETE THIS", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this.context, "Settings Fragment! DELETE THIS", Toast.LENGTH_SHORT)
+                .show()
         }
 
         binding.logoutLayout.setOnClickListener {

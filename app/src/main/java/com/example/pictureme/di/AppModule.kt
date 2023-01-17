@@ -1,9 +1,11 @@
 package com.example.pictureme.di
 
 import com.example.pictureme.data.interfaces.AuthRepository
+import com.example.pictureme.data.interfaces.DistanceRepository
 import com.example.pictureme.data.interfaces.PicmeRepository
 import com.example.pictureme.data.interfaces.UserRepository
 import com.example.pictureme.data.repository.AuthRepositoryImpl
+import com.example.pictureme.data.repository.DistanceRepositoryImpl
 import com.example.pictureme.data.repository.PicmeRepositoryImpl
 import com.example.pictureme.data.repository.UserRepositoryImpl
 import com.google.firebase.auth.FirebaseAuth
@@ -43,4 +45,7 @@ class AppModule {
     @Singleton
     fun providePicmeRepository(impl: PicmeRepositoryImpl): PicmeRepository = impl
 
+    @Provides
+    @Singleton
+    fun provideDistanceRepository(impl: DistanceRepositoryImpl): DistanceRepository = impl
 }

@@ -46,6 +46,12 @@
         <action
             android:id="@+id/action_navFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_navFragment_to_editProfile"
+            app:destination="@id/editProfile" />
+        <action
+            android:id="@+id/action_navFragment_to_friendsFragment"
+            app:destination="@id/friendsFragment" />
     </fragment>
     <fragment
         android:id="@+id/picmePreviewFragment"
@@ -87,6 +93,24 @@
         tools:layout="@layout/fragment_picme_details">
         <action
             android:id="@+id/action_picmeDetailsFragment_to_navFragment"
+            app:destination="@id/navFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/editProfile"
+        android:name="com.example.pictureme.views.profile.editProfile.EditProfile"
+        android:label="fragment_edit_profile"
+        tools:layout="@layout/fragment_edit_profile">
+        <action
+            android:id="@+id/action_editProfile_to_navFragment"
+            app:destination="@id/navFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/friendsFragment"
+        android:name="com.example.pictureme.views.profile.friends.FriendsFragment"
+        android:label="fragment_friends"
+        tools:layout="@layout/fragment_friends">
+        <action
+            android:id="@+id/action_friendsFragment_to_navFragment"
             app:destination="@id/navFragment" />
     </fragment>
 </navigation>

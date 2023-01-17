@@ -49,9 +49,13 @@ class PicmePreviewFragment : Fragment() {
     private lateinit var uri: Uri
     private var takenPicture: Bitmap? = null
 
+    private lateinit var mFusedLocationClient: FusedLocationProviderClient
+
     override fun onAttach(context: Context) {
         super.onAttach(context)
         invokeCamera()
+        mFusedLocationClient =
+            LocationServices.getFusedLocationProviderClient(requireContext())
         saveCurrentLocation()
     }
 
@@ -76,28 +80,38 @@ class PicmePreviewFragment : Fragment() {
         return false
     }
 
+    @SuppressLint("MissingPermission")
     private fun saveCurrentLocation() {
-        val locationManager =
-            requireActivity().getSystemService(LOCATION_SERVICE) as LocationManager
-        if (ActivityCompat.checkSelfPermission(
-                requireContext(),
-                Manifest.permission.ACCESS_FINE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
-                requireContext(),
-                Manifest.permission.ACCESS_COARSE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
-            println("NO PERMISSION")
-            return
+//        val locationManager =
+//            requireActivity().getSystemService(LOCATION_SERVICE) as LocationManager
+//        if (ActivityCompat.checkSelfPermission(
+//                requireContext(),
+//                Manifest.permission.ACCESS_FINE_LOCATION
+//            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+//                requireContext(),
+//                Manifest.permission.ACCESS_COARSE_LOCATION
+//            ) != PackageManager.PERMISSION_GRANTED
+//        ) {
+//            println("NO PERMISSION")
+//            return
+//        }
+//        val location: Location? =
+//            locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)
+//        if (location != null) {
+//            previewViewModel.setLocation(GeoPoint(location!!.latitude, location!!.longitude))
+//        } else {
+//            println("NO LOCATION")
+//            throw Exception("No location")
+//        }
+        mFusedLocationClient.lastLocation.addOnSuccessListener { location ->
+            if (location != null) {
+                previewViewModel.setLocation(GeoPoint(location!!.latitude, location!!.longitude))
+            } else {
+                println("NO LOCATION")
+                throw Exception("No location")
+            }
         }
-        val location: Location? =
-            locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)
-        if (location != null) {
-            previewViewModel.setLocation(GeoPoint(location!!.latitude, location!!.longitude))
-        } else {
-            println("NO LOCATION")
-            throw Exception("No location")
-        }
+
     }
 
     override fun onCreateView(

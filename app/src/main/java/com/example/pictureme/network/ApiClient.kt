@@ -13,7 +13,7 @@ import retrofit2.http.Query
 object ApiClient {
 
     private val DISTANCE_MAPS_URL =
-        "https://maps.googleapis.com/maps/api/distancematrix/json?units=metric"
+        "https://maps.googleapis.com/maps/api/distancematrix/"
 
     private val moshi = Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
 
@@ -32,7 +32,7 @@ object ApiClient {
 
 interface ApiService {
 
-    @GET("/")
+    @GET("json?units=metric")
     fun getDistance(
         @Query("origins") origin: String,
         @Query("destinations") destinations: String,

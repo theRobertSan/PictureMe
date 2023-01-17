@@ -70,6 +70,11 @@ object Details {
         return feelingToImage[feeling]
     }
 
+    fun getPrettyNameFormat(fullName: String): String {
+        var names = fullName.trim().split(" ")
+        return "${names.first()} ${names.last()[0]}."
+    }
+
 //    @SuppressLint("MissingPermission")
 //    suspend fun getRelativeLocation(picmeLocation: GeoPoint, context: Context): String {
 //

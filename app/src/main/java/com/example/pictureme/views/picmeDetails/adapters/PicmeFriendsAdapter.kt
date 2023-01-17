@@ -46,7 +46,7 @@ class PicmeFriendsAdapter(
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: PicmeFriendsViewHolder, position: Int) {
-        holder.textFriend.text = friends[position].username
+        holder.textFriend.text = Details.getPrettyNameFormat(friends[position].fullName!!)
         Pictures.loadProfilePicture(
             friends[position].profilePicturePath,
             holder.imageFriend,

@@ -1,22 +1,30 @@
 package com.example.pictureme.views.explore
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.pm.PackageManager
 import android.location.Location
+import android.os.Build
 import android.os.Bundle
+import android.os.Looper
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.example.pictureme.R
+import com.example.pictureme.data.models.Picme
 import com.example.pictureme.databinding.FragmentMapBinding
+import com.example.pictureme.utils.Details
+import com.example.pictureme.utils.Pictures
 import com.example.pictureme.viewmodels.PicmeDetailsViewModel
 import com.example.pictureme.viewmodels.PicmeViewModel
-import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationServices
+import com.google.android.gms.location.*
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.GoogleMap.OnMapClickListener
@@ -26,7 +34,11 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.material.card.MaterialCardView
 import com.google.firebase.firestore.GeoPoint
+import com.google.maps.android.clustering.ClusterItem
+import com.google.maps.android.clustering.ClusterManager
+
 
 class MapFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener, OnMapClickListener {
 
@@ -35,8 +47,19 @@ class MapFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener, OnMap
 
     // Google Maps
     private lateinit var mMap: GoogleMap
+
+    // Location Tracking
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
+    private lateinit var locationCallback: LocationCallback
+    private lateinit var locationRequest: LocationRequest
     private lateinit var currentLocation: Location
+    private var requestingLocationUpdates: Boolean = true
+
+    // Cluster
+    private lateinit var clusterManager: ClusterManager<PicmeClusterItem>
+
+    // Card View
+    private lateinit var cardView: MaterialCardView
 
     // PicMes
     private val picmeViewModel by activityViewModels<PicmeViewModel>()
@@ -44,6 +67,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener, OnMap
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        // Setup FusedLocationProviderClient
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(requireActivity())
     }
 
@@ -53,93 +77,198 @@ class MapFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener, OnMap
     ): View? {
         _binding = FragmentMapBinding.inflate(inflater, container, false)
 
+        // Setup SupportMapFragment
         val mapFragment = childFragmentManager.findFragmentById(R.id.fragment_map_googleMap) as SupportMapFragment
         mapFragment.getMapAsync(this)
 
-        getCurrentLocation()
+        // Setup Location Request
+        createLocationRequest()
+
+        // Location Updates
+        setupLocationUpdates()
+
+        // Hide card view for marker clicking
+        hideCardView()
 
         return (binding.root)
     }
 
-    private fun getCurrentLocation() {
-        if (ActivityCompat.checkSelfPermission(
-                requireContext(),
-                Manifest.permission.ACCESS_FINE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
-                requireContext(),
-                Manifest.permission.ACCESS_COARSE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
-            return
-        }
-        val task = fusedLocationProviderClient.lastLocation
-        task.addOnSuccessListener {
-            if (it != null) {
-                Toast.makeText(context, "${it.latitude} ${it.longitude}", Toast.LENGTH_SHORT).show()
-            }
+    // ---------------------------- LOCATION ----------------------------
+
+    private fun createLocationRequest() {
+        locationRequest = LocationRequest.create().apply {
+            interval = 10000
+            fastestInterval = 5000
+            priority = LocationRequest.PRIORITY_HIGH_ACCURACY
         }
     }
 
-    override fun onMapReady(googleMap: GoogleMap) {
-        mMap = googleMap
-        setUpMap()
-        setUpPicMeMarkers()
-    }
-
-    private fun setUpMap() {
-        mMap.uiSettings.isZoomControlsEnabled = true
-        if (ActivityCompat.checkSelfPermission(
-                requireContext(),
-                Manifest.permission.ACCESS_FINE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
-                requireContext(),
-                Manifest.permission.ACCESS_COARSE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
-            return
-        }
-        mMap.isMyLocationEnabled = true
-        fusedLocationProviderClient.lastLocation.addOnSuccessListener { location ->
-            if(location != null) {
-                currentLocation = location
-                val currentLatLong = LatLng(location.latitude, location.longitude)
-                placeMarker(currentLatLong)
-                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLatLong, 12f))
-
-            }
-        }
-
-
-    }
-
-    private fun setUpPicMeMarkers() {
-        picmeViewModel.picmesLiveData.observe(viewLifecycleOwner) { response ->
-            println("DATE CHANGED ------------" + response.size)
-            for (picme in response) {
-                val geoPoint = picme.location
-                if(geoPoint is GeoPoint) {
-                    val lat = geoPoint.latitude
-                    val lng = geoPoint.longitude
-                    val latLng = LatLng(lat, lng)
-                    placeMarker(latLng)
+    private fun setupLocationUpdates() {
+        locationCallback = object : LocationCallback() {
+            override fun onLocationResult(locationResult: LocationResult) {
+                super.onLocationResult(locationResult)
+                for (location in locationResult.locations) {
+                    Log.d("mapdora", location.toString())
+                    currentLocation = location
+                    mMap.animateCamera(CameraUpdateFactory.newLatLngZoom
+                        (LatLng(currentLocation.latitude, currentLocation.longitude), 12f))
                 }
             }
         }
     }
 
-    private fun placeMarker(currentLatLong: LatLng) {
-        val markerOptions = MarkerOptions().position(currentLatLong)
-        markerOptions.title("$currentLatLong")
-        mMap.addMarker(markerOptions)
+    private fun startLocationUpdates() {
+        if (ActivityCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            return
+        }
+        fusedLocationProviderClient.requestLocationUpdates(locationRequest,
+            locationCallback,
+            Looper.getMainLooper())
     }
 
+    private fun stopLocationUpdates() {
+        fusedLocationProviderClient.removeLocationUpdates(locationCallback)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (requestingLocationUpdates) startLocationUpdates()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        stopLocationUpdates()
+    }
+
+    // ---------------------------- MAP ----------------------------
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    override fun onMapReady(googleMap: GoogleMap) {
+        mMap = googleMap
+        setupMap()
+        setupPicmeMarkers()
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun setupMap() {
+        if (ActivityCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            return
+        }
+
+        // Map stuff
+        mMap.isMyLocationEnabled = true
+        mMap.setOnMapClickListener(this)
+
+        // Cluster Manager Stuff
+        clusterManager = ClusterManager(context, mMap)
+        mMap.setOnCameraIdleListener(clusterManager)
+        clusterManager.markerCollection.setOnMarkerClickListener { marker: Marker ->
+            val ret = onMarkerClick(marker)
+            ret
+        }
+    }
+
+    private fun setupPicmeMarkers() {
+        picmeViewModel.picmesLiveData.observe(viewLifecycleOwner) { response ->
+            println("DATE CHANGED ------------" + response.size)
+            for (picme in response) {
+                val geoPoint = picme.location
+                if (geoPoint is GeoPoint) {
+                    val lat = geoPoint.latitude
+                    val lng = geoPoint.longitude
+                    val latLng = LatLng(lat, lng)
+
+                    val item = picme.id?.let { PicmeClusterItem(lat, lng, it, "s") }
+                    clusterManager.addItem(item)
+
+                    //placeMarker(picme, latLng)
+
+                }
+            }
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onMarkerClick(marker: Marker): Boolean {
-        TODO("Not yet implemented")
+        showCardView()
+
+        val id = marker.title
+        val picme = id?.let { picmeViewModel.getPicme(it) }
+
+        if (picme != null) {
+            Pictures.loadPicme(picme.imagePath, binding.fragmentMapImageView, binding.fragmentMapLoadingBar)
+            binding.fragmentMapTextView.text = Details.getRelativeDate(picme.createdAt!!)
+            binding.fragmentMapImageView.scaleType = ImageView.ScaleType.FIT_CENTER
+        }
+        return false
     }
 
-    override fun onMapClick(p0: LatLng) {
-        TODO("Not yet implemented")
+    override fun onMapClick(latLng: LatLng) {
+        hideCardView()
     }
+
+    private fun hideCardView() {
+        cardView = binding.fragmentMapMaterialCardView
+        cardView.visibility = View.GONE
+    }
+
+    private fun showCardView() {
+        cardView = binding.fragmentMapMaterialCardView
+        cardView.visibility = View.VISIBLE
+    }
+
+    private fun placeMarker(picme: Picme, currentLatLong: LatLng) {
+        val markerOptions = MarkerOptions().position(currentLatLong)
+        markerOptions.title("$currentLatLong").visible(false)
+        val marker = mMap.addMarker(markerOptions)
+        marker!!.tag = picme
+    }
+
+    // Inner class for cluster items
+    inner class PicmeClusterItem(
+        lat: Double,
+        lng: Double,
+        title: String,
+        snippet: String
+    ) : ClusterItem {
+
+        private val position: LatLng
+        private val title: String
+        private val snippet: String
+
+        override fun getPosition(): LatLng {
+            return position
+        }
+
+        override fun getTitle(): String? {
+            return title
+        }
+
+        override fun getSnippet(): String? {
+            return snippet
+        }
+
+        init {
+            position = LatLng(lat, lng)
+            this.title = title
+            this.snippet = snippet
+        }
+    }
+
 
 
 }

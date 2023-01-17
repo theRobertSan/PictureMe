@@ -8,24 +8,50 @@
     tools:context=".views.explore.MapFragment">
 
     <com.google.android.material.card.MaterialCardView
-        android:layout_width="0dp"
-        android:layout_height="200dp"
-        android:layout_marginStart="16dp"
+        android:id="@+id/fragment_map_materialCardView"
+        android:layout_width="140dp"
+        android:layout_height="247dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="70dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintEnd_toEndOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
             <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/fragment_map_imageView"
                 android:layout_width="match_parent"
-                android:layout_height="160dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="24dp"
+                app:layout_constraintBottom_toTopOf="@+id/fragment_map_textView"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/fragment_map_textView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:drawableLeft="@drawable/ic_clock"
+                android:drawablePadding="5dp"
+                android:drawableTint="@color/gray"
+                android:hint="Today"
+                android:textColor="@color/gray"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <androidx.core.widget.ContentLoadingProgressBar
+                android:id="@+id/fragment_map_loading_bar"
+                style="?android:attr/progressBarStyleLarge"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="@+id/fragment_map_imageView"
+                app:layout_constraintEnd_toEndOf="@+id/fragment_map_imageView"
+                app:layout_constraintStart_toStartOf="@+id/fragment_map_imageView"
+                app:layout_constraintTop_toTopOf="@+id/fragment_map_imageView" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -40,6 +66,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
 
     <!--  <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragment_map_picme_card"

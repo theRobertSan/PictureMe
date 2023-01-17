@@ -78,6 +78,8 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/editUsernameLayout"
                 style="@style/editTextLayout"
+                app:helperTextEnabled="true"
+                app:helperTextTextColor="@color/primary"
                 android:layout_marginStart="64dp"
                 android:layout_marginTop="32dp"
                 android:layout_marginEnd="64dp"
@@ -97,6 +99,8 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/editNameLayout"
                 style="@style/editTextLayout"
+                app:helperTextEnabled="true"
+                app:helperTextTextColor="@color/primary"
                 android:layout_marginStart="64dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="64dp"
@@ -115,6 +119,8 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/editEmailLayout"
                 style="@style/editTextLayout"
+                app:helperTextEnabled="true"
+                app:helperTextTextColor="@color/primary"
                 android:layout_marginStart="64dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="64dp"
@@ -133,6 +139,8 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/editPasswordLayout"
                 style="@style/editTextLayout"
+                app:helperTextEnabled="true"
+                app:helperTextTextColor="@color/primary"
                 android:layout_marginStart="64dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="64dp"
@@ -152,6 +160,8 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/editPasswordRepeatLayout"
                 style="@style/editTextLayout"
+                app:helperTextEnabled="true"
+                app:helperTextTextColor="@color/primary"
                 android:layout_marginStart="64dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="64dp"
@@ -171,11 +181,14 @@
             <Button
                 android:id="@+id/buttonSignUp"
                 style="@style/largeButton"
+                android:enabled="false"
                 android:layout_marginStart="64dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="64dp"
                 android:layout_marginBottom="32dp"
                 android:text="Sign Up"
+                android:backgroundTint="@color/disabledBackground"
+                android:textColor="@color/disabledText"
                 app:layout_constraintBottom_toTopOf="@+id/textView31"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -209,68 +222,6 @@
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toEndOf="@+id/textView31"
                 app:layout_constraintTop_toTopOf="@+id/textView31" />
-
-            <!--            <EditText-->
-            <!--                android:id="@+id/edit_password"-->
-            <!--                android:layout_width="0dp"-->
-            <!--                android:layout_height="50dp"-->
-            <!--                android:layout_marginStart="64dp"-->
-            <!--                android:layout_marginTop="24dp"-->
-            <!--                android:layout_marginEnd="64dp"-->
-            <!--                android:drawablePadding="5dp"-->
-            <!--                android:ems="10"-->
-            <!--                android:hint="Password"-->
-            <!--                android:inputType="textPassword"-->
-            <!--                app:layout_constraintEnd_toEndOf="parent"-->
-            <!--                app:layout_constraintHorizontal_bias="0.0"-->
-            <!--                app:layout_constraintStart_toStartOf="parent"-->
-            <!--                app:layout_constraintTop_toBottomOf="@+id/edit_email" />-->
-
-            <!--            <EditText-->
-            <!--                android:id="@+id/edit_password_confirmation"-->
-            <!--                android:layout_width="0dp"-->
-            <!--                android:layout_height="50dp"-->
-            <!--                android:layout_marginStart="64dp"-->
-            <!--                android:layout_marginEnd="64dp"-->
-            <!--                android:drawablePadding="5dp"-->
-            <!--                android:ems="10"-->
-            <!--                android:hint="Repeat Password"-->
-            <!--                android:inputType="textPassword"-->
-            <!--                app:layout_constraintEnd_toEndOf="parent"-->
-            <!--                app:layout_constraintHorizontal_bias="0.0"-->
-            <!--                app:layout_constraintStart_toStartOf="parent"-->
-            <!--                app:layout_constraintTop_toBottomOf="@+id/edit_password" />-->
-
-            <!--            <EditText-->
-            <!--                android:id="@+id/edit_username"-->
-            <!--                android:layout_width="0dp"-->
-            <!--                android:layout_height="50dp"-->
-            <!--                android:layout_marginStart="64dp"-->
-            <!--                android:layout_marginTop="24dp"-->
-            <!--                android:layout_marginEnd="64dp"-->
-            <!--                android:drawablePadding="5dp"-->
-            <!--                android:ems="10"-->
-            <!--                android:hint="Username"-->
-            <!--                android:inputType="textPersonName"-->
-            <!--                app:layout_constraintEnd_toEndOf="parent"-->
-            <!--                app:layout_constraintHorizontal_bias="0.0"-->
-            <!--                app:layout_constraintStart_toStartOf="parent"-->
-            <!--                app:layout_constraintTop_toBottomOf="@+id/textView30" />-->
-
-            <!--            <EditText-->
-            <!--                android:id="@+id/edit_email"-->
-            <!--                android:layout_width="0dp"-->
-            <!--                android:layout_height="50dp"-->
-            <!--                android:layout_marginStart="64dp"-->
-            <!--                android:layout_marginEnd="64dp"-->
-            <!--                android:drawablePadding="5dp"-->
-            <!--                android:ems="10"-->
-            <!--                android:hint="Email"-->
-            <!--                android:inputType="textPersonName"-->
-            <!--                app:layout_constraintEnd_toEndOf="parent"-->
-            <!--                app:layout_constraintHorizontal_bias="0.0"-->
-            <!--                app:layout_constraintStart_toStartOf="parent"-->
-            <!--                app:layout_constraintTop_toBottomOf="@+id/edit_username" />-->
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

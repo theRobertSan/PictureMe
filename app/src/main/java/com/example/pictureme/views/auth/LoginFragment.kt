@@ -7,13 +7,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.Navigation
 import com.example.pictureme.R
 import com.example.pictureme.data.Response
 import com.example.pictureme.databinding.FragmentLoginBinding
+import com.example.pictureme.utils.CredentialValidation
 import com.example.pictureme.viewmodels.AuthViewModel
 import com.example.pictureme.viewmodels.PicmeViewModel
 import com.example.pictureme.viewmodels.UserViewModel
@@ -102,14 +102,16 @@ class LoginFragment : Fragment() {
     }
 
     private fun passwordValidation() {
+
         binding.editPassword.setOnFocusChangeListener { _, focused ->
             if (!focused) {
-                binding.editPasswordLayout.helperText = validPassword()
+                val passwordText = binding.editPassword.text.toString()
+                binding.editPasswordLayout.helperText = CredentialValidation.validPassword(passwordText)
                 startedTypingPassword = true
             }
         }
-        binding.editPassword.doOnTextChanged { text, start, before, count ->
-            val validity = validPassword()
+        binding.editPassword.doOnTextChanged { text, _, _, _ ->
+            val validity = CredentialValidation.validPassword(text)
             if (validity == null) {
                 binding.editPasswordLayout.helperText = null
                 handleButton()
@@ -123,9 +125,9 @@ class LoginFragment : Fragment() {
     }
 
     private fun emailValidation() {
-        binding.editEmail.doOnTextChanged { text, start, before, count ->
-            val validity = validEmail()
-            if (validEmail() == null) {
+        binding.editEmail.doOnTextChanged { text, _, _, _ ->
+            val validity = CredentialValidation.validEmail(text.toString())
+            if (validity == null) {
                 binding.editEmailLayout.helperText = null
                 handleButton()
             } else {
@@ -136,15 +138,19 @@ class LoginFragment : Fragment() {
             }
         }
         binding.editEmail.setOnFocusChangeListener { _, focused ->
+            val emailText = binding.editEmail.text.toString()
             if (!focused) {
-                binding.editEmailLayout.helperText = validEmail()
+                binding.editEmailLayout.helperText = CredentialValidation.validEmail(emailText)
                 startedTypingEmail = true
             }
         }
     }
 
     private fun handleButton() {
-        if (validPassword() == null && validEmail() == null) {
+        val emailText = binding.editEmail.text.toString()
+        val passwordText = binding.editPassword.text.toString()
+
+        if (CredentialValidation.validPassword(passwordText) == null && CredentialValidation.validEmail(emailText) == null) {
             binding.buttonLogin.isEnabled = true
             binding.buttonLogin.setBackgroundColor(resources.getColor(R.color.primary))
             binding.buttonLogin.setTextColor(resources.getColor(R.color.textOnPrimary))
@@ -153,22 +159,6 @@ class LoginFragment : Fragment() {
             binding.buttonLogin.setBackgroundColor(resources.getColor(R.color.disabledBackground))
             binding.buttonLogin.setTextColor(resources.getColor(R.color.disabledText))
         }
-    }
-
-    private fun validPassword(): CharSequence? {
-        val passwordText = binding.editPassword.text.toString()
-        if (passwordText.length < 6) {
-            return "Password must have at least 6 characters"
-        }
-        return null
-    }
-
-    private fun validEmail(): String? {
-        val emailText = binding.editEmail.text.toString()
-        if (!Patterns.EMAIL_ADDRESS.matcher(emailText).matches()) {
-            return "Invalid Email Address"
-        }
-        return null
     }
 
     override fun onDestroyView() {

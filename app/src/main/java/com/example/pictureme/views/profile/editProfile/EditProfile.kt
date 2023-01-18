@@ -8,10 +8,15 @@ import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
+import com.example.pictureme.R
 import com.example.pictureme.databinding.FragmentEditProfileBinding
+import com.example.pictureme.utils.CredentialValidation
 import com.example.pictureme.utils.Pictures
 import com.example.pictureme.viewmodels.PicmeViewModel
 import com.example.pictureme.viewmodels.UserViewModel
@@ -68,13 +73,38 @@ class EditProfile : Fragment() {
 
     private fun save() {
 
-        userViewModel.updateProfile(binding.fragmentEditProfileEtUsername.text.toString(), imageUri)
-        // Reload picmes so that icons update
-        userViewModel.userLiveData.observe(viewLifecycleOwner) {
-            println("YWYYWYWYWYYWYYWW")
-            picmeViewModel.loadPicmes()
-        }
+        val newName = binding.fragmentEditProfileEtUsername.text.toString()
+        val validation = CredentialValidation.validFullName(newName)
 
+        // If new name is valid, save everything, send a toast and go back
+        if(validation == null) {
+            userViewModel.updateProfile(
+                binding.fragmentEditProfileEtUsername.text.toString(),
+                imageUri
+            )
+            // Reload picmes so that icons update
+            userViewModel.userLiveData.observe(viewLifecycleOwner) {
+                picmeViewModel.loadPicmes()
+            }
+
+            Navigation.findNavController(binding.root).popBackStack()
+            Toast.makeText(context, "Profile successfully updated", Toast.LENGTH_SHORT).show()
+
+        // Else set a listener for the name editor
+        } else {
+
+            binding.fragmentEditProfileEtUsernameLayout.helperText = validation
+
+            binding.fragmentEditProfileEtUsername.doAfterTextChanged {
+                val newNameInside = binding.fragmentEditProfileEtUsername.text.toString()
+                val validationInside = CredentialValidation.validFullName(newNameInside)
+                if(validationInside == null) {
+                    binding.fragmentEditProfileEtUsernameLayout.helperText = null
+                } else {
+                    binding.fragmentEditProfileEtUsernameLayout.helperText = validation
+                }
+            }
+        }
 
     }
 

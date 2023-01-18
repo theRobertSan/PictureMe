@@ -111,7 +111,7 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/editName"
                     style="@style/editText"
-                    android:hint="Full Name"
+                    android:hint="Name"
                     android:inputType="textPersonName"
                     app:layout_constraintEnd_toEndOf="parent" />
             </com.google.android.material.textfield.TextInputLayout>

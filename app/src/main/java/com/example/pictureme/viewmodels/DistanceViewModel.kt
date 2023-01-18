@@ -22,8 +22,8 @@ class DistanceViewModel @Inject constructor(
     private var _distanceLiveData = MutableLiveData<String>()
     val distanceLiveData: LiveData<String> = _distanceLiveData
 
-    private var _distancesLiveData = MutableLiveData<List<String>>()
-    val distancesLiveData: LiveData<List<String>> = _distancesLiveData
+    private var _orderedPicmesLiveData = MutableLiveData<List<Picme>?>()
+    val orderedPicmesLiveData: LiveData<List<Picme>?> = _orderedPicmesLiveData
 
     fun getDistanceTo(origin: String, destination: String, key: String) = viewModelScope.launch {
         val client = distanceRepository.getDistanceTo(origin, destination, key)
@@ -44,18 +44,49 @@ class DistanceViewModel @Inject constructor(
         })
     }
 
-    fun getDistanceOrderedPicmes(picmes: List<Picme>, foodPicmes: Boolean, origin: String) =
+    fun getDistanceOrderedPicmes(
+        origin: String,
+        picmes: List<Picme>,
+        foodPicmes: Boolean,
+        key: String
+    ) =
         viewModelScope.launch {
-            val orderedList = emptyList<Picme>()
+            val selectedPicmes = ArrayList<Picme>()
             var destinations: String = ""
-            val destination: String = ""
             for (picme in picmes) {
+                println(picme.feeling!!.feeling)
+                println(picme.feeling!!.isFoodPic == foodPicmes)
                 if (picme.feeling!!.isFoodPic == foodPicmes) {
-                    destinations.plus("${picme.location!!.latitude},${picme.location!!.longitude}|")
+                    destinations =
+                        destinations.plus("${picme.location!!.latitude},${picme.location!!.longitude}|")
+                    selectedPicmes.add(picme)
                 }
             }
-            destinations = destination.drop(destination.length - 1)
-            println("DESTINATION: $destinations")
+            destinations = destinations.dropLast(1)
+
+            val client = distanceRepository.getDistanceTo(origin, destinations, key)
+            client.enqueue(object : Callback<DistanceMatrix> {
+                override fun onResponse(
+                    call: Call<DistanceMatrix>,
+                    response: Response<DistanceMatrix>
+                ) {
+                    if (response.isSuccessful) {
+                        val pairs = selectedPicmes.zip(response.body()!!.rows[0].elements)
+                        val sortedPairs = pairs.sortedBy { it.second.distance.value }
+                        val sortedPicmes = sortedPairs.unzip().first
+                        println(sortedPicmes)
+                        _orderedPicmesLiveData.postValue(sortedPicmes)
+                    }
+                }
+
+                override fun onFailure(call: Call<DistanceMatrix>, t: Throwable) {
+                    println("Error")
+                }
+
+            })
+
+            //println("DESTINATION: $destinations")
         }
+
 
 }

@@ -305,13 +305,11 @@
         style="@style/largeButton"
         android:layout_width="347dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="26dp"
         android:padding="10dp"
         android:text="Go There!"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cvFriends" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <ImageView
         android:id="@+id/buttonGoBack"
@@ -320,6 +318,16 @@
         android:layout_marginTop="16dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textGo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Shake again for another PicMe or..."
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/button"
+        app:layout_constraintEnd_toEndOf="@+id/button"
+        app:layout_constraintStart_toStartOf="@+id/button" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

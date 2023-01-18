@@ -1,49 +1,52 @@
 package com.example.pictureme.views.picmeDetails
 
-import android.Manifest
 import android.annotation.SuppressLint
-import android.content.Context
-import android.content.pm.PackageManager
-import android.location.Location
-import android.location.LocationManager
 import android.os.Build
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.annotation.RequiresApi
-import androidx.core.app.ActivityCompat
-import androidx.core.view.isGone
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import coil.load
 import com.example.pictureme.R
 import com.example.pictureme.data.models.Picme
 import com.example.pictureme.databinding.FragmentPicmeDetailsBinding
 import com.example.pictureme.utils.Details
 import com.example.pictureme.utils.Pictures
+import com.example.pictureme.utils.ShakeSensor
 import com.example.pictureme.viewmodels.DistanceViewModel
 import com.example.pictureme.viewmodels.PicmeDetailsViewModel
 import com.example.pictureme.views.picmeDetails.adapters.PicmeFriendsAdapter
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
-import com.google.firebase.firestore.GeoPoint
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import java.util.*
 
 @AndroidEntryPoint
-class PicmeDetailsFragment : Fragment() {
+class PicmeDetailsFragment() : Fragment() {
 
     private var _binding: FragmentPicmeDetailsBinding? = null
     private val binding get() = _binding!!
 
-    private val picmeDetailsViewModelViewModel by activityViewModels<PicmeDetailsViewModel>()
+    private val picmeDetailsViewModel by activityViewModels<PicmeDetailsViewModel>()
     private val distanceViewModel by activityViewModels<DistanceViewModel>()
 
     private lateinit var mFusedLocationClient: FusedLocationProviderClient
 
     private lateinit var picme: Picme
+
+    private var picmeIndex: Int? = null
+
+    private lateinit var task: Job
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,19 +59,75 @@ class PicmeDetailsFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        println("CREATED DETAILS")
         _binding = FragmentPicmeDetailsBinding.inflate(inflater, container, false)
-        picmeDetailsViewModelViewModel.picmeLiveData.observe(viewLifecycleOwner) { picme ->
+        picmeDetailsViewModel.picmeLiveData.observe(viewLifecycleOwner) { picme ->
             this.picme = picme
             loadImages()
             loadDetails()
             loadPicmeFriends()
         }
+        val picmeIndexStr = arguments?.getString("picmeIndex")
+        // Show Explore text
+        if (picmeIndexStr != null) {
+            picmeIndex = picmeIndexStr.toInt()
+            ShakeSensor.stopShakeDetection()
+
+            task = GlobalScope.launch {
+                delay(2000)
+                ShakeSensor.setShake(requireContext()) { phoneShake() }
+            }
+
+
+        }
+
+        // Show Explore text
+        if (picmeIndex != null) {
+            // Change text if end is reached
+            distanceViewModel.orderedPicmesLiveData.observe(viewLifecycleOwner) { orderedPicmes ->
+                if (picmeIndex == orderedPicmes!!.size - 1) {
+                    binding.textGo.text = "No more PicMe's! All you can do is..."
+                }
+            }
+
+            binding.textGo.visibility = View.VISIBLE
+
+        }
 
         binding.buttonGoBack.setOnClickListener {
+            task.cancel()
+            if (picmeIndex != null && picmeIndex != 0) {
+                distanceViewModel.orderedPicmesLiveData.observe(viewLifecycleOwner) { orderedPicmes ->
+                    picmeDetailsViewModel.selectPicme(orderedPicmes!![picmeIndex!! - 1])
+                }
+            }
+//                Navigation.findNavController(requireView())
+//                    .navigate(R.id.action_picmeDetailsFragment_to_navFragment)
             findNavController().popBackStack()
+            //}
+
         }
 
         return (binding.root)
+    }
+
+    // Only used in Explore Mode
+    private fun phoneShake() {
+        distanceViewModel.orderedPicmesLiveData.observe(viewLifecycleOwner) { orderedPicmes ->
+            if (picmeIndex == orderedPicmes!!.size - 1) {
+                Toast.makeText(requireContext(), "No more PicMe's!", Toast.LENGTH_SHORT).show()
+            } else {
+                val navController =
+                    Navigation.findNavController(requireView())
+                val bundle = Bundle()
+                picmeIndex = picmeIndex!! + 1
+                bundle.putString("picmeIndex", picmeIndex.toString())
+                picmeDetailsViewModel.selectPicme(orderedPicmes[picmeIndex!!])
+                navController.navigate(R.id.action_picmeDetailsFragment_self, bundle)
+            }
+
+
+        }
     }
 
     private fun loadPicmeFriends() {
@@ -101,21 +160,6 @@ class PicmeDetailsFragment : Fragment() {
             binding.imageCreator,
             binding.imageLoadingBar
         )
-
-//        binding.imagePicme.setOnClickListener {
-//            if (zoomOut) {
-//                binding.imagePicme.f
-//            }
-//        }
-
-        // Load creator image
-//        binding.imageCreator.load(picme.crea) {
-//            crossfade(true)
-//            crossfade(1000)
-//            listener { _, _ ->
-//                binding.picmeLoadingBar.isGone = true
-//            }
-//        }
     }
 
     @SuppressLint("MissingPermission")
@@ -161,6 +205,13 @@ class PicmeDetailsFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
+        println("DETAILS BYE BYE")
+        //ShakeSensor.stopShakeDetection()
         _binding = null
     }
+
+//    override fun onPause() {
+//        super.onPause()
+//        Sensor.stopShakeDetection()
+//    }
 }

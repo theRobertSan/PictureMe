@@ -14,6 +14,7 @@ import com.example.pictureme.data.Response
 import com.example.pictureme.databinding.FragmentRegisterBinding
 import com.example.pictureme.utils.CredentialValidation
 import com.example.pictureme.viewmodels.AuthViewModel
+import com.example.pictureme.viewmodels.PicmeViewModel
 import com.example.pictureme.viewmodels.UserViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -25,6 +26,8 @@ class RegisterFragment : Fragment() {
 
     private val authViewModel by activityViewModels<AuthViewModel>()
     private val userViewModel by activityViewModels<UserViewModel>()
+    private val picmeViewModel by activityViewModels<PicmeViewModel>()
+
 
     private var startConstantEmailValidation = false
     private var startConstantPasswordValidation = false
@@ -68,6 +71,12 @@ class RegisterFragment : Fragment() {
                     val fullName = binding.editName.text.toString()
                     // Save user to firestore
                     userViewModel.addUser(username, fullName)
+
+                    // Load user picmes
+                    picmeViewModel.loadPicmes()
+                    // Load feelings
+                    picmeViewModel.loadFeelings()
+
                     Navigation.findNavController(binding.root)
                         .navigate(R.id.action_registerFragment_to_navFragment)
                 }
@@ -85,11 +94,11 @@ class RegisterFragment : Fragment() {
     private fun usernameValidation() {
         binding.editUsername.doOnTextChanged { text, _, _, _ ->
             val validity = CredentialValidation.validUsername(text.toString())
-            if(validity == null  || text.toString() == "") {
+            if (validity == null || text.toString() == "") {
                 binding.editUsernameLayout.helperText = null
                 handleButton()
             } else {
-                if(startConstantUsernameValidation) {
+                if (startConstantUsernameValidation) {
                     binding.editUsernameLayout.helperText = validity
                     handleButton()
                 }
@@ -99,7 +108,8 @@ class RegisterFragment : Fragment() {
         binding.editUsername.setOnFocusChangeListener { _, focused ->
             val usernameText = binding.editUsername.text.toString()
             if (!focused && usernameText != "") {
-                binding.editUsernameLayout.helperText = CredentialValidation.validUsername(usernameText)
+                binding.editUsernameLayout.helperText =
+                    CredentialValidation.validUsername(usernameText)
                 startConstantUsernameValidation = true
             }
         }
@@ -108,11 +118,11 @@ class RegisterFragment : Fragment() {
     private fun fullNameValidation() {
         binding.editName.doOnTextChanged { text, _, _, _ ->
             val validity = CredentialValidation.validFullName(text.toString())
-            if(validity == null || text.toString() == "") {
+            if (validity == null || text.toString() == "") {
                 binding.editNameLayout.helperText = null
                 handleButton()
             } else {
-                if(startConstantFullNameValidation) {
+                if (startConstantFullNameValidation) {
                     binding.editNameLayout.helperText = validity
                     handleButton()
                 }
@@ -131,7 +141,7 @@ class RegisterFragment : Fragment() {
     private fun emailValidation() {
         binding.editEmail.doOnTextChanged { text, _, _, _ ->
             val validity = CredentialValidation.validEmail(text.toString())
-            if (validity == null  || text.toString() == "") {
+            if (validity == null || text.toString() == "") {
                 binding.editEmailLayout.helperText = null
                 handleButton()
             } else {
@@ -155,14 +165,15 @@ class RegisterFragment : Fragment() {
         binding.editPassword.doOnTextChanged { text, _, _, _ ->
             val passwordRepeatText = binding.editPasswordRepeat.text.toString()
             val validitySize = CredentialValidation.validPassword(text.toString())
-            val validityMatch = CredentialValidation.matchingPasswords(text.toString(), passwordRepeatText)
-            if (validitySize == null  || text.toString() == "") {
+            val validityMatch =
+                CredentialValidation.matchingPasswords(text.toString(), passwordRepeatText)
+            if (validitySize == null || text.toString() == "") {
                 // If there are no input errors, remove warnings
-                if(validityMatch == null || text.toString() == "") {
+                if (validityMatch == null || text.toString() == "") {
                     binding.editPasswordRepeatLayout.helperText = null
 
-                // If there are input errors and repeat password began, put warnings warnings
-                } else if (startConstantPasswordRepeatValidation && passwordRepeatText != ""){
+                    // If there are input errors and repeat password began, put warnings warnings
+                } else if (startConstantPasswordRepeatValidation && passwordRepeatText != "") {
                     binding.editPasswordRepeatLayout.helperText = validityMatch
                 }
 
@@ -179,7 +190,8 @@ class RegisterFragment : Fragment() {
         binding.editPassword.setOnFocusChangeListener { _, focused ->
             val passwordText = binding.editPassword.text.toString()
             if (!focused && passwordText != "") {
-                binding.editPasswordLayout.helperText = CredentialValidation.validPassword(passwordText)
+                binding.editPasswordLayout.helperText =
+                    CredentialValidation.validPassword(passwordText)
                 startConstantPasswordValidation = true
             }
         }
@@ -188,7 +200,10 @@ class RegisterFragment : Fragment() {
     private fun passwordRepeatValidation() {
 
         binding.editPasswordRepeat.doOnTextChanged { text, _, _, _ ->
-            val validity = CredentialValidation.matchingPasswords(text.toString(), binding.editPassword.text.toString())
+            val validity = CredentialValidation.matchingPasswords(
+                text.toString(),
+                binding.editPassword.text.toString()
+            )
             if (validity == null || text.toString() == "") {
                 binding.editPasswordRepeatLayout.helperText = null
                 handleButton()
@@ -203,7 +218,8 @@ class RegisterFragment : Fragment() {
             val passwordRepeatText = binding.editPasswordRepeat.text.toString()
             val passwordText = binding.editPassword.text.toString()
             if (!focused && passwordRepeatText != "") {
-                binding.editPasswordRepeatLayout.helperText = CredentialValidation.matchingPasswords(passwordText, passwordRepeatText)
+                binding.editPasswordRepeatLayout.helperText =
+                    CredentialValidation.matchingPasswords(passwordText, passwordRepeatText)
                 startConstantPasswordRepeatValidation = true
             }
         }
@@ -216,9 +232,14 @@ class RegisterFragment : Fragment() {
         val passwordText = binding.editPassword.text.toString()
         val passwordRepeatText = binding.editPasswordRepeat.text.toString()
 
-        if (CredentialValidation.validPassword(passwordText) == null && CredentialValidation.validEmail(emailText) == null
-            && CredentialValidation.validUsername(usernameText) == null && CredentialValidation.validFullName(fullNameText) == null
-            && passwordRepeatText == passwordText) {
+        if (CredentialValidation.validPassword(passwordText) == null && CredentialValidation.validEmail(
+                emailText
+            ) == null
+            && CredentialValidation.validUsername(usernameText) == null && CredentialValidation.validFullName(
+                fullNameText
+            ) == null
+            && passwordRepeatText == passwordText
+        ) {
             binding.buttonSignUp.isEnabled = true
             binding.buttonSignUp.setBackgroundColor(resources.getColor(R.color.primary))
             binding.buttonSignUp.setTextColor(resources.getColor(R.color.textOnPrimary))

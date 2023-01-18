@@ -28,7 +28,6 @@ class PicmeAdapter(
 ) : RecyclerView.Adapter<PicmeAdapter.PicMeViewHolder>() {
 
     fun setList(newList: List<Picme>) {
-
         this.picmes = newList
         notifyDataSetChanged()
     }

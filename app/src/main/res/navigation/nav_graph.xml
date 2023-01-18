@@ -94,6 +94,13 @@
         <action
             android:id="@+id/action_picmeDetailsFragment_to_navFragment"
             app:destination="@id/navFragment" />
+        <argument
+            android:name="picmeIndex"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_picmeDetailsFragment_self"
+            app:destination="@id/picmeDetailsFragment"
+            app:enterAnim="@android:anim/slide_out_right" />
     </fragment>
     <fragment
         android:id="@+id/editProfile"

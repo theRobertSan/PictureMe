@@ -1,33 +1,25 @@
 package com.example.pictureme.views.go
 
-import android.content.Context
-import android.content.Context.SENSOR_SERVICE
-import android.hardware.Sensor
-import android.hardware.SensorEvent
-import android.hardware.SensorEventListener
-import android.hardware.SensorManager
+import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.Navigation
 import com.example.pictureme.R
-import com.example.pictureme.databinding.FragmentAddFeelingBinding
-import com.example.pictureme.databinding.FragmentGoImageBinding
+import com.example.pictureme.data.models.Picme
 import com.example.pictureme.databinding.FragmentLetsgoBinding
+import com.example.pictureme.utils.ShakeSensor
 import com.example.pictureme.viewmodels.DistanceViewModel
 import com.example.pictureme.viewmodels.PicmeDetailsViewModel
 import com.example.pictureme.viewmodels.PicmeViewModel
-import com.example.pictureme.views.addFeeling.adapters.AddFeelingViewPagerAdapter
 import com.example.pictureme.views.go.adapters.GoViewPagerAdapter
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import com.google.android.material.tabs.TabLayoutMediator
-import java.lang.Math.sqrt
 import java.util.*
-import kotlin.random.Random.Default.nextInt
 
 class GoFragment : Fragment() {
 
@@ -38,61 +30,25 @@ class GoFragment : Fragment() {
     private val picmeDetailsViewModel by activityViewModels<PicmeDetailsViewModel>()
     private val distanceViewModel by activityViewModels<DistanceViewModel>()
 
+    private lateinit var mFusedLocationClient: FusedLocationProviderClient
 
-    private var sensorManager: SensorManager? = null
-    private var acceleration = 0f
-    private var currentAcceleration = 0f
-    private var lastAcceleration = 0f
-    private var shakeDetected = false
+    private var lastList: List<Picme>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        // Getting the Sensor Manager instance
-        sensorManager = requireContext().getSystemService(Context.SENSOR_SERVICE) as SensorManager
-        Objects.requireNonNull(sensorManager)!!
-            .registerListener(
-                sensorListener, sensorManager!!
-                    .getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_NORMAL
-            )
-        acceleration = 10f
-        currentAcceleration = SensorManager.GRAVITY_EARTH
-        lastAcceleration = SensorManager.GRAVITY_EARTH
-    }
-
-    private val sensorListener: SensorEventListener = object : SensorEventListener {
-        override fun onSensorChanged(event: SensorEvent) {
-
-            // Fetching x,y,z values
-            val x = event.values[0]
-            val y = event.values[1]
-            val z = event.values[2]
-            lastAcceleration = currentAcceleration
-
-            // Getting current accelerations
-            // with the help of fetched x,y,z values
-            currentAcceleration = kotlin.math.sqrt((x * x + y * y + z * z).toDouble())
-                .toFloat() / SensorManager.GRAVITY_EARTH
-            val delta: Float = currentAcceleration - lastAcceleration
-            acceleration = acceleration * 0.9f + delta
-
-            // Display a Toast message if
-            // acceleration value is over 12
-            if (acceleration > 0.4f && !shakeDetected) {
-                shakeDetected = true
-                phoneShake()
-
-            }
-        }
-
-        override fun onAccuracyChanged(sensor: Sensor, accuracy: Int) {}
+        mFusedLocationClient =
+            LocationServices.getFusedLocationProviderClient(requireContext())
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        println("--------------------------------------------_!!!")
         _binding = FragmentLetsgoBinding.inflate(inflater, container, false)
-        shakeDetected = false
+
+        ShakeSensor.stopShakeDetection()
+        ShakeSensor.setShake(requireContext()) { phoneShake(binding.fragmentExploreTabs.selectedTabPosition) }
         setTabs()
 
         return (binding.root)
@@ -116,13 +72,43 @@ class GoFragment : Fragment() {
         }.attach()
     }
 
-    private fun phoneShake() {
-//        picmeViewModel.picmesLiveData.observe(viewLifecycleOwner) { picmes ->
-//            distanceViewModel.getDistanceOrderedPicmes(picmes, false, )
-////            picmeDetailsViewModel.selectPicme(picmes.random())
-////            Navigation.findNavController(requireView().parent.parent as View)
-////                .navigate(R.id.action_navFragment_to_picmeDetailsFragment)
-//        }
+    @SuppressLint("MissingPermission")
+    private fun phoneShake(selectedTabPosition: Int) {
+        picmeViewModel.picmesLiveData.observe(viewLifecycleOwner) { picmes ->
+            // Get current location
+            mFusedLocationClient.lastLocation.addOnSuccessListener { location ->
+                if (location != null) {
+                    val currentLocation = "${location.latitude},${location.longitude}"
+                    val apiKey = requireContext().getString(R.string.MAPS_API_KEY)
+                    distanceViewModel.getDistanceOrderedPicmes(
+                        currentLocation,
+                        picmes,
+                        selectedTabPosition == 1,
+                        apiKey
+                    )
+                } else {
+                    println("NO LOCATION")
+                    throw Exception("No location")
+                }
+            }
+        }
+
+        distanceViewModel.orderedPicmesLiveData
+            .observe(
+                viewLifecycleOwner
+            ) { newValue ->
+                if (newValue != lastList) {
+                    val navController =
+                        Navigation.findNavController(requireView().parent.parent as View)
+                    val bundle = Bundle()
+                    bundle.putString("picmeIndex", "0")
+                    println("BRUUUU: ${newValue!![0]}")
+                    picmeDetailsViewModel.selectPicme(newValue[0])
+                    lastList = newValue
+                    navController.navigate(R.id.action_navFragment_to_picmeDetailsFragment, bundle)
+                }
+
+            }
 
     }
 
@@ -131,4 +117,16 @@ class GoFragment : Fragment() {
         _binding = null
     }
 
+
 }
+
+//if (oldValue == null) {
+//    val navController =
+//        Navigation.findNavController(requireView().parent.parent as View)
+//    val bundle = Bundle()
+//    bundle.putString("picmeIndex", "0")
+//    println("BRUUUU: ${newValue!![0]}")
+//    picmeDetailsViewModel.selectPicme(newValue[0])
+//
+//    navController.navigate(R.id.action_navFragment_to_picmeDetailsFragment, bundle)
+//}

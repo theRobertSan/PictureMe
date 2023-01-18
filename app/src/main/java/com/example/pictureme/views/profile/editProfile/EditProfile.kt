@@ -1,5 +1,6 @@
 package com.example.pictureme.views.profile.editProfile
 
+import android.Manifest
 import android.app.Activity
 import android.content.Intent
 import android.net.Uri
@@ -17,6 +18,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.pictureme.R
 import com.example.pictureme.databinding.FragmentEditProfileBinding
 import com.example.pictureme.utils.CredentialValidation
+import com.example.pictureme.utils.Permissions
 import com.example.pictureme.utils.Pictures
 import com.example.pictureme.viewmodels.PicmeViewModel
 import com.example.pictureme.viewmodels.UserViewModel
@@ -53,10 +55,17 @@ class EditProfile : Fragment() {
         }
 
         binding.floatingActionButton.setOnClickListener {
-            chooseImageFromGallery()
+            // If required permissions enabled, do something
+            Permissions.checkPermissions(
+                requireContext(),
+                listOf(
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE
+                ),
+                "To open the gallery, you have to enable this permission."
+            ) { chooseImageFromGallery() }
         }
 
-        binding.buttonSave.setOnClickListener{
+        binding.buttonSave.setOnClickListener {
             save()
         }
 
@@ -77,7 +86,7 @@ class EditProfile : Fragment() {
         val validation = CredentialValidation.validFullName(newName)
 
         // If new name is valid, save everything, send a toast and go back
-        if(validation == null) {
+        if (validation == null) {
             userViewModel.updateProfile(
                 binding.fragmentEditProfileEtUsername.text.toString(),
                 imageUri
@@ -90,7 +99,7 @@ class EditProfile : Fragment() {
             Navigation.findNavController(binding.root).popBackStack()
             Toast.makeText(context, "Profile successfully updated", Toast.LENGTH_SHORT).show()
 
-        // Else set a listener for the name editor
+            // Else set a listener for the name editor
         } else {
 
             binding.fragmentEditProfileEtUsernameLayout.helperText = validation
@@ -98,7 +107,7 @@ class EditProfile : Fragment() {
             binding.fragmentEditProfileEtUsername.doAfterTextChanged {
                 val newNameInside = binding.fragmentEditProfileEtUsername.text.toString()
                 val validationInside = CredentialValidation.validFullName(newNameInside)
-                if(validationInside == null) {
+                if (validationInside == null) {
                     binding.fragmentEditProfileEtUsernameLayout.helperText = null
                 } else {
                     binding.fragmentEditProfileEtUsernameLayout.helperText = validation

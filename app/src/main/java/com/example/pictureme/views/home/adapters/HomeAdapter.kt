@@ -1,5 +1,6 @@
 package com.example.pictureme.views.home.adapters
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,7 +14,8 @@ import com.example.pictureme.viewmodels.PicmeDetailsViewModel
 
 class HomeAdapter(
     private var rvs: List<ParentModelClass>,
-    private val picmeDetailsViewModelViewModel: PicmeDetailsViewModel
+    private val picmeDetailsViewModelViewModel: PicmeDetailsViewModel,
+    private val context: Context
 ) : RecyclerView.Adapter<HomeAdapter.HomeViewHolder>() {
 
     fun setList(newList: List<ParentModelClass>) {
@@ -41,7 +43,8 @@ class HomeAdapter(
     override fun onBindViewHolder(holder: HomeViewHolder, position: Int) {
         holder.tvTitle.text = rvs[position].title
 
-        val picMeAdapter = PicmeAdapter(rvs[position].picmes, picmeDetailsViewModelViewModel)
+        val picMeAdapter =
+            PicmeAdapter(rvs[position].picmes, picmeDetailsViewModelViewModel, context)
         println("helloooooo ${picMeAdapter.itemCount}")
 
         //picMeAdapter.setList(rvs[position].picmes)

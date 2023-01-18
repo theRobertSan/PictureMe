@@ -22,6 +22,7 @@ import com.example.pictureme.R
 import com.example.pictureme.data.models.Picme
 import com.example.pictureme.databinding.FragmentMapBinding
 import com.example.pictureme.utils.Details
+import com.example.pictureme.utils.Permissions
 import com.example.pictureme.utils.Pictures
 import com.example.pictureme.viewmodels.PicmeDetailsViewModel
 import com.example.pictureme.viewmodels.PicmeViewModel
@@ -53,18 +54,18 @@ class MapFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener, OnMap
     private lateinit var mMap: GoogleMap
 
     // Location Tracking
-    private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
-    private lateinit var locationCallback: LocationCallback
-    private lateinit var locationRequest: LocationRequest
-    private lateinit var currentLocation: Location
+    private var fusedLocationProviderClient: FusedLocationProviderClient? = null
+    private var locationCallback: LocationCallback? = null
+    private var locationRequest: LocationRequest? = null
+    private var currentLocation: Location? = null
     private var requestingLocationUpdates: Boolean = true
 
     // Cluster
-    private lateinit var clusterManager: ClusterManager<PicmeClusterItem>
+    private var clusterManager: ClusterManager<PicmeClusterItem>? = null
 
     // Card Views
-    private lateinit var cardViewMarker: MaterialCardView
-    private lateinit var cardViewCluster: MaterialCardView
+    private var cardViewMarker: MaterialCardView? = null
+    private var cardViewCluster: MaterialCardView? = null
 
     // PicMes
     private val picmeViewModel by activityViewModels<PicmeViewModel>()
@@ -73,7 +74,8 @@ class MapFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener, OnMap
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         // Setup FusedLocationProviderClient
-        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(requireActivity())
+        fusedLocationProviderClient =
+            LocationServices.getFusedLocationProviderClient(requireActivity())
     }
 
     override fun onCreateView(
@@ -82,21 +84,31 @@ class MapFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener, OnMap
     ): View? {
         _binding = FragmentMapBinding.inflate(inflater, container, false)
 
-        cardViewMarker = binding.fragmentMapCardViewMarker
-        cardViewCluster =  binding.fragmentMapCardViewCluster
+        // If required permissions enabled, do something
+        Permissions.checkPermissions(
+            requireContext(),
+            listOf(
+                Manifest.permission.ACCESS_FINE_LOCATION,
+            ),
+            "To take a PicMe, you have to enable those permissions."
+        ) {
+            cardViewMarker = binding.fragmentMapCardViewMarker
+            cardViewCluster = binding.fragmentMapCardViewCluster
 
-        // Setup SupportMapFragment
-        val mapFragment = childFragmentManager.findFragmentById(R.id.fragment_map_googleMap) as SupportMapFragment
-        mapFragment.getMapAsync(this)
+            // Setup SupportMapFragment
+            val mapFragment =
+                childFragmentManager.findFragmentById(R.id.fragment_map_googleMap) as SupportMapFragment
+            mapFragment.getMapAsync(this)
 
-        // Setup Location Request
-        createLocationRequest()
+            // Setup Location Request
+            createLocationRequest()
 
-        // Location Updates
-        setupLocationUpdates()
+            // Location Updates
+            setupLocationUpdates()
 
-        // Hide card view for marker clicking
-        hideCardViews()
+            // Hide card view for marker clicking
+            hideCardViews()
+        }
 
         return (binding.root)
     }
@@ -118,8 +130,10 @@ class MapFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener, OnMap
                 for (location in locationResult.locations) {
                     Log.d("mapdora", location.toString())
                     currentLocation = location
-                    mMap.animateCamera(CameraUpdateFactory.newLatLngZoom
-                        (LatLng(currentLocation.latitude, currentLocation.longitude), 12f))
+                    mMap.animateCamera(
+                        CameraUpdateFactory.newLatLngZoom
+                            (LatLng(currentLocation!!.latitude, currentLocation!!.longitude), 12f)
+                    )
                 }
             }
         }
@@ -136,13 +150,17 @@ class MapFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener, OnMap
         ) {
             return
         }
-        fusedLocationProviderClient.requestLocationUpdates(locationRequest,
-            locationCallback,
-            Looper.getMainLooper())
+        fusedLocationProviderClient!!.requestLocationUpdates(
+            locationRequest!!,
+            locationCallback!!,
+            Looper.getMainLooper()
+        )
     }
 
     private fun stopLocationUpdates() {
-        fusedLocationProviderClient.removeLocationUpdates(locationCallback)
+        if (locationCallback != null) {
+            fusedLocationProviderClient!!.removeLocationUpdates(locationCallback!!)
+        }
     }
 
     override fun onResume() {
@@ -184,12 +202,12 @@ class MapFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener, OnMap
         // Cluster Manager Stuff
         clusterManager = ClusterManager(context, mMap)
         mMap.setOnCameraIdleListener(clusterManager)
-        clusterManager.markerCollection.setOnMarkerClickListener { marker: Marker ->
+        clusterManager!!.markerCollection.setOnMarkerClickListener { marker: Marker ->
             val ret = onMarkerClick(marker)
             ret
         }
 
-        clusterManager.setOnClusterClickListener { cluster ->
+        clusterManager!!.setOnClusterClickListener { cluster ->
             val ret = onClusterClick(cluster)
             ret
         }
@@ -205,7 +223,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener, OnMap
                     val lng = geoPoint.longitude
 
                     val item = picme.id?.let { PicmeClusterItem(lat, lng, it, "s") }
-                    clusterManager.addItem(item)
+                    clusterManager!!.addItem(item)
 
                     //val latLng = LatLng(lat, lng)
                     //placeMarker(picme, latLng)
@@ -227,26 +245,30 @@ class MapFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener, OnMap
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onMarkerClick(marker: Marker): Boolean {
-        hideCardView(cardViewCluster)
-        showCardView(cardViewMarker)
+        hideCardView(cardViewCluster!!)
+        showCardView(cardViewMarker!!)
 
         val id = marker.title
         val picme = id?.let { picmeViewModel.getPicme(it) }
 
         if (picme != null) {
-            Pictures.loadPicme(picme.imagePath, binding.fragmentMapImageView, binding.fragmentMapLoadingBar)
+            Pictures.loadPicme(
+                picme.imagePath,
+                binding.fragmentMapImageView,
+                binding.fragmentMapLoadingBar
+            )
             binding.fragmentMapTextView.text = Details.getRelativeDate(picme.createdAt!!)
             binding.fragmentMapImageView.scaleType = ImageView.ScaleType.FIT_CENTER
         }
         return false
     }
 
-    private fun onClusterClick(cluster: Cluster<PicmeClusterItem>): Boolean{
-        hideCardView(cardViewMarker)
-        showCardView(cardViewCluster)
+    private fun onClusterClick(cluster: Cluster<PicmeClusterItem>): Boolean {
+        hideCardView(cardViewMarker!!)
+        showCardView(cardViewCluster!!)
         val picmes = mutableListOf<Picme>()
 
-        for(item in cluster.items) {
+        for (item in cluster.items) {
             val id = item.title
             val picme = id?.let { picmeViewModel.getPicme(it) }
             if (picme != null) {
@@ -269,8 +291,8 @@ class MapFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener, OnMap
     }
 
     private fun hideCardViews() {
-        cardViewMarker.visibility = View.GONE
-        cardViewCluster.visibility = View.GONE
+        cardViewMarker!!.visibility = View.GONE
+        cardViewCluster!!.visibility = View.GONE
     }
 
     private fun hideCardView(cardView: MaterialCardView) {
@@ -318,7 +340,6 @@ class MapFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener, OnMap
             this.snippet = snippet
         }
     }
-
 
 
 }

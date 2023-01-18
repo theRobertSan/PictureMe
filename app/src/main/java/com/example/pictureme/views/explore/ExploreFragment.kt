@@ -23,7 +23,10 @@ class ExploreFragment : Fragment() {
 
         val pager = binding.fragmentExploreViewPager
         val tl = binding.fragmentExploreTabs
-        pager.adapter = ViewPagerAdapter(requireActivity().supportFragmentManager, requireActivity().lifecycle)
+        pager.adapter = ViewPagerAdapter(
+            requireActivity().supportFragmentManager,
+            requireActivity().lifecycle,
+        )
         pager.isUserInputEnabled = false
 
         TabLayoutMediator(tl, pager) { tab, position ->

@@ -82,7 +82,7 @@ class HomeFragment : Fragment() {
             rvsCategory.add(rv)
         }
 
-        val adapter = HomeAdapter(rvsCategory, picmeDetailsViewModelViewModel)
+        val adapter = HomeAdapter(rvsCategory, picmeDetailsViewModelViewModel, requireContext())
         rvHome.adapter = adapter
         rvHome.layoutManager =
             LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)

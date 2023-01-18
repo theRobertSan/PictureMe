@@ -1,6 +1,8 @@
 package com.example.pictureme.views.go
 
+import android.Manifest
 import android.annotation.SuppressLint
+import android.hardware.Sensor
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -11,6 +13,7 @@ import androidx.navigation.Navigation
 import com.example.pictureme.R
 import com.example.pictureme.data.models.Picme
 import com.example.pictureme.databinding.FragmentLetsgoBinding
+import com.example.pictureme.utils.Permissions
 import com.example.pictureme.utils.ShakeSensor
 import com.example.pictureme.viewmodels.DistanceViewModel
 import com.example.pictureme.viewmodels.PicmeDetailsViewModel
@@ -75,49 +78,63 @@ class GoFragment : Fragment() {
 
     @SuppressLint("MissingPermission")
     private fun phoneShake(selectedTabPosition: Int) {
-        picmeViewModel.picmesLiveData.observe(viewLifecycleOwner) { picmes ->
-            // Get current location
-            mFusedLocationClient.lastLocation.addOnSuccessListener { location ->
-                if (location != null) {
-                    val currentLocation = "${location.latitude},${location.longitude}"
-                    val apiKey = requireContext().getString(R.string.MAPS_API_KEY)
-                    distanceViewModel.getDistanceOrderedPicmes(
-                        currentLocation,
-                        picmes,
-                        selectedTabPosition == 1,
-                        apiKey
-                    )
-                } else {
-                    println("NO LOCATION")
-                    throw Exception("No location")
+
+        // If required permissions enabled, do something
+        Permissions.checkPermissions(
+            requireContext(),
+            listOf(
+                Manifest.permission.ACCESS_FINE_LOCATION,
+            ),
+            "To explore your PicMes, you have to enable this permission."
+        ) {
+            picmeViewModel.picmesLiveData.observe(viewLifecycleOwner) { picmes ->
+                // Get current location
+                mFusedLocationClient.lastLocation.addOnSuccessListener { location ->
+                    if (location != null) {
+                        val currentLocation = "${location.latitude},${location.longitude}"
+                        val apiKey = requireContext().getString(R.string.MAPS_API_KEY)
+                        distanceViewModel.getDistanceOrderedPicmes(
+                            currentLocation,
+                            picmes,
+                            selectedTabPosition == 1,
+                            apiKey
+                        )
+                    } else {
+                        println("NO LOCATION")
+                        throw Exception("No location")
+                    }
                 }
             }
+
+            distanceViewModel.orderedPicmesLiveData
+                .observe(
+                    viewLifecycleOwner
+                ) { newValue ->
+                    if (newValue != lastList || lastListIgnored) {
+                        lastListIgnored = false
+                        val navController =
+                            Navigation.findNavController(requireView().parent.parent as View)
+                        val bundle = Bundle()
+                        bundle.putString("picmeIndex", "0")
+                        println("BRUUUU: ${newValue!![0]}")
+                        picmeDetailsViewModel.selectPicme(newValue[0])
+                        lastList = newValue
+                        navController.navigate(
+                            R.id.action_navFragment_to_picmeDetailsFragment,
+                            bundle
+                        )
+                    } else {
+                        lastListIgnored = true
+                    }
+
+                }
         }
-
-        distanceViewModel.orderedPicmesLiveData
-            .observe(
-                viewLifecycleOwner
-            ) { newValue ->
-                if (newValue != lastList || lastListIgnored) {
-                    lastListIgnored = false
-                    val navController =
-                        Navigation.findNavController(requireView().parent.parent as View)
-                    val bundle = Bundle()
-                    bundle.putString("picmeIndex", "0")
-                    println("BRUUUU: ${newValue!![0]}")
-                    picmeDetailsViewModel.selectPicme(newValue[0])
-                    lastList = newValue
-                    navController.navigate(R.id.action_navFragment_to_picmeDetailsFragment, bundle)
-                } else {
-                    lastListIgnored = true
-                }
-
-            }
 
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
+        ShakeSensor.stopShakeDetection()
         _binding = null
     }
 

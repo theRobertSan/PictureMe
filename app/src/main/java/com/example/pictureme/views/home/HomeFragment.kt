@@ -10,6 +10,7 @@ import androidx.annotation.RequiresApi
 import androidx.core.view.isGone
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.pictureme.views.home.adapters.HomeAdapter
 import com.example.pictureme.data.models.Feeling
 import com.example.pictureme.data.models.Friendship
@@ -86,6 +87,7 @@ class HomeFragment : Fragment() {
         rvHome.layoutManager =
             LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
 
+
         picmeViewModel.foodFeelingsLiveData.observe(viewLifecycleOwner) { response ->
             feelings = response
         }
@@ -100,11 +102,10 @@ class HomeFragment : Fragment() {
                 rvsCategory.add(rv)
             }
             adapter.setList(rvsCategory)
+
             binding.rvLoadingBar.isGone = true
             binding.fragmentHomeRv.visibility = View.VISIBLE
         }
-
-
     }
 
     override fun onDestroyView() {

@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.Navigation
 import com.example.pictureme.R
 import com.example.pictureme.databinding.FragmentAddFeelingBinding
 import com.example.pictureme.databinding.FragmentAddFriendsBinding
@@ -29,6 +30,8 @@ class AddFeelingFragment : Fragment() {
     ): View? {
         _binding = FragmentAddFeelingBinding.inflate(inflater, container, false)
 
+        setupListeners()
+
         val pager = binding.fragmentAddFeelingViewPager
         val tl = binding.fragmentExploreTabs
         pager.adapter =
@@ -46,6 +49,15 @@ class AddFeelingFragment : Fragment() {
         }.attach()
 
         return (binding.root)
+    }
+
+    private fun setupListeners() {
+
+        binding.buttonGoBack.setOnClickListener{
+            Navigation.findNavController(binding.root)
+                .popBackStack()
+        }
+
     }
 
     override fun onDestroyView() {

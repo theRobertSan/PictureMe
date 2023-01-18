@@ -8,28 +8,51 @@
     android:background="@color/textOnPrimary"
     tools:context=".views.addfriends.AddFriendsFragment">
 
+    <ImageView
+        android:id="@+id/buttonGoBack"
+        style="@style/go_back_button"
+        app:tint="@color/lightBlack"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:src="@drawable/ic_back"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView"
+        style="@style/smallMediumText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:text="Add Friends"
+        app:layout_constraintBottom_toBottomOf="@+id/buttonGoBack"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/buttonGoBack" />
+
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/materialCardView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="8dp"
         app:cardCornerRadius="@dimen/corner_radius"
         app:cardElevation="12dp"
-        app:cardUseCompatPadding="true">
+        app:cardUseCompatPadding="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonGoBack">
 
         <androidx.appcompat.widget.SearchView
             android:id="@+id/searchView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:iconTint="@color/primary"
-            app:queryHint="Search for friend's name"
             app:iconifiedByDefault="false"
-            app:queryBackground="@android:color/transparent" />
+            app:queryBackground="@android:color/transparent"
+            app:queryHint="Search for friend's name" />
 
     </com.google.android.material.card.MaterialCardView>
-
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvFriends"

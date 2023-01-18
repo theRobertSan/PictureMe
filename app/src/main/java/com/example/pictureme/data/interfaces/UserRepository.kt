@@ -15,4 +15,5 @@ interface UserRepository {
     suspend fun handleFriendRequestAnswer(requestId: String, accepted: Boolean): Friendship?
     suspend fun storeProfileImage(currentUserId: String, imageUri: Uri): String
     suspend fun updateUserProfilePicture(currentUserId: String, profilePicturePath: String)
+    suspend fun updateUserProfileFullName(currentUserId: String, fullName: String)
 }

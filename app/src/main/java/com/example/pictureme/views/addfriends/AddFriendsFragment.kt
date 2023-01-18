@@ -7,7 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.pictureme.R
 import com.example.pictureme.data.models.Friendship
 import com.example.pictureme.databinding.FragmentAddFriendsBinding
 import com.example.pictureme.viewmodels.PreviewPicmeViewModel
@@ -35,6 +37,8 @@ class AddFriendsFragment : Fragment() {
         _binding = FragmentAddFriendsBinding.inflate(inflater, container, false);
 
         binding.searchView.clearFocus()
+
+        setupListeners()
 
         val adapter = AddFriendsAdapter(friendships, previewViewModel)
         binding.rvFriends.adapter = adapter
@@ -72,6 +76,11 @@ class AddFriendsFragment : Fragment() {
     }
 
     private fun setupListeners() {
+
+        binding.buttonGoBack.setOnClickListener{
+            Navigation.findNavController(binding.root)
+                .popBackStack()
+        }
 
     }
 

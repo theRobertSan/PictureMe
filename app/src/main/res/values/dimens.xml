@@ -13,10 +13,10 @@
     <dimen name="elevation">6dp</dimen>
     <dimen name="margin">12dp</dimen>
 
-    <!-- Friend Cards -->
-    <dimen name="friend_card_margin">5dp</dimen>
-    <dimen name="friend_card_elevation">3dp</dimen>
-    <dimen name="friend_card_layout_height">110dp</dimen>
+    <!-- List Item Cards -->
+    <dimen name="item_card_margin">5dp</dimen>
+    <dimen name="item_card_elevation">3dp</dimen>
+    <dimen name="item_card_layout_height">110dp</dimen>
 
     <dimen name="opt_margins">40dp</dimen>
 

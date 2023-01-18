@@ -46,6 +46,10 @@ class LoginFragment : Fragment() {
                 .navigate(R.id.action_loginFragment_to_registerFragment)
         }
 
+        binding.textForgotPassword.setOnClickListener {
+            Toast.makeText(it.context,"Oh well!", Toast.LENGTH_SHORT).show()
+        }
+
         binding.buttonLogin.setOnClickListener {
             authViewModel.login(
                 binding.editEmail.text.toString(),
@@ -103,16 +107,9 @@ class LoginFragment : Fragment() {
 
     private fun passwordValidation() {
 
-        binding.editPassword.setOnFocusChangeListener { _, focused ->
-            if (!focused) {
-                val passwordText = binding.editPassword.text.toString()
-                binding.editPasswordLayout.helperText = CredentialValidation.validPassword(passwordText)
-                startedTypingPassword = true
-            }
-        }
         binding.editPassword.doOnTextChanged { text, _, _, _ ->
             val validity = CredentialValidation.validPassword(text)
-            if (validity == null) {
+            if (validity == null || text.toString() == "") {
                 binding.editPasswordLayout.helperText = null
                 handleButton()
             } else {
@@ -122,12 +119,20 @@ class LoginFragment : Fragment() {
                 }
             }
         }
+
+        binding.editPassword.setOnFocusChangeListener { _, focused ->
+            val passwordText = binding.editPassword.text.toString()
+            if (!focused && passwordText != "") {
+                binding.editPasswordLayout.helperText = CredentialValidation.validPassword(passwordText)
+                startedTypingPassword = true
+            }
+        }
     }
 
     private fun emailValidation() {
         binding.editEmail.doOnTextChanged { text, _, _, _ ->
             val validity = CredentialValidation.validEmail(text.toString())
-            if (validity == null) {
+            if (validity == null || text.toString() == "") {
                 binding.editEmailLayout.helperText = null
                 handleButton()
             } else {
@@ -139,7 +144,7 @@ class LoginFragment : Fragment() {
         }
         binding.editEmail.setOnFocusChangeListener { _, focused ->
             val emailText = binding.editEmail.text.toString()
-            if (!focused) {
+            if (!focused && emailText != "") {
                 binding.editEmailLayout.helperText = CredentialValidation.validEmail(emailText)
                 startedTypingEmail = true
             }

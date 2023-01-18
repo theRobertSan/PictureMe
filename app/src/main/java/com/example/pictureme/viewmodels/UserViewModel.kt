@@ -53,12 +53,22 @@ class UserViewModel @Inject constructor(
         _userLiveData.postValue(currentUser)
     }
 
-    fun updateProfile(imageUri: Uri?) = viewModelScope.launch {
+    fun updateProfile(fullName: String, imageUri: Uri?) = viewModelScope.launch {
+
         // Save to Firebase Storage
         val updatedUser = _userLiveData.value!!
-        updatedUser.profilePicturePath = userRepository.storeProfileImage(currentUserId, imageUri!!)
+
         // Save to Firestore
-        userRepository.updateUserProfilePicture(currentUserId, updatedUser.profilePicturePath!!)
+        if(imageUri != null) {
+            updatedUser.profilePicturePath = userRepository.storeProfileImage(currentUserId, imageUri!!)
+            userRepository.updateUserProfilePicture(currentUserId, updatedUser.profilePicturePath!!)
+        }
+
+        if(updatedUser.fullName != fullName) {
+            updatedUser.fullName = fullName
+            userRepository.updateUserProfileFullName(currentUserId, updatedUser.fullName!!)
+        }
+
         // Add created picme to current picme list
         println("Updated User $updatedUser")
         _userLiveData.postValue(updatedUser)

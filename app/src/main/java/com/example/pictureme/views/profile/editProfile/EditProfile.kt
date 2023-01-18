@@ -5,18 +5,17 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
-import com.example.pictureme.R
 import com.example.pictureme.databinding.FragmentEditProfileBinding
-import com.example.pictureme.databinding.FragmentFriendsBinding
 import com.example.pictureme.utils.Pictures
 import com.example.pictureme.viewmodels.PicmeViewModel
 import com.example.pictureme.viewmodels.UserViewModel
+
 
 class EditProfile : Fragment() {
 
@@ -45,13 +44,14 @@ class EditProfile : Fragment() {
                 binding.imageProfile,
                 binding.imageLoadingBar
             )
+            binding.fragmentEditProfileEtUsername.setText(user.fullName)
         }
 
-        binding.imageProfile.setOnClickListener {
+        binding.floatingActionButton.setOnClickListener {
             chooseImageFromGallery()
         }
 
-        binding.buttonSave.setOnClickListener {
+        binding.buttonSave.setOnClickListener{
             save()
         }
 
@@ -67,17 +67,21 @@ class EditProfile : Fragment() {
     }
 
     private fun save() {
-        userViewModel.updateProfile(imageUri)
+
+        userViewModel.updateProfile(binding.fragmentEditProfileEtUsername.text.toString(), imageUri)
         // Reload picmes so that icons update
         userViewModel.userLiveData.observe(viewLifecycleOwner) {
             println("YWYYWYWYWYYWYYWW")
             picmeViewModel.loadPicmes()
         }
+
+
     }
 
     private fun chooseImageFromGallery() {
         val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI)
         startActivityForResult(intent, IMAGE_CHOOSE)
+
     }
 
     override fun onDestroyView() {

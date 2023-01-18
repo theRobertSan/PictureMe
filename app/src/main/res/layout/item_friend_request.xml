@@ -3,14 +3,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="230dp">
+    android:layout_height="160dp">
 
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:cardElevation="@dimen/elevation"
+        app:cardElevation="3dp"
         app:cardCornerRadius="@dimen/corner_radius"
-        android:layout_margin="@dimen/margin">
+        android:layout_margin="5dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -18,8 +18,7 @@
 
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/friend_profile_pic"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
+                style="@style/friend_profile_pic"
 
                 android:layout_marginStart="16dp"
                 android:scaleType="centerCrop"
@@ -41,16 +40,27 @@
                 app:layout_constraintTop_toTopOf="@+id/friend_profile_pic" />
 
             <TextView
-                android:id="@+id/sending_user_username"
-                style="@style/mediumText"
+                android:id="@+id/sending_user_full_name"
+                style="@style/smallMediumText"
                 android:layout_width="210dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="25dp"
+                android:layout_marginLeft="20dp"
                 android:text="TextView"
-                app:layout_constraintBottom_toTopOf="@+id/request_date"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/sending_user_username"
                 app:layout_constraintStart_toEndOf="@+id/friend_profile_pic"
                 app:layout_constraintTop_toTopOf="@+id/friend_profile_pic"
                 app:layout_constraintVertical_chainStyle="packed" />
+
+            <TextView
+                android:id="@+id/sending_user_username"
+                style="@style/smallText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="TextView"
+                app:layout_constraintBottom_toTopOf="@+id/request_date"
+                app:layout_constraintStart_toStartOf="@+id/sending_user_full_name"
+                app:layout_constraintTop_toBottomOf="@+id/sending_user_full_name" />
 
             <TextView
                 android:id="@+id/request_date"
@@ -58,18 +68,18 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="TextView"
+                android:textColor="@color/gray"
                 app:layout_constraintBottom_toBottomOf="@+id/friend_profile_pic"
                 app:layout_constraintStart_toStartOf="@+id/sending_user_username"
                 app:layout_constraintTop_toBottomOf="@+id/sending_user_username" />
 
             <Button
-                style="@style/mediumButton"
-                android:drawableLeft="@drawable/ic_accept"
-                android:backgroundTint="@color/accept"
-                android:drawablePadding="3dp"
                 android:id="@+id/button_accept"
+                style="@style/small_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:backgroundTint="@color/accept"
+                android:drawableLeft="@drawable/ic_accept"
                 android:text="@string/accept"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/button_decline"
@@ -78,14 +88,16 @@
                 app:layout_constraintTop_toBottomOf="@+id/friend_profile_pic" />
 
             <Button
-                style="@style/mediumButton"
-                android:drawableLeft="@drawable/ic_decline"
-                android:drawablePadding="3dp"
-                android:backgroundTint="@color/refuse"
                 android:id="@+id/button_decline"
+                style="@style/small_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:background="?android:attr/selectableItemBackground"
+                android:drawableLeft="@drawable/ic_decline_red"
+                android:drawablePadding="3dp"
                 android:text="@string/decline"
+                android:textColor="@color/primary"
+                android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="@+id/button_accept"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"

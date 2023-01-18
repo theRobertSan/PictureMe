@@ -81,7 +81,7 @@ class RegisterFragment : Fragment() {
                         .navigate(R.id.action_registerFragment_to_navFragment)
                 }
                 is Response.Failure -> {
-                    Toast.makeText(activity, "Failure!", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(activity, "Username or email has already been taken!", Toast.LENGTH_SHORT).show()
                 }
                 else -> {}
             }

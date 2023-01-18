@@ -3,34 +3,45 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="150dp">
+    android:layout_height="@dimen/friend_card_layout_height">
 
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:cardElevation="@dimen/elevation"
+        app:cardElevation="@dimen/friend_card_elevation"
         app:cardCornerRadius="@dimen/corner_radius"
-        android:layout_margin="@dimen/margin">
+        android:layout_margin="@dimen/friend_card_margin">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
             <TextView
-                android:id="@+id/textUsername"
+                android:id="@+id/text_user_full_name"
                 style="@style/smallMediumText"
-                android:layout_width="130dp"
+                android:layout_width="170dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
+                android:layout_marginLeft="20dp"
+                android:text="TextView"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/text_user_username"
+                app:layout_constraintStart_toEndOf="@+id/imageUserPicture"
+                app:layout_constraintTop_toTopOf="@+id/imageUserPicture"
+                app:layout_constraintVertical_chainStyle="packed" />
+
+            <TextView
+                android:id="@+id/text_user_username"
+                style="@style/smallText"
+                android:layout_width="170dp"
+                android:layout_height="wrap_content"
                 android:text="TextView"
                 app:layout_constraintBottom_toBottomOf="@+id/imageUserPicture"
-                app:layout_constraintStart_toEndOf="@+id/imageUserPicture"
-                app:layout_constraintTop_toTopOf="@+id/imageUserPicture" />
+                app:layout_constraintStart_toStartOf="@+id/text_user_full_name"
+                app:layout_constraintTop_toBottomOf="@+id/text_user_full_name" />
 
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/imageUserPicture"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
+                style="@style/friend_profile_pic"
                 android:layout_marginStart="16dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

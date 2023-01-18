@@ -32,12 +32,20 @@ class AuthViewModel @Inject constructor (
         _authLiveData.value = Response.Loading
         val result = repository.login(email, password)
         _authLiveData.value = result
+
+        if(result is Response.Failure) {
+            _authLiveData.value = null
+        }
     }
 
     fun signup(name: String, email: String, password: String) = viewModelScope.launch {
         _authLiveData.value = Response.Loading
         val result = repository.signup(name, email, password)
         _authLiveData.value = result
+
+        if(result is Response.Failure) {
+            _authLiveData.value = null
+        }
     }
 
     fun logout() {

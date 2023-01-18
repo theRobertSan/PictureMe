@@ -53,13 +53,14 @@ class HomeFragment : Fragment() {
         val rightNow = Calendar.getInstance()
         val currentHour: Int = rightNow.get(Calendar.HOUR_OF_DAY) // 24 hour format
         userViewModel.userLiveData.observe(viewLifecycleOwner) { user ->
-            val username = user.username
+            val fullName = user.fullName
+            val firstName = fullName!!.split(" ")[0]
             if (currentHour < 12)
-                binding.fragmentHomeTvWelcome.text = "Good Morning, $username"
+                binding.fragmentHomeTvWelcome.text = "Good Morning, $firstName"
             else if (currentHour < 18)
-                binding.fragmentHomeTvWelcome.text = "Good Afternoon, $username"
+                binding.fragmentHomeTvWelcome.text = "Good Afternoon, $firstName"
             else
-                binding.fragmentHomeTvWelcome.text = "Good Evening, $username"
+                binding.fragmentHomeTvWelcome.text = "Good Evening, $firstName"
         }
 
 

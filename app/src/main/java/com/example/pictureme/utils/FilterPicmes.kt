@@ -20,12 +20,12 @@ object FilterPicmes {
     fun getFilteredPicmes(
         picmes: List<Picme>,
         foodFeelings: List<Feeling>
-    ): ArrayList<Pair<String, ArrayList<Picme>>> {
-        var picmesWithFriends = ArrayList<Picme>()
-        var picmesFood = ArrayList<Picme>()
-        var picmesLast24Hours = ArrayList<Picme>()
+    ): List<Pair<String, ArrayList<Picme>>> {
+        val picmesWithFriends = ArrayList<Picme>()
+        val picmesFood = ArrayList<Picme>()
+        val picmesLast24Hours = ArrayList<Picme>()
 
-        var filters = ArrayList<Pair<String, ArrayList<Picme>>>()
+        val filters = ArrayList<Pair<String, ArrayList<Picme>>>()
 
         for (picme in picmes) {
             val picmeCreatedAt = Details.getRelativeDate(picme.createdAt!!).split(" ")
@@ -42,14 +42,19 @@ object FilterPicmes {
             if (picme.feeling?.isFoodPic == true) {
                 picmesFood.add(picme)
             }
-        };
-        var last24hoursPair = Pair("Last 24 hours", picmesLast24Hours)
-        var friendsPair = Pair("Your PicMe's with friends", picmesWithFriends)
-        var foodPair = Pair("Food PicMes", picmesFood)
-        filters.add(last24hoursPair)
-        filters.add(friendsPair)
-        filters.add(foodPair)
-        return filters
+        }
+
+        if(picmesLast24Hours.isNotEmpty()) {
+            filters.add(Pair("Last 24 hours", picmesLast24Hours))
+        }
+        if(picmesWithFriends.isNotEmpty()) {
+            filters.add(Pair("Your PicMe's with friends", picmesWithFriends))
+        }
+        if(picmesFood.isNotEmpty()) {
+            filters.add(Pair("Food PicMes", picmesFood))
+        }
+
+        return filters.shuffled()
     }
 
     fun filterFoodPicmes(picmes: List<Picme>): ArrayList<Picme>{

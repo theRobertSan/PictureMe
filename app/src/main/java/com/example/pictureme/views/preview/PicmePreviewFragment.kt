@@ -91,7 +91,6 @@ class PicmePreviewFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentPicmePreviewBinding.inflate(inflater, container, false)
-
         setUpListeners()
         previewViewModel.previewLiveData.observe(viewLifecycleOwner) { preview ->
             if (preview.friendIds.isNotEmpty()) {
@@ -220,7 +219,6 @@ class PicmePreviewFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        previewViewModel.clear()
         _binding = null
     }
 

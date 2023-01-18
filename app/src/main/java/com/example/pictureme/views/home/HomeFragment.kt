@@ -64,6 +64,7 @@ class HomeFragment : Fragment() {
             else
                 binding.fragmentHomeTvWelcome.text = "Good Evening, $firstName"
         }
+
     }
 
     // Setup PicMe Cards
@@ -85,7 +86,6 @@ class HomeFragment : Fragment() {
         rvHome.adapter = adapter
         rvHome.layoutManager =
             LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
-
 
         picmeViewModel.foodFeelingsLiveData.observe(viewLifecycleOwner) { response ->
             feelings = response

@@ -36,7 +36,7 @@ class AddFriendsTabFragment : Fragment() {
 
     private fun addButtonListener() {
         binding.buttonSend.setOnClickListener {
-            val username = binding.inputUsername.text.toString()
+            val username = binding.inputUsername.text.toString().trim()
             binding.inputUsername.text = null
             binding.inputUsername.clearFocus()
 

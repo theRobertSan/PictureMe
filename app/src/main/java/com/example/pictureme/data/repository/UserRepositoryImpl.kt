@@ -1,8 +1,6 @@
 package com.example.pictureme.data.repository
 
 import android.net.Uri
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import com.example.pictureme.data.interfaces.UserRepository
 import com.example.pictureme.data.models.FriendRequest
 import com.example.pictureme.data.models.Friendship
@@ -60,7 +58,7 @@ class UserRepositoryImpl @Inject constructor(
         currentUser = userReference.get().await().toObject<User>()
 
         loadUserFriendships(userReference)
-        loadUserFriendRequests(userReference)
+        this.currentUser!!.friendRequests = getUserFriendRequests(userReference)
 
         return currentUser!!
     }
@@ -100,9 +98,9 @@ class UserRepositoryImpl @Inject constructor(
         return this.currentUser!!
     }
 
-    private suspend fun loadUserFriendRequests(
+    private suspend fun getUserFriendRequests(
         userReference: DocumentReference
-    ): User {
+    ): ArrayList<FriendRequest> {
         // Load the friend requests
         val loadedFriendRequests = ArrayList<FriendRequest>()
 
@@ -122,9 +120,9 @@ class UserRepositoryImpl @Inject constructor(
             loadedFriendRequests.add(friendRequest)
         }
 
-        this.currentUser!!.friendRequests = loadedFriendRequests
+        //this.currentUser!!.friendRequests = loadedFriendRequests
 
-        return this.currentUser!!
+        return loadedFriendRequests
     }
 
     override suspend fun createFriendRequest(
@@ -143,8 +141,8 @@ class UserRepositoryImpl @Inject constructor(
         val otherUserRef = otherUserRefQuery.documents[0].reference
 
         // Check if the current user already sent a request to the other user
-        val otherUserWithFriendRequests = loadUserFriendRequests(otherUserRef)
-        for (request in otherUserWithFriendRequests.friendRequests) {
+        val friendRequests = getUserFriendRequests(otherUserRef)
+        for (request in friendRequests) {
             if(request.sendingUser!!.id == currentUserId) {
                 return "Failure: You already sent a friend request to the user " + username
             }

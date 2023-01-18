@@ -4,23 +4,22 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.content.ContentValues.TAG
 import android.content.Context
-import android.content.Context.LOCATION_SERVICE
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.Matrix
 import android.location.*
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.core.content.FileProvider
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.Navigation
 import com.example.pictureme.R
@@ -48,6 +47,7 @@ class PicmePreviewFragment : Fragment() {
     private lateinit var strUri: String
     private lateinit var uri: Uri
     private var takenPicture: Bitmap? = null
+    private var takenPictureRotated: Bitmap? = null
 
     private lateinit var mFusedLocationClient: FusedLocationProviderClient
 
@@ -58,12 +58,6 @@ class PicmePreviewFragment : Fragment() {
             LocationServices.getFusedLocationProviderClient(requireContext())
         saveCurrentLocation()
     }
-
-//    override fun onCreate(savedInstanceState: Bundle?) {
-//        super.onCreate(savedInstanceState)
-//        invokeCamera()
-//        saveCurrentLocation()
-//    }
 
     private fun checkPermissions(): Boolean {
         if (ActivityCompat.checkSelfPermission(
@@ -82,32 +76,10 @@ class PicmePreviewFragment : Fragment() {
 
     @SuppressLint("MissingPermission")
     private fun saveCurrentLocation() {
-//        val locationManager =
-//            requireActivity().getSystemService(LOCATION_SERVICE) as LocationManager
-//        if (ActivityCompat.checkSelfPermission(
-//                requireContext(),
-//                Manifest.permission.ACCESS_FINE_LOCATION
-//            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
-//                requireContext(),
-//                Manifest.permission.ACCESS_COARSE_LOCATION
-//            ) != PackageManager.PERMISSION_GRANTED
-//        ) {
-//            println("NO PERMISSION")
-//            return
-//        }
-//        val location: Location? =
-//            locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)
-//        if (location != null) {
-//            previewViewModel.setLocation(GeoPoint(location!!.latitude, location!!.longitude))
-//        } else {
-//            println("NO LOCATION")
-//            throw Exception("No location")
-//        }
         mFusedLocationClient.lastLocation.addOnSuccessListener { location ->
             if (location != null) {
                 previewViewModel.setLocation(GeoPoint(location!!.latitude, location!!.longitude))
             } else {
-                println("NO LOCATION")
                 throw Exception("No location")
             }
         }
@@ -124,8 +96,8 @@ class PicmePreviewFragment : Fragment() {
         setUpObservers()
 
         // Load picture if it has already been taken
-        if (takenPicture != null) {
-            binding.imagePicme.setImageBitmap(takenPicture)
+        if (takenPictureRotated != null) {
+            binding.imagePicme.setImageBitmap(takenPictureRotated)
         }
 
         return (binding.root)
@@ -145,6 +117,11 @@ class PicmePreviewFragment : Fragment() {
                     .navigate(R.id.action_picmePreviewFragment_to_navFragment)
             }
 
+        }
+
+        binding.buttonExit.setOnClickListener{
+            Navigation.findNavController(binding.root)
+                .navigate(R.id.action_picmePreviewFragment_to_navFragment)
         }
 
         // Retake PicMe
@@ -207,13 +184,18 @@ class PicmePreviewFragment : Fragment() {
     private val getCameraImage =
         registerForActivityResult(ActivityResultContracts.TakePicture()) { success ->
             if (success) {
-                Log.i(TAG, "Image Location: $uri")
                 strUri = uri.toString()
-                takenPicture = BitmapFactory.decodeFile(currentImagePath)
-                Log.i(TAG, "Image obtained from: $currentImagePath")
-                binding.imagePicme.setImageBitmap(takenPicture)
 
-//            val photo = Picme(localUri = uri.toString())
+                // Matrix for rotating the picture taken
+                val matrix = Matrix()
+                matrix.postRotate(90F)
+                takenPicture = BitmapFactory.decodeFile(currentImagePath)
+                val picture = takenPicture
+
+                // Rotate the picture taken
+                takenPictureRotated = Bitmap.createBitmap(picture!!, 0, 0, picture.width, picture.height, matrix, true)
+                binding.imagePicme.setImageBitmap(takenPictureRotated)
+
             } else {
                 Log.e(TAG, "Image not saved")
             }

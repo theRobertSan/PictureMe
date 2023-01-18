@@ -114,6 +114,7 @@ class EditProfile : Fragment() {
                 }
             }
         }
+        findNavController().popBackStack()
 
     }
 

@@ -1,6 +1,8 @@
 package com.example.pictureme.views.picmeDetails
 
 import android.annotation.SuppressLint
+import android.content.Intent
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -54,6 +56,7 @@ class PicmeDetailsFragment() : Fragment() {
             LocationServices.getFusedLocationProviderClient(requireContext())
     }
 
+    @SuppressLint("MissingPermission")
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -108,6 +111,26 @@ class PicmeDetailsFragment() : Fragment() {
             findNavController().popBackStack()
             //}
 
+        }
+
+        binding.buttonGoThere.setOnClickListener {
+            mFusedLocationClient.lastLocation.addOnSuccessListener { location ->
+                if (location != null) {
+                    val originLat = location.latitude
+                    val originLng = location.longitude
+                    val destLat = picme.location!!.latitude
+                    val destLng = picme.location!!.longitude
+
+                    val uri = Uri.parse("google.navigation:q=$destLat,$destLng&mode=w")
+                    val intent = Intent(Intent.ACTION_VIEW, uri)
+                    intent.setPackage("com.google.android.apps.maps");
+                    startActivity(intent);
+
+                } else {
+                    println("NO LOCATION")
+                    throw Exception("No location")
+                }
+            }
         }
 
         return (binding.root)

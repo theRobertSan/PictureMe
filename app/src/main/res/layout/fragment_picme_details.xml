@@ -301,7 +301,7 @@
 
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/buttonGoThere"
         style="@style/largeButton"
         android:layout_width="347dp"
         android:layout_height="wrap_content"
@@ -325,9 +325,9 @@
         android:layout_height="wrap_content"
         android:text="Shake again for another PicMe or..."
         android:visibility="invisible"
-        app:layout_constraintBottom_toTopOf="@+id/button"
-        app:layout_constraintEnd_toEndOf="@+id/button"
-        app:layout_constraintStart_toStartOf="@+id/button" />
+        app:layout_constraintBottom_toTopOf="@+id/buttonGoThere"
+        app:layout_constraintEnd_toEndOf="@+id/buttonGoThere"
+        app:layout_constraintStart_toStartOf="@+id/buttonGoThere" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

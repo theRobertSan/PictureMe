@@ -50,13 +50,18 @@ class FeelingsAdapter(
         //holder.cbSelectFeeling.isChecked = previewPicmeViewModel.hasFeeling(feelingId)
 
         holder.cbSelectFeeling.setOnClickListener { view ->
-            if (holder.cbSelectFeeling.isChecked) {
-                previewPicmeViewModel.updateFeeling(feelingId)
-                SelectedPosition.currentPosition = position
-                notifyDataSetChanged();
+            if (!holder.cbSelectFeeling.isChecked && !SelectedPosition.anyChecked()) {
+                holder.cbSelectFeeling.isChecked = true
             } else {
-                previewPicmeViewModel.removeFeeling()
+                if (holder.cbSelectFeeling.isChecked) {
+                    previewPicmeViewModel.updateFeeling(feelingId)
+                    SelectedPosition.currentPosition = position
+                    notifyDataSetChanged();
+                } else {
+                    previewPicmeViewModel.removeFeeling()
+                }
             }
+
         }
 
 

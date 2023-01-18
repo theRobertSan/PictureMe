@@ -19,6 +19,7 @@ import okhttp3.internal.notify
 class ImageAdapter(
     private var picmes: List<Picme>,
     var context: Context,
+    var gridItemDim: Int,
 ) : BaseAdapter() {
 
     var layoutInflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
@@ -48,7 +49,7 @@ class ImageAdapter(
         }
 
         imageView.scaleType = ImageView.ScaleType.CENTER_CROP
-        imageView.layoutParams = AbsListView.LayoutParams(400, 350)
+        imageView.layoutParams = AbsListView.LayoutParams(gridItemDim, gridItemDim)
 
         return imageView
     }

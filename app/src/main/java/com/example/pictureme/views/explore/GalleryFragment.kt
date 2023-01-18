@@ -1,12 +1,12 @@
 package com.example.pictureme.views.explore
 
-import android.content.Context
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.util.DisplayMetrics
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import android.widget.AbsListView
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.Navigation
 import com.example.pictureme.R
@@ -21,9 +21,13 @@ class GalleryFragment : Fragment() {
 
     private var _binding: FragmentGalleryBinding? = null
     private val binding get() = _binding!!
+
     private val picmeViewModel by activityViewModels<PicmeViewModel>()
     private val picmeDetailsViewModel by activityViewModels<PicmeDetailsViewModel>()
     private val filteredPicmesViewModel by activityViewModels<FilteredPicmesViewModel>()
+
+    // Device
+    private var gridItemDim: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,8 +38,17 @@ class GalleryFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentGalleryBinding.inflate(inflater, container, false)
+
+        getGridItemSize()
+
+        setupPicmeCards()
+
+        return (binding.root)
+    }
+
+    private fun setupPicmeCards() {
         val gridView = binding.fragmentGalleryGridView;
-        val adapter = ImageAdapter(emptyList(), requireContext())
+        val adapter = ImageAdapter(emptyList(), requireContext(), gridItemDim)
         gridView.adapter = adapter
         /*gridView.setOnItemClickListener { _, _, i, _ ->
         // Navigate to details
@@ -46,10 +59,10 @@ class GalleryFragment : Fragment() {
         picmeViewModel.picmesLiveData.observe(viewLifecycleOwner) { response ->
             filteredPicmesViewModel.addPicmeList(response)
         }
+
         filteredPicmesViewModel.filteredPicmesLiveData.observe(viewLifecycleOwner) { response ->
             println("DATE CHANGED ------------" + response.size)
             adapter.setData(response)
-
         }
 /*
         picmeViewModel.picmesLiveData.observe(viewLifecycleOwner) { response ->
@@ -74,6 +87,17 @@ class GalleryFragment : Fragment() {
             Navigation.findNavController(requireView().parent.parent.parent.parent.parent.parent as View)
                 .navigate(R.id.action_navFragment_to_filtersFragment)
         }
-        return (binding.root)
     }
+
+    private fun getGridItemSize() {
+        val displayMetrics = DisplayMetrics()
+
+        requireActivity().windowManager.getDefaultDisplay().getMetrics(displayMetrics)
+        val height = displayMetrics.heightPixels
+        val width = displayMetrics.widthPixels
+
+        //val parms = AbsListView.LayoutParams(width, height)
+        gridItemDim = (width / 3.5).toInt()
+    }
+
 }

@@ -21,5 +21,9 @@ class SelectedPosition {
                 currentPosition = feelingsPosition
             }
         }
+
+        fun anyChecked(): Boolean {
+            return feelingsPosition != -1 && foodPosition != -1
+        }
     }
 }

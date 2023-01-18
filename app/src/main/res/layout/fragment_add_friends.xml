@@ -24,7 +24,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:iconTint="@color/primary"
-            app:queryHint="Search here..."
+            app:queryHint="Search for friend's name"
             app:iconifiedByDefault="false"
             app:queryBackground="@android:color/transparent" />
 

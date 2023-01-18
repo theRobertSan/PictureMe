@@ -69,7 +69,7 @@ class FriendsListFragment : Fragment() {
                 val filteredList = ArrayList<Friendship>()
                 for (friendship in friendships) {
 
-                    if (friendship.friend!!.username!!.lowercase().contains(p0.lowercase())) {
+                    if (friendship.friend!!.fullName!!.lowercase().contains(p0.lowercase())) {
                         filteredList.add(friendship)
                     }
                 }

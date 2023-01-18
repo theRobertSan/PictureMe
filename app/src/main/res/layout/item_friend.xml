@@ -2,14 +2,14 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="150dp">
+    android:layout_height="@dimen/friend_card_layout_height">
 
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:cardElevation="@dimen/elevation"
+        app:cardElevation="@dimen/friend_card_elevation"
         app:cardCornerRadius="@dimen/corner_radius"
-        android:layout_margin="@dimen/margin">
+        android:layout_margin="@dimen/friend_card_margin">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -17,8 +17,7 @@
 
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/friend_profile_pic"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
+                style="@style/friend_profile_pic"
                 android:layout_marginStart="16dp"
                 android:scaleType="centerCrop"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -39,25 +38,37 @@
                 app:layout_constraintTop_toTopOf="@+id/friend_profile_pic" />
 
             <TextView
-                android:id="@+id/friend_username"
-                style="@style/mediumText"
+                android:id="@+id/friend_full_name"
+                style="@style/smallMediumText"
+                android:textStyle="bold"
                 android:layout_width="210dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="25dp"
+                android:layout_marginLeft="20dp"
                 android:text="TextView"
-                app:layout_constraintBottom_toTopOf="@+id/num_picmes_together"
+                app:layout_constraintBottom_toTopOf="@+id/friend_username"
                 app:layout_constraintStart_toEndOf="@+id/friend_profile_pic"
                 app:layout_constraintTop_toTopOf="@+id/friend_profile_pic"
                 app:layout_constraintVertical_chainStyle="packed" />
 
             <TextView
-                android:id="@+id/num_picmes_together"
+                android:id="@+id/friend_username"
                 style="@style/smallText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="TextView"
+                app:layout_constraintBottom_toTopOf="@+id/num_picmes_together"
+                app:layout_constraintStart_toStartOf="@+id/friend_full_name"
+                app:layout_constraintTop_toBottomOf="@+id/friend_full_name" />
+
+            <TextView
+                android:id="@+id/num_picmes_together"
+                style="@style/smallText"
+                android:textColor="@color/gray"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="TextView"
                 app:layout_constraintBottom_toBottomOf="@+id/friend_profile_pic"
-                app:layout_constraintStart_toStartOf="@+id/friend_username"
+                app:layout_constraintStart_toStartOf="@+id/friend_full_name"
                 app:layout_constraintTop_toBottomOf="@+id/friend_username" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

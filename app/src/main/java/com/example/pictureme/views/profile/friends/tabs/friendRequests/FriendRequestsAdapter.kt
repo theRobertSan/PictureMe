@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.widget.ContentLoadingProgressBar
 import androidx.recyclerview.widget.RecyclerView
@@ -23,6 +24,7 @@ class FriendRequestsAdapter(
 
     inner class RequestsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         // TODO users profile picture
+        val sendingUserFullName: TextView
         val sendingUserUsername: TextView
         val requestSentDate: TextView
         val acceptButton: Button
@@ -31,6 +33,7 @@ class FriendRequestsAdapter(
         val imageLoadingBar: ContentLoadingProgressBar
 
         init {
+            sendingUserFullName = itemView.findViewById(R.id.sending_user_full_name)
             sendingUserUsername = itemView.findViewById(R.id.sending_user_username)
             requestSentDate = itemView.findViewById(R.id.request_date)
             acceptButton = itemView.findViewById(R.id.button_accept)
@@ -44,12 +47,16 @@ class FriendRequestsAdapter(
                 userViewModel.handleFriendRequestAnswer(request.id!!, true)
                 // Delete request artificially to speed up the deletion
                 deleteRequest(request)
+
+                Toast.makeText(it.context, "You are now friends with " + request.sendingUser!!.fullName, Toast.LENGTH_SHORT).show()
             }
 
             declineButton.setOnClickListener {
                 userViewModel.handleFriendRequestAnswer(request.id!!, false)
                 // Delete request artificially to speed up the deletion
                 deleteRequest(request)
+
+                Toast.makeText(it.context, "You deleted " + request.sendingUser!!.fullName + " friend request", Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -85,6 +92,7 @@ class FriendRequestsAdapter(
     override fun onBindViewHolder(holder: RequestsViewHolder, position: Int) {
         holder.updateRequestStatus(friendRequests[position])
 
+        holder.sendingUserFullName.text = friendRequests[position].sendingUser!!.fullName
         holder.sendingUserUsername.text = friendRequests[position].sendingUser!!.username
 
         val relativeDateRequest = Details.getRelativeDate(friendRequests[position].sentAt!!)

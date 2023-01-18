@@ -14,6 +14,7 @@ import com.example.pictureme.R
 import com.example.pictureme.databinding.FragmentAddFriendsTabBinding
 import com.example.pictureme.viewmodels.UserViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import java.lang.Thread.sleep
 
 @AndroidEntryPoint
 class AddFriendsTabFragment : Fragment() {
@@ -45,9 +46,9 @@ class AddFriendsTabFragment : Fragment() {
                 imm.hideSoftInputFromWindow(requireView().getWindowToken(), 0)
             }
 
-            Toast.makeText(this.context, "Friend Request Sent", Toast.LENGTH_SHORT).show()
-
             userViewModel.sendFriendRequest(username)
+
+            Toast.makeText(this.context, "Friend Request Sent to " + username, Toast.LENGTH_SHORT).show()
         }
     }
 

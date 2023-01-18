@@ -21,7 +21,7 @@
             android:id="@+id/search_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:queryHint="Search"
+            app:queryHint="Search friend's name"
             app:iconifiedByDefault="false"
             app:queryBackground="@android:color/transparent" />
 
@@ -31,9 +31,6 @@
         android:id="@+id/friends_recycler_view"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:paddingBottom="120dp"
-        android:clipToPadding="false"
-        android:scrollbarStyle="outsideOverlay"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

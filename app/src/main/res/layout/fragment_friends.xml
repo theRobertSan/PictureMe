@@ -23,6 +23,7 @@
         style="@style/smallMediumText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textStyle="bold"
         android:text="Friends"
         app:layout_constraintBottom_toBottomOf="@+id/buttonGoBack"
         app:layout_constraintEnd_toEndOf="parent"

@@ -50,6 +50,7 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/input_username"
                     style="@style/editText"
+                    android:textSize="18dp"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:hint="Enter friend's username"
@@ -59,7 +60,7 @@
 
             <Button
                 android:id="@+id/button_send"
-                style="@style/largeButton"
+                style="@style/mediumButton"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"

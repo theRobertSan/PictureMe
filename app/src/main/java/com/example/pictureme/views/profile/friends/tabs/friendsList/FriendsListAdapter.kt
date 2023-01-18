@@ -20,12 +20,14 @@ class FriendsListAdapter(
     val NO_PICMES_TOGETHER = "No PicMe's together"
 
     inner class FriendsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val friendFullName: TextView
         val friendUsername: TextView
         val numPicmesTogether: TextView
         val imageFriend: ShapeableImageView
         val imageLoadingBar: ContentLoadingProgressBar
 
         init {
+            friendFullName = itemView.findViewById(R.id.friend_full_name)
             friendUsername = itemView.findViewById(R.id.friend_username)
             numPicmesTogether = itemView.findViewById(R.id.num_picmes_together)
             imageFriend = itemView.findViewById(R.id.friend_profile_pic)
@@ -59,7 +61,9 @@ class FriendsListAdapter(
     override fun onBindViewHolder(holder: FriendsListAdapter.FriendsViewHolder, position: Int) {
         val currentFriend = friendships[position].friend!!
 
+        holder.friendFullName.text = currentFriend.fullName
         holder.friendUsername.text = currentFriend.username
+
         if (numPicmesWithEachFriend[currentFriend.id]!! > 1) {
             holder.numPicmesTogether.text =
                 numPicmesWithEachFriend[currentFriend.id].toString() + PICMES_TOGETHER

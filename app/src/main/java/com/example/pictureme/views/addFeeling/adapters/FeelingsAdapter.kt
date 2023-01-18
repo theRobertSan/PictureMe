@@ -5,7 +5,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.CheckBox
 import android.widget.TextView
-import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.RecyclerView
 import com.example.pictureme.R
 import com.example.pictureme.data.models.Feeling
@@ -14,8 +13,8 @@ import com.example.pictureme.viewmodels.PreviewPicmeViewModel
 import com.google.android.material.imageview.ShapeableImageView
 
 class FeelingsAdapter(
-    var feelings: List<Feeling>,
-    val previewPicmeViewModel: PreviewPicmeViewModel,
+    private var feelings: List<Feeling>,
+    private val previewPicmeViewModel: PreviewPicmeViewModel,
 ) : RecyclerView.Adapter<FeelingsAdapter.FeelingsViewHolder>() {
 
     inner class FeelingsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -46,16 +45,20 @@ class FeelingsAdapter(
 
         val feelingId = feelings[position].id
 
+        holder.cbSelectFeeling.isChecked = SelectedPosition.currentPosition == position;
         // Only one selected option at a time
-        holder.cbSelectFeeling.isChecked = previewPicmeViewModel.hasFeeling(feelingId)
+        //holder.cbSelectFeeling.isChecked = previewPicmeViewModel.hasFeeling(feelingId)
 
         holder.cbSelectFeeling.setOnClickListener { view ->
             if (holder.cbSelectFeeling.isChecked) {
                 previewPicmeViewModel.updateFeeling(feelingId)
+                SelectedPosition.currentPosition = position
+                notifyDataSetChanged();
             } else {
                 previewPicmeViewModel.removeFeeling()
             }
         }
+
 
         // Load feeling
         holder.imageFeeling.setImageResource(Details.getFeelingImage(feelings[position].feeling)!!)

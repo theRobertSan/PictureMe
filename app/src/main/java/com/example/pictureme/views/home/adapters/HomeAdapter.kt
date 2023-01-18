@@ -42,6 +42,8 @@ class HomeAdapter(
         holder.tvTitle.text = rvs[position].title
 
         val picMeAdapter = PicmeAdapter(rvs[position].picmes, picmeDetailsViewModelViewModel)
+        println("helloooooo ${picMeAdapter.itemCount}")
+
         //picMeAdapter.setList(rvs[position].picmes)
         holder.rvCategory.layoutManager =
             LinearLayoutManager(holder.itemView.context, LinearLayoutManager.HORIZONTAL, false)

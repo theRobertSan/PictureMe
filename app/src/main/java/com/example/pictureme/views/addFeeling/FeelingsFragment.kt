@@ -12,6 +12,7 @@ import com.example.pictureme.databinding.FragmentFeelingsBinding
 import com.example.pictureme.viewmodels.PicmeViewModel
 import com.example.pictureme.viewmodels.PreviewPicmeViewModel
 import com.example.pictureme.views.addFeeling.adapters.FeelingsAdapter
+import com.example.pictureme.views.addFeeling.adapters.SelectedPosition
 
 class FeelingsFragment(private val selectFoodFeelings: Boolean) : Fragment() {
 
@@ -21,15 +22,20 @@ class FeelingsFragment(private val selectFoodFeelings: Boolean) : Fragment() {
     private val previewViewModel by activityViewModels<PreviewPicmeViewModel>()
     private val picmeViewModel by activityViewModels<PicmeViewModel>()
 
+    private lateinit var adapter: FeelingsAdapter
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentFeelingsBinding.inflate(inflater, container, false)
+
         var feelings: List<Feeling> = emptyList()
-        val adapter = FeelingsAdapter(feelings, previewViewModel)
+        adapter = FeelingsAdapter(feelings, previewViewModel)
+
         binding.rvFoodFeelings.adapter = adapter
         binding.rvFoodFeelings.layoutManager = LinearLayoutManager(activity)
+
         if (selectFoodFeelings) {
             picmeViewModel.foodFeelingsLiveData.observe(viewLifecycleOwner) { response ->
                 feelings = response
@@ -39,10 +45,16 @@ class FeelingsFragment(private val selectFoodFeelings: Boolean) : Fragment() {
             picmeViewModel.nonFoodFeelingsLiveData.observe(viewLifecycleOwner) { response ->
                 feelings = response
                 adapter.setList(feelings)
+
             }
         }
 
-
         return (binding.root)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        SelectedPosition.changePage(selectFoodFeelings)
+        adapter.notifyDataSetChanged()
     }
 }

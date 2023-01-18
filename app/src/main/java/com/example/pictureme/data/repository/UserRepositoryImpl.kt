@@ -5,6 +5,7 @@ import com.example.pictureme.data.interfaces.UserRepository
 import com.example.pictureme.data.models.FriendRequest
 import com.example.pictureme.data.models.Friendship
 import com.example.pictureme.data.models.User
+//import com.example.pictureme.data.utils.await
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
@@ -176,6 +177,12 @@ class UserRepositoryImpl @Inject constructor(
     ) {
         userCollection.document(currentUserId)
             .update("profilePicturePath", profilePicturePath)
+            .await()
+    }
+
+    override suspend fun updateUserProfileFullName(currentUserId: String, fullName: String) {
+        userCollection.document(currentUserId)
+            .update("fullName", fullName)
             .await()
     }
 

@@ -33,6 +33,7 @@ class GoFragment : Fragment() {
     private lateinit var mFusedLocationClient: FusedLocationProviderClient
 
     private var lastList: List<Picme>? = null
+    private var lastListIgnored = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -97,7 +98,8 @@ class GoFragment : Fragment() {
             .observe(
                 viewLifecycleOwner
             ) { newValue ->
-                if (newValue != lastList) {
+                if (newValue != lastList || lastListIgnored) {
+                    lastListIgnored = false
                     val navController =
                         Navigation.findNavController(requireView().parent.parent as View)
                     val bundle = Bundle()
@@ -106,6 +108,8 @@ class GoFragment : Fragment() {
                     picmeDetailsViewModel.selectPicme(newValue[0])
                     lastList = newValue
                     navController.navigate(R.id.action_navFragment_to_picmeDetailsFragment, bundle)
+                } else {
+                    lastListIgnored = true
                 }
 
             }

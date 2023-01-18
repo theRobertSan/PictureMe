@@ -26,7 +26,6 @@ class ExploreFragment : Fragment() {
         pager.adapter = ViewPagerAdapter(requireActivity().supportFragmentManager, requireActivity().lifecycle)
         pager.isUserInputEnabled = false
 
-
         TabLayoutMediator(tl, pager) { tab, position ->
             when (position) {
                 0 -> tab.text = "Gallery"

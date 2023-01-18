@@ -18,13 +18,13 @@
         app:elevation="0dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="@android:color/transparent">
 
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/fragment_explore_tabs"
-            style="@style/tab">
-
-        </com.google.android.material.tabs.TabLayout>
+            style="@style/tab"
+            android:background="@android:color/transparent" />
 
     </com.google.android.material.appbar.AppBarLayout>
 

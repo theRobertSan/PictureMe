@@ -36,4 +36,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <Button
+        android:id="@+id/buttonFilters"
+        style="@style/mediumButton"
+        android:layout_width="116dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="264dp"
+        android:text="Filters"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

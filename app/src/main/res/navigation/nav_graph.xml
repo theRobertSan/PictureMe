@@ -52,6 +52,9 @@
         <action
             android:id="@+id/action_navFragment_to_friendsFragment"
             app:destination="@id/friendsFragment" />
+        <action
+            android:id="@+id/action_navFragment_to_filtersFragment"
+            app:destination="@id/filtersFragment" />
     </fragment>
     <fragment
         android:id="@+id/picmePreviewFragment"
@@ -118,6 +121,15 @@
         tools:layout="@layout/fragment_friends">
         <action
             android:id="@+id/action_friendsFragment_to_navFragment"
+            app:destination="@id/navFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/filtersFragment"
+        android:name="com.example.pictureme.views.explore.FiltersFragment"
+        android:label="fragment_filters"
+        tools:layout="@layout/fragment_filters">
+        <action
+            android:id="@+id/action_filtersFragment_to_navFragment"
             app:destination="@id/navFragment" />
     </fragment>
 </navigation>

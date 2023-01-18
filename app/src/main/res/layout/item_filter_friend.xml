@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="100dp"
+    android:layout_height="125dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/imageFriend"
+        android:layout_width="@dimen/smallCircularImageHeight"
+        android:layout_height="@dimen/smallCircularImageHeight"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/img1"
+        android:scaleType="centerCrop"
+        app:shapeAppearanceOverlay="@style/circle_image" />
+
+    <androidx.core.widget.ContentLoadingProgressBar
+        android:id="@+id/imageLoadingBar"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="@+id/imageFriend"
+        app:layout_constraintEnd_toEndOf="@+id/imageFriend"
+        app:layout_constraintStart_toStartOf="@+id/imageFriend"
+        app:layout_constraintTop_toTopOf="@+id/imageFriend" />
+
+    <TextView
+        android:id="@+id/textFriend"
+        style="@style/smallText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        app:layout_constraintEnd_toEndOf="@+id/imageFriend"
+        app:layout_constraintStart_toStartOf="@+id/imageFriend"
+        app:layout_constraintTop_toBottomOf="@+id/imageFriend" />
+
+    <com.google.android.material.checkbox.MaterialCheckBox
+        android:id="@+id/cbSelectFriend"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textFriend" />
+</androidx.constraintlayout.widget.ConstraintLayout>

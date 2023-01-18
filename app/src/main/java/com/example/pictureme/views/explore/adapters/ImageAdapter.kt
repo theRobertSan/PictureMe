@@ -14,6 +14,7 @@ import coil.load
 import com.example.pictureme.R
 import com.example.pictureme.data.models.Picme
 import com.example.pictureme.viewmodels.PicmeDetailsViewModel
+import okhttp3.internal.notify
 
 class ImageAdapter(
     private var picmes: List<Picme>,
@@ -32,6 +33,11 @@ class ImageAdapter(
 
     override fun getItemId(position: Int): Long {
         return position.toLong();
+    }
+
+    fun setData(picmes: List<Picme>){
+        this.picmes = picmes
+        notifyDataSetChanged()
     }
 
     override fun getView(position: Int, view: View?, viewGroup: ViewGroup?): View {

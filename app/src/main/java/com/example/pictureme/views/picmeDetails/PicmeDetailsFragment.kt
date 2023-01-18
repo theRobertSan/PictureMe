@@ -46,7 +46,7 @@ class PicmeDetailsFragment() : Fragment() {
 
     private var picmeIndex: Int? = null
 
-    private lateinit var task: Job
+    private var task: Job? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -95,7 +95,9 @@ class PicmeDetailsFragment() : Fragment() {
         }
 
         binding.buttonGoBack.setOnClickListener {
-            task.cancel()
+            if (task != null) {
+                task!!.cancel()
+            }
             if (picmeIndex != null && picmeIndex != 0) {
                 distanceViewModel.orderedPicmesLiveData.observe(viewLifecycleOwner) { orderedPicmes ->
                     picmeDetailsViewModel.selectPicme(orderedPicmes!![picmeIndex!! - 1])

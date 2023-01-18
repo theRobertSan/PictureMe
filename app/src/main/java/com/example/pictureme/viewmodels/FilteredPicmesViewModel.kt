@@ -4,34 +4,27 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.pictureme.data.models.Filter
 import com.example.pictureme.data.models.Picme
+import com.example.pictureme.utils.FilterPicmes
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class FilteredPicmesViewModel @Inject constructor() : ViewModel() {
     // Filtered Picme's
-    private val _filteredPicmesLiveData = MutableLiveData<List<Picme>>()
-    val filteredPicmesLiveData: LiveData<List<Picme>> = _filteredPicmesLiveData
+    private val _filteredPicmesLiveData = MutableLiveData<List<Picme>?>()
+    val filteredPicmesLiveData: LiveData<List<Picme>?> = _filteredPicmesLiveData
 
-    fun addPicme(picme: Picme) = viewModelScope.launch {
-        // Add created picme to current picme list
-        _filteredPicmesLiveData.postValue(filteredPicmesLiveData.value!! + picme)
-    }
-
-    fun getPicme(picmeId: String): Picme {
-        return _filteredPicmesLiveData.value!!.find { it.id == picmeId }!!
-    }
+    private val _filterLiveData = MutableLiveData<Filter>(Filter())
+    val filterLiveData: LiveData<Filter> = _filterLiveData
 
     fun addPicmeList(picmes: List<Picme>)= viewModelScope.launch {
         _filteredPicmesLiveData.postValue(picmes)
-
-        /*if(_filteredPicmesLiveData.value == null) {
-            val res = _filteredPicmesLiveData.postValue(picmes)
-        }else{
-            for(picme in picmes){
-                addPicme(picme)
-            }
-        }*/
+        _filteredPicmesLiveData.value = null
     }
+    fun updateFilter(filter: Filter)= viewModelScope.launch {
+        _filterLiveData.postValue(filter)
+    }
+
 }
 

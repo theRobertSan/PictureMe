@@ -79,27 +79,14 @@
                     android:layout_height="wrap_content"
                     android:layoutDirection="rtl"
                     android:text="Newest"
+                    android:checked="true"
                     android:textAppearance="@style/smallMediumText" />
                 <RadioButton
-                    android:id="@+id/latestRB"
+                    android:id="@+id/oldestRB"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layoutDirection="rtl"
-                    android:text="Latest"
-                    android:textAppearance="@style/smallMediumText" />
-                <RadioButton
-                    android:id="@+id/closestRB"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layoutDirection="rtl"
-                    android:text="Closest"
-                    android:textAppearance="@style/smallMediumText" />
-                <RadioButton
-                    android:id="@+id/furthestRB"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layoutDirection="rtl"
-                    android:text="Furthest"
+                    android:text="Oldest"
                     android:textAppearance="@style/smallMediumText" />
             </RadioGroup>
 

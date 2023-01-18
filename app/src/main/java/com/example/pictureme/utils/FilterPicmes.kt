@@ -2,15 +2,8 @@ package com.example.pictureme.utils
 
 import android.os.Build
 import androidx.annotation.RequiresApi
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.ViewModel
 import com.example.pictureme.data.models.Feeling
 import com.example.pictureme.data.models.Picme
-import com.example.pictureme.data.models.User
-import com.example.pictureme.viewmodels.FilteredPicmesViewModel
-import java.sql.Timestamp
-import java.text.SimpleDateFormat
-import java.time.Instant
 import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
@@ -67,15 +60,22 @@ object FilterPicmes {
         return picmesFood
     }
     fun filterOldestPicmes(picmes: List<Picme>): List<Picme>{
-        return picmes.sortedByDescending { it.createdAt!!.seconds }
+        return picmes.sortedBy { it.createdAt!! }
     }
     fun filterNewestPicmes(picmes: List<Picme>): List<Picme>{
-        return picmes.sortedBy { it.createdAt!!.seconds }
+        return picmes.sortedByDescending { it.createdAt!!}
     }
-    fun filterFriendPicmes(picmes: List<Picme>, friend: User): ArrayList<Picme>{
+    fun filterFriendsPicmes(picmes: List<Picme>, friends: ArrayList<String>): ArrayList<Picme>{
+        var allFriendsPresent = true
         var picmesWFriend = ArrayList<Picme>()
         for (picme in picmes){
-            if(picme.friends.contains(friend)){
+            allFriendsPresent = true
+            for (friend in friends){
+                if(!picme.friends.any { picmeFriend -> picmeFriend.id == friend } ){
+                    allFriendsPresent = false
+                }
+            }
+            if (allFriendsPresent){
                 picmesWFriend.add(picme)
             }
         }

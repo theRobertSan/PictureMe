@@ -5,7 +5,6 @@ import android.util.DisplayMetrics
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AbsListView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.Navigation
@@ -29,6 +28,8 @@ class GalleryFragment : Fragment() {
     // Device
     private var gridItemDim: Int = 0
 
+    private lateinit var adapter: ImageAdapter
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -48,45 +49,37 @@ class GalleryFragment : Fragment() {
 
     private fun setupPicmeCards() {
         val gridView = binding.fragmentGalleryGridView
-        val adapter = ImageAdapter(emptyList(), requireContext(), gridItemDim)
+        adapter = ImageAdapter(emptyList(), requireContext(), gridItemDim)
         gridView.adapter = adapter
-        /*gridView.setOnItemClickListener { _, _, i, _ ->
-        // Navigate to details
-        picmeDetailsViewModel.selectPicme(response[i])
-        Navigation.findNavController(requireView().parent.parent.parent.parent.parent.parent as View)
-            .navigate(R.id.action_navFragment_to_picmeDetailsFragment)
-        */
+
         picmeViewModel.picmesLiveData.observe(viewLifecycleOwner) { response ->
-            filteredPicmesViewModel.addPicmeList(response)
+            filteredPicmesViewModel.addPicmeList(FilterPicmes.filterNewestPicmes(response))
         }
 
         filteredPicmesViewModel.filteredPicmesLiveData.observe(viewLifecycleOwner) { response ->
-            println("DATE CHANGED ------------" + response.size)
-            adapter.setData(response)
-        }
-/*
-        picmeViewModel.picmesLiveData.observe(viewLifecycleOwner) { response ->
-            println("DATE CHANGED ------------" + response.size)
-            //FILTER TEST
-            //val filteredPicmes = FilterPicmes.filterFoodPicmes(response)
-            //val filteredPicmes = FilterPicmes.filterNotFoodPicmes(response)
-            //val filteredPicmes = FilterPicmes.filterOldestPicmes(response)
-            //val filteredPicmes = FilterPicmes.filterNewestPicmes(response)
-            val filteredPicmes = response
-            val gridView = binding.fragmentGalleryGridView;
-            gridView.adapter = ImageAdapter(filteredPicmes, requireContext())
-            gridView.setOnItemClickListener { _, _, i, _ ->
-                // Navigate to details
-                picmeDetailsViewModel.selectPicme(filteredPicmes[i])
-                Navigation.findNavController(requireView().parent.parent.parent.parent.parent.parent as View)
-                    .navigate(R.id.action_navFragment_to_picmeDetailsFragment)
+            if(response != null){
+                adapter = ImageAdapter(emptyList(), requireContext(), gridItemDim)
+                gridView.adapter = adapter
+                adapter.setData(response)
+
+                gridView.setOnItemClickListener { _, _, i, _ ->
+                    // Navigate to details
+                    picmeDetailsViewModel.selectPicme(response[i])
+                    Navigation.findNavController(requireView().parent.parent.parent.parent.parent.parent as View)
+                        .navigate(R.id.action_navFragment_to_picmeDetailsFragment)}
+
             }
-        }*/
+        }
 
         binding.buttonFilters.setOnClickListener {
             Navigation.findNavController(requireView().parent.parent.parent.parent.parent.parent as View)
                 .navigate(R.id.action_navFragment_to_filtersFragment)
         }
+    }
+
+    override fun onResume() {
+        adapter.notifyDataSetChanged()
+        super.onResume()
     }
 
     private fun getGridItemSize() {

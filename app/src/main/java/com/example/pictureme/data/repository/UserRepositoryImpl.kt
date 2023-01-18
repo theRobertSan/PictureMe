@@ -1,6 +1,8 @@
 package com.example.pictureme.data.repository
 
 import android.net.Uri
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.example.pictureme.data.interfaces.UserRepository
 import com.example.pictureme.data.models.FriendRequest
 import com.example.pictureme.data.models.Friendship
@@ -33,7 +35,12 @@ class UserRepositoryImpl @Inject constructor(
     private val friendshipCollection = firestore.collection("friendships")
     private val friendRequestCollection = firestore.collection("friendRequests")
 
-    override suspend fun addUser(id: String, username: String, fullName: String): User {
+    override suspend fun addUser(
+        id: String,
+        username: String,
+        fullName: String
+    ): User {
+
         val user = hashMapOf(
             "username" to username,
             "fullName" to fullName
@@ -44,21 +51,22 @@ class UserRepositoryImpl @Inject constructor(
         return currentUser!!
     }
 
-    override suspend fun loadUser(id: String): User {
+    override suspend fun loadUser(
+        id: String
+    ): User {
         // Get user document
         val userReference = userCollection.document(id)
         // Load user
         currentUser = userReference.get().await().toObject<User>()
 
-        loadUserFriendships(userReference, currentUser)
-        loadUserFriendRequests(userReference, currentUser)
+        loadUserFriendships(userReference)
+        loadUserFriendRequests(userReference)
 
         return currentUser!!
     }
 
     private suspend fun loadUserFriendships(
-        userReference: DocumentReference,
-        currentUser: User?
+        userReference: DocumentReference
     ): User {
         // Load its friendships
         val friendships = ArrayList<Friendship>()
@@ -93,8 +101,7 @@ class UserRepositoryImpl @Inject constructor(
     }
 
     private suspend fun loadUserFriendRequests(
-        userReference: DocumentReference,
-        currentUser: User?
+        userReference: DocumentReference
     ): User {
         // Load the friend requests
         val loadedFriendRequests = ArrayList<FriendRequest>()
@@ -120,10 +127,28 @@ class UserRepositoryImpl @Inject constructor(
         return this.currentUser!!
     }
 
-    override suspend fun createFriendRequest(username: String, currentUserId: String) {
+    override suspend fun createFriendRequest(
+        username: String,
+        currentUserId: String
+    ): String {
         val currentUserRef = userCollection.document(currentUserId)
-        val otherUserRef = userCollection
-            .whereEqualTo("username", username).get().await().documents[0].reference
+        val otherUserRefQuery = userCollection
+            .whereEqualTo("username", username).get().await()
+
+        // Check if the current user is sending a request to an existing user
+        if(otherUserRefQuery.isEmpty) {
+            return "Failure: The user " + username + " does not exist"
+        }
+
+        val otherUserRef = otherUserRefQuery.documents[0].reference
+
+        // Check if the current user already sent a request to the other user
+        val otherUserWithFriendRequests = loadUserFriendRequests(otherUserRef)
+        for (request in otherUserWithFriendRequests.friendRequests) {
+            if(request.sendingUser!!.id == currentUserId) {
+                return "Failure: You already sent a friend request to the user " + username
+            }
+        }
 
         val friendRequest = hashMapOf(
             "creatorRef" to currentUserRef,
@@ -132,9 +157,15 @@ class UserRepositoryImpl @Inject constructor(
         )
 
         friendRequestCollection.add(friendRequest).await()
+
+        return "Friend request sent to " + username
     }
 
-    override suspend fun handleFriendRequestAnswer(requestId: String, accepted: Boolean) : Friendship? {
+    override suspend fun handleFriendRequestAnswer(
+        requestId: String,
+        accepted: Boolean
+    ): Friendship? {
+
         val currentRequest = friendRequestCollection.document(requestId).get().await()
         var friendshipObj: Friendship? = null
 
@@ -158,7 +189,10 @@ class UserRepositoryImpl @Inject constructor(
         return friendshipObj
     }
 
-    override suspend fun storeProfileImage(currentUserId: String, imageUri: Uri): String {
+    override suspend fun storeProfileImage(
+        currentUserId: String,
+        imageUri: Uri
+    ): String {
         // Get reference to storage location
         val profilePicRef =
             storageRef.child("${folder}/${currentUserId}_${imageUri.lastPathSegment}")
@@ -180,7 +214,10 @@ class UserRepositoryImpl @Inject constructor(
             .await()
     }
 
-    override suspend fun updateUserProfileFullName(currentUserId: String, fullName: String) {
+    override suspend fun updateUserProfileFullName(
+        currentUserId: String,
+        fullName: String
+    ) {
         userCollection.document(currentUserId)
             .update("fullName", fullName)
             .await()

@@ -10,6 +10,7 @@ import com.example.pictureme.data.interfaces.UserRepository
 import com.example.pictureme.data.models.Friendship
 import com.example.pictureme.data.models.User
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -20,6 +21,9 @@ class UserViewModel @Inject constructor(
 ) : ViewModel() {
     private val _userLiveData = MutableLiveData<User>()
     val userLiveData: LiveData<User> = _userLiveData
+
+    private val _friendRequestResponseLiveData = MutableLiveData<String?>()
+    val friendRequestResponseLiveData: MutableLiveData<String?> = _friendRequestResponseLiveData
 
     private val currentUserId = authRepository.currentUser!!.uid
 
@@ -36,7 +40,35 @@ class UserViewModel @Inject constructor(
     }
 
     fun sendFriendRequest(username: String) = viewModelScope.launch {
-        userRepository.createFriendRequest(username, _userLiveData.value!!.id!!)
+
+        val currentUser = _userLiveData.value!!
+        val userFriendships = currentUser.friendships
+        val userFriendRequests = currentUser.friendRequests
+        var failure = false
+
+        // Check if the user is already friends with the other user
+        for (friendship in userFriendships) {
+            if(friendship.friend!!.username == username) {
+                _friendRequestResponseLiveData.postValue("Failure: You are already friends with " + username)
+                failure = true
+                break
+            }
+        }
+
+        // Check if the user already has a friend request from the other user
+        for (request in userFriendRequests) {
+            if(failure || request.sendingUser!!.username == username) {
+                _friendRequestResponseLiveData.postValue("Failure: The user " + username + " already sent you a friend request")
+                failure = true
+                break
+            }
+        }
+
+        // Send request to database
+        if(!failure) {
+            val databaseResponse = userRepository.createFriendRequest(username, _userLiveData.value!!.id!!)
+            _friendRequestResponseLiveData.postValue(databaseResponse)
+        }
     }
 
     fun handleFriendRequestAnswer(requestId: String, accepted: Boolean) = viewModelScope.launch {
@@ -70,11 +102,11 @@ class UserViewModel @Inject constructor(
         }
 
         // Add created picme to current picme list
-        println("Updated User $updatedUser")
         _userLiveData.postValue(updatedUser)
-//        _userLiveData.postValue(_userLiveData.value).imagePath =
-//            picmeRepository.storePicmeImage(currentUserId, previewPicme.imageUri!!)
+    }
 
+    fun resetfriendRequestResponseLiveData() {
+        _friendRequestResponseLiveData.value = null
     }
 
 }

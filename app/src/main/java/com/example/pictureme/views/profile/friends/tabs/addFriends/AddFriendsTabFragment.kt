@@ -46,9 +46,19 @@ class AddFriendsTabFragment : Fragment() {
                 imm.hideSoftInputFromWindow(requireView().getWindowToken(), 0)
             }
 
+            // Send the request
             userViewModel.sendFriendRequest(username)
 
-            Toast.makeText(this.context, "Friend Request Sent to " + username, Toast.LENGTH_SHORT).show()
+            // Observe the request answer and make a Toast with the result
+            userViewModel.friendRequestResponseLiveData.observe(viewLifecycleOwner) { response ->
+                if (response != null) {
+                    Toast.makeText(this.context, response, Toast.LENGTH_SHORT).show()
+
+                    // clear the MutableLiveData so that the previous responses are erased
+                    userViewModel.resetfriendRequestResponseLiveData()
+                }
+            }
+
         }
     }
 

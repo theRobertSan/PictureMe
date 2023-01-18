@@ -3,14 +3,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/friend_card_layout_height">
+    android:layout_height="@dimen/item_card_layout_height">
 
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:cardElevation="@dimen/friend_card_elevation"
+        app:cardElevation="@dimen/item_card_elevation"
         app:cardCornerRadius="@dimen/corner_radius"
-        android:layout_margin="@dimen/friend_card_margin">
+        android:layout_margin="@dimen/item_card_margin">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"

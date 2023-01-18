@@ -159,8 +159,8 @@
     </style>
 
     <style name="preview_button">
-        <item name="android:layout_width">40dp</item>
-        <item name="android:layout_height">40dp</item>
+        <item name="android:layout_width">35dp</item>
+        <item name="android:layout_height">35dp</item>
         <item name="tint">@color/textOnPrimary</item>
         <item name="fabAlignmentMode">center</item>
         <item name="fabCustomSize">60dp</item>

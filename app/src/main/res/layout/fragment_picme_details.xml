@@ -233,12 +233,11 @@
                 style="@style/smallText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="4 km away"
+                android:text="Calculating..."
                 android:textColor="@color/gray"
                 app:layout_constraintBottom_toBottomOf="@+id/imageView2"
                 app:layout_constraintStart_toStartOf="@+id/textExactLocation"
-                app:layout_constraintTop_toBottomOf="@+id/textExactLocation"
-                tools:text="4 km away" />
+                app:layout_constraintTop_toBottomOf="@+id/textExactLocation" />
 
             <ImageView
                 android:id="@+id/imageView2"

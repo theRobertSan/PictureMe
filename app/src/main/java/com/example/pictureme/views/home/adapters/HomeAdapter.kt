@@ -27,10 +27,12 @@ class HomeAdapter(
     inner class HomeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val tvTitle: TextView
         val rvCategory: RecyclerView
+        val picmeNum: TextView
 
         init {
             tvTitle = itemView.findViewById(R.id.tvParentTitle)
             rvCategory = itemView.findViewById(R.id.rvCategory)
+            picmeNum = itemView.findViewById(R.id.textPicmesNum)
         }
     }
 
@@ -42,6 +44,7 @@ class HomeAdapter(
 
     override fun onBindViewHolder(holder: HomeViewHolder, position: Int) {
         holder.tvTitle.text = rvs[position].title
+        holder.picmeNum.text = "${rvs[position].picmes.size} PicMes"
 
         val picMeAdapter =
             PicmeAdapter(rvs[position].picmes, picmeDetailsViewModelViewModel, context)

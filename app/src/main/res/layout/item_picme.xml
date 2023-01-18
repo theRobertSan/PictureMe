@@ -40,13 +40,31 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
-        android:drawableLeft="@drawable/ic_clock"
         android:drawablePadding="5dp"
-        android:drawableTint="@color/gray"
-        android:hint="Today"
-        android:textColor="@color/gray"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/image_picme" />
+        app:layout_constraintStart_toStartOf="@+id/image_picme"
+        tools:text="Today" />
+
+    <TextView
+        android:id="@+id/textFriendsNum"
+        style="@style/smallMediumText"
+        android:layout_width="60dp"
+        android:layout_height="50dp"
+        android:layout_marginEnd="-4dp"
+        android:layout_marginBottom="-4dp"
+        android:background="@drawable/rounder_corner"
+        android:drawableEnd="@drawable/ic_person"
+        android:drawableTint="@color/textOnPrimary"
+        android:padding="8dp"
+        android:scaleX="0.6"
+        android:scaleY="0.6"
+        android:textAlignment="center"
+        android:textColor="@color/textOnPrimary"
+        android:textSize="23dp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@+id/image_picme"
+        app:layout_constraintEnd_toEndOf="@+id/image_picme"
+        tools:text="3" />
 
     <!--    <ImageView-->
     <!--        android:id="@+id/ivClock"-->

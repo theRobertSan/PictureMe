@@ -41,13 +41,14 @@ class PicmeAdapter(
         val picmeImage: ShapeableImageView
         val loadingBar: ContentLoadingProgressBar
         val cl: ConstraintLayout
+        val friendsNum: TextView
 
         init {
             relativeTime = itemView.findViewById(R.id.text_relative_time)
             picmeImage = itemView.findViewById(R.id.image_picme)
             loadingBar = itemView.findViewById(R.id.image_loading_bar)
             cl = itemView.findViewById(R.id.clItem)
-
+            friendsNum = itemView.findViewById(R.id.textFriendsNum)
         }
     }
 
@@ -64,6 +65,10 @@ class PicmeAdapter(
             crossfade(true)
             crossfade(1000)
             listener { _, _ ->
+                if (picmes[position].friends.isNotEmpty()) {
+                    holder.friendsNum.text = picmes[position].friends.size.toString()
+                    holder.friendsNum.visibility = View.VISIBLE
+                }
                 holder.loadingBar.isGone = true
             }
         }

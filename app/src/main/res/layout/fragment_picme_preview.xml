@@ -35,6 +35,8 @@
     <ImageView
         android:id="@+id/buttonAddFriends"
         style="@style/preview_button"
+        android:layout_width="36dp"
+        android:layout_height="32dp"
         android:layout_marginEnd="24dp"
         android:src="@drawable/ic_add_friend"
         app:layout_constraintBottom_toBottomOf="@+id/buttonAddFeeling"
@@ -67,6 +69,22 @@
         app:layout_constraintBottom_toBottomOf="@+id/buttonExit"
         app:layout_constraintStart_toEndOf="@+id/buttonExit"
         app:layout_constraintTop_toTopOf="@+id/buttonExit" />
+
+    <TextView
+        android:id="@+id/textFriendsNum"
+        style="@style/smallText"
+        android:layout_width="20dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="-8dp"
+        android:layout_marginEnd="-8dp"
+        android:background="@drawable/rounder_corner"
+        android:gravity="center"
+        android:textAlignment="gravity"
+        android:textColor="@color/textOnPrimary"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/buttonAddFriends"
+        app:layout_constraintTop_toTopOf="@+id/buttonAddFriends"
+        tools:text="2" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -93,6 +93,15 @@ class PicmePreviewFragment : Fragment() {
         _binding = FragmentPicmePreviewBinding.inflate(inflater, container, false)
 
         setUpListeners()
+        previewViewModel.previewLiveData.observe(viewLifecycleOwner) { preview ->
+            if (preview.friendIds.isNotEmpty()) {
+                binding.textFriendsNum.visibility = View.VISIBLE
+                binding.textFriendsNum.text = preview.friendIds.size.toString()
+            } else {
+                binding.textFriendsNum.visibility = View.INVISIBLE
+            }
+        }
+
         setUpObservers()
 
         // Load picture if it has already been taken
@@ -119,7 +128,7 @@ class PicmePreviewFragment : Fragment() {
 
         }
 
-        binding.buttonExit.setOnClickListener{
+        binding.buttonExit.setOnClickListener {
             Navigation.findNavController(binding.root)
                 .navigate(R.id.action_picmePreviewFragment_to_navFragment)
         }
@@ -193,7 +202,15 @@ class PicmePreviewFragment : Fragment() {
                 val picture = takenPicture
 
                 // Rotate the picture taken
-                takenPictureRotated = Bitmap.createBitmap(picture!!, 0, 0, picture.width, picture.height, matrix, true)
+                takenPictureRotated = Bitmap.createBitmap(
+                    picture!!,
+                    0,
+                    0,
+                    picture.width,
+                    picture.height,
+                    matrix,
+                    true
+                )
                 binding.imagePicme.setImageBitmap(takenPictureRotated)
 
             } else {
@@ -203,6 +220,7 @@ class PicmePreviewFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
+        previewViewModel.clear()
         _binding = null
     }
 

@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import androidx.core.view.isGone
+import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -97,6 +98,13 @@ class HomeFragment : Fragment() {
             //println("DATA CHANGED: ${response[response.size - 1]}")
             val rvsCategory = arrayListOf<ParentModelClass>()
             val filteredPicmes = FilterPicmes.getFilteredPicmes(response, feelings)
+
+            if(filteredPicmes.isEmpty()) {
+                binding.textNoPicmes.visibility = View.VISIBLE
+            } else {
+                binding.textNoPicmes.visibility = View.GONE
+            }
+
             for (filter in filteredPicmes) {
                 val rv = ParentModelClass(filter.first, filter.second)
                 rvsCategory.add(rv)

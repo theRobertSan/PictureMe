@@ -64,8 +64,6 @@ class HomeFragment : Fragment() {
             else
                 binding.fragmentHomeTvWelcome.text = "Good Evening, $firstName"
         }
-
-
     }
 
     // Setup PicMe Cards
@@ -101,8 +99,10 @@ class HomeFragment : Fragment() {
 
             if(filteredPicmes.isEmpty()) {
                 binding.textNoPicmes.visibility = View.VISIBLE
+                binding.fragmentHomeIv.visibility = View.VISIBLE
             } else {
                 binding.textNoPicmes.visibility = View.GONE
+                binding.fragmentHomeIv.visibility = View.GONE
             }
 
             for (filter in filteredPicmes) {

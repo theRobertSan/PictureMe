@@ -47,7 +47,7 @@
         app:layout_constraintStart_toEndOf="@+id/image_profile_picture"
         app:layout_constraintTop_toTopOf="@+id/image_profile_picture"
         app:layout_constraintVertical_chainStyle="packed"
-        tools:text="user's name" />
+        tools:text="fullName" />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView"
@@ -386,8 +386,8 @@
         style="@style/smallText"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:text="TextView"
         android:textColor="@color/gray"
+        tools:text="username"
         app:layout_constraintBottom_toBottomOf="@+id/image_profile_picture"
         app:layout_constraintStart_toStartOf="@+id/text_name"
         app:layout_constraintTop_toBottomOf="@+id/text_name" />

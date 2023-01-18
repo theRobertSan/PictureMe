@@ -25,15 +25,15 @@ class ClusterPicmeAdapter(
         val imageLoadingBar: ContentLoadingProgressBar
 
         init {
-            imagePicme = itemView.findViewById(R.id.image_picme)
-            textPicme = itemView.findViewById(R.id.text_relative_time)
-            imageLoadingBar = itemView.findViewById(R.id.image_loading_bar)
+            imagePicme = itemView.findViewById(R.id.image_picme_map)
+            textPicme = itemView.findViewById(R.id.text_relative_time_map)
+            imageLoadingBar = itemView.findViewById(R.id.image_loading_bar_map)
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ClusterPicmeViewHolder {
         val view =
-            LayoutInflater.from(parent.context).inflate(R.layout.item_picme, parent, false)
+            LayoutInflater.from(parent.context).inflate(R.layout.item_picme_map, parent, false)
         return ClusterPicmeViewHolder(view)
     }
 
@@ -42,7 +42,7 @@ class ClusterPicmeAdapter(
         val picme = picmes[position]
         holder.textPicme.text = Details.getRelativeDate(picme.createdAt!!)
         Pictures.loadPicme(picme.imagePath, holder.imagePicme, holder.imageLoadingBar)
-        holder.imagePicme.scaleType = ImageView.ScaleType.FIT_CENTER
+        //holder.imagePicme.scaleType = ImageView.ScaleType.FIT_CENTER
     }
 
     override fun getItemCount(): Int {

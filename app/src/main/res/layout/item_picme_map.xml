@@ -1,22 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/clItem"
+    android:id="@+id/clMapItem"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="180dp"
-    android:layout_height="190dp"
+    android:layout_width="140dp"
+    android:layout_height="175dp"
     android:padding="1dp">
 
     <com.google.android.material.imageview.ShapeableImageView
-        android:id="@+id/image_picme"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="8dp"
+        android:id="@+id/image_picme_map"
+        android:layout_width="120dp"
+        android:layout_height="140dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         android:scaleType="centerCrop"
-        app:layout_constraintBottom_toTopOf="@+id/text_relative_time"
+        app:layout_constraintBottom_toTopOf="@+id/text_relative_time_map"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -24,58 +23,29 @@
         app:srcCompat="@drawable/img1" />
 
     <androidx.core.widget.ContentLoadingProgressBar
-        android:id="@+id/image_loading_bar"
+        android:id="@+id/image_loading_bar_map"
         style="?android:attr/progressBarStyleLarge"
         android:layout_width="20dp"
         android:layout_height="20dp"
         android:visibility="visible"
-        app:layout_constraintBottom_toBottomOf="@+id/image_picme"
-        app:layout_constraintEnd_toEndOf="@+id/image_picme"
-        app:layout_constraintStart_toStartOf="@+id/image_picme"
-        app:layout_constraintTop_toTopOf="@+id/image_picme" />
+        app:layout_constraintBottom_toBottomOf="@+id/image_picme_map"
+        app:layout_constraintEnd_toEndOf="@+id/image_picme_map"
+        app:layout_constraintStart_toStartOf="@+id/image_picme_map"
+        app:layout_constraintTop_toTopOf="@+id/image_picme_map" />
 
     <TextView
-        android:id="@+id/text_relative_time"
+        android:id="@+id/text_relative_time_map"
         style="@style/smallText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
         android:drawableLeft="@drawable/ic_clock"
-        android:drawablePadding="5dp"
+        android:drawablePadding="1dp"
         android:drawableTint="@color/gray"
+        android:gravity="center"
         android:hint="Today"
         android:textColor="@color/gray"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/image_picme" />
-
-    <!--    <ImageView-->
-    <!--        android:id="@+id/ivClock"-->
-    <!--        android:layout_width="wrap_content"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
-    <!--        app:layout_constraintStart_toStartOf="parent"-->
-    <!--        app:srcCompat="@drawable/ic_clock" />-->
-
-    <!--    <TextView-->
-    <!--        android:id="@+id/text_relative_time"-->
-    <!--        android:layout_width="92dp"-->
-    <!--        android:layout_height="24dp"-->
-    <!--        android:text="4 Days Ago"-->
-    <!--        android:textAlignment="center"-->
-    <!--        android:textSize="16sp"-->
-    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
-    <!--        app:layout_constraintStart_toEndOf="@+id/ivClock" />-->
-
-    <!--    <ImageView-->
-    <!--        android:id="@+id/image_picme"-->
-    <!--        android:layout_width="0dp"-->
-    <!--        android:layout_height="0dp"-->
-    <!--        android:layout_marginBottom="16dp"-->
-    <!--        app:layout_constraintBottom_toTopOf="@+id/text_relative_time"-->
-    <!--        app:layout_constraintEnd_toEndOf="parent"-->
-    <!--        app:layout_constraintStart_toStartOf="parent"-->
-    <!--        app:layout_constraintTop_toTopOf="parent"-->
-    <!--        tools:srcCompat="@tools:sample/avatars" />-->
+        app:layout_constraintStart_toStartOf="@+id/image_picme_map"
+        app:layout_constraintTop_toBottomOf="@+id/image_picme_map" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

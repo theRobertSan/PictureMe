@@ -5,8 +5,32 @@
     android:id="@+id/clHome"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/textOnPrimary"
-    tools:context=".views.home.HomeFragment">
+    tools:context=".views.home.HomeFragment"
+    android:background="@color/textOnPrimary">
+
+    <TextView
+        android:id="@+id/text_no_picmes"
+        style="@style/smallMediumText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="30dp"
+        android:text="No PicMe's Yet!"
+        android:textStyle="bold"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/fragment_home_iv"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_no_picmes"
+        android:src="@drawable/ic_shrug"/>
 
     <TextView
         android:id="@+id/fragment_home_tv_welcome"
@@ -15,7 +39,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:textSize="22dp"
+        android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -44,19 +68,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/fragment_home_tv_welcome" />
-
-    <TextView
-        android:id="@+id/text_no_picmes"
-        style="@style/smallMediumText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="No PicMe's Yet!"
-        android:visibility="gone"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/fragment_home_tv_welcome"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

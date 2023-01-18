@@ -121,9 +121,12 @@ class PicmeDetailsFragment() : Fragment() {
                     val destLat = picme.location!!.latitude
                     val destLng = picme.location!!.longitude
 
-                    val uri = Uri.parse("google.navigation:q=$destLat,$destLng&mode=w")
+
+                    //val uri = Uri.parse("google.navigation:q=$destLat,$destLng&mode=w")
+                    val uri = Uri.parse("http://maps.google.com/maps?saddr=" +
+                            "$originLat,$originLng&daddr=$destLat,$destLng")
                     val intent = Intent(Intent.ACTION_VIEW, uri)
-                    intent.setPackage("com.google.android.apps.maps");
+                    //intent.setPackage("com.google.android.apps.maps");
                     startActivity(intent);
 
                 } else {

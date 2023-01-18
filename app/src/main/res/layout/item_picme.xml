@@ -41,6 +41,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:drawablePadding="5dp"
+        android:gravity="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="@+id/image_picme"
         tools:text="Today" />

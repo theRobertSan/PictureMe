@@ -1,6 +1,7 @@
 package com.example.pictureme.views.explore
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.pm.PackageManager
 import android.graphics.*
@@ -78,6 +79,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener, OnMap
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         // Setup FusedLocationProviderClient
         fusedLocationProviderClient =
             LocationServices.getFusedLocationProviderClient(requireActivity())
@@ -94,13 +96,12 @@ class MapFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener, OnMap
             requireContext(),
             listOf(
                 Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.ACCESS_COARSE_LOCATION
             ),
             "To take a PicMe, you have to enable those permissions."
         ) {
             cardViewMarker = binding.fragmentMapCardViewMarker
             cardViewCluster = binding.fragmentMapCardViewCluster
-
-            binding.imageView5.setImageResource(R.drawable.avatar)
 
             // Setup SupportMapFragment
             val mapFragment =
@@ -135,28 +136,14 @@ class MapFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener, OnMap
             override fun onLocationResult(locationResult: LocationResult) {
                 super.onLocationResult(locationResult)
                 for (location in locationResult.locations) {
-                    Log.d("mapdora", location.toString())
                     currentLocation = location
-                    mMap.animateCamera(
-                        CameraUpdateFactory.newLatLngZoom
-                            (LatLng(currentLocation!!.latitude, currentLocation!!.longitude), 12f)
-                    )
                 }
             }
         }
     }
 
+    @SuppressLint("MissingPermission")
     private fun startLocationUpdates() {
-        if (ActivityCompat.checkSelfPermission(
-                requireContext(),
-                Manifest.permission.ACCESS_FINE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
-                requireContext(),
-                Manifest.permission.ACCESS_COARSE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
-            return
-        }
         fusedLocationProviderClient!!.requestLocationUpdates(
             locationRequest!!,
             locationCallback!!,
@@ -189,26 +176,16 @@ class MapFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener, OnMap
         setupPicmeMarkers()
     }
 
+    @SuppressLint("MissingPermission")
     @RequiresApi(Build.VERSION_CODES.O)
     private fun setupMap() {
-        if (ActivityCompat.checkSelfPermission(
-                requireContext(),
-                Manifest.permission.ACCESS_FINE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
-                requireContext(),
-                Manifest.permission.ACCESS_COARSE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
-            return
-        }
-
         // Map stuff
         mMap.isMyLocationEnabled = true
         mMap.setOnMapClickListener(this)
 
         // Cluster Manager Stuff
         clusterManager = ClusterManager(context, mMap)
-        clusterManager!!.renderer = OwnIconRendered(context, mMap, clusterManager)
+        //clusterManager!!.renderer = OwnIconRendered(context, mMap, clusterManager)
 
         mMap.setOnCameraIdleListener(clusterManager)
         clusterManager!!.markerCollection.setOnMarkerClickListener { marker: Marker ->
@@ -220,6 +197,19 @@ class MapFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener, OnMap
             val ret = onClusterClick(cluster)
             ret
         }
+
+        fusedLocationProviderClient?.lastLocation?.addOnSuccessListener { location ->
+            if (location != null) {
+                val currentLocation = LatLng(location.latitude, location.longitude)
+                mMap.animateCamera(
+                    CameraUpdateFactory.newLatLngZoom
+                        (LatLng(currentLocation.latitude, currentLocation.longitude), 12f)
+                )
+            }
+        }
+
+
+
     }
 
     private fun setupPicmeMarkers() {
@@ -251,8 +241,6 @@ class MapFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener, OnMap
 
                 val imagePath = item.getImagePath()
                 println("image path $imagePath")
-
-                val imageView = binding.imageView5
 
               /*  imageView.load(imagePath) {
                     crossfade(true)
@@ -335,17 +323,15 @@ class MapFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener, OnMap
         showCardView(cardViewMarker!!)
 
         val id = marker.title
-        val picme = id?.let { picmeViewModel.getPicme(it) }
+        val picme = picmeViewModel.getPicme(id!!)
 
-        if (picme != null) {
-            Pictures.loadPicme(
-                picme.imagePath,
-                binding.fragmentMapImageView,
-                binding.fragmentMapLoadingBar
-            )
-            binding.fragmentMapTextView.text = Details.getRelativeDate(picme.createdAt!!)
-            binding.fragmentMapImageView.scaleType = ImageView.ScaleType.FIT_CENTER
-        }
+        Pictures.loadPicme(
+            picme.imagePath,
+            binding.fragmentMapImageView,
+            binding.fragmentMapLoadingBar
+        )
+        binding.fragmentMapTextView.text = Details.getRelativeDate(picme.createdAt!!)
+        binding.fragmentMapImageView.scaleType = ImageView.ScaleType.FIT_CENTER
         return false
     }
 

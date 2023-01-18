@@ -7,42 +7,49 @@
     android:layout_height="match_parent"
     tools:context=".views.explore.GalleryFragment">
 
-    <GridView
-        android:id="@+id/fragment_gallery_grid_view"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="10dp"
-        android:numColumns= "3"
-        android:paddingTop="10dp"
-        android:verticalSpacing="5dp"
-        android:gravity="center"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/fragment_gallery_text_view">
-
-    </GridView>
-
     <TextView
         android:id="@+id/fragment_gallery_text_view"
         style="@style/smallMediumText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="10dp"
         android:text="Your PicMe's"
         android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/fragment_gallery_grid_view"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/buttonFilters"
-        style="@style/mediumButton"
-        android:layout_width="116dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="264dp"
-        android:text="Filters"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="10dp"
+        android:clickable="true"
+        android:src="@drawable/ic_filter1"
+        app:fabCustomSize="45dp"
+        app:layout_constraintBottom_toTopOf="@+id/fragment_gallery_grid_view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:maxImageSize="25dp"
+        app:tint="@color/textOnPrimary" />
+
+    <GridView
+        android:id="@+id/fragment_gallery_grid_view"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:gravity="center"
+        android:numColumns="3"
+        android:verticalSpacing="5dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/fragment_gallery_text_view"
+        android:paddingBottom="120dp"
+        android:clipToPadding="false">
+
+    </GridView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

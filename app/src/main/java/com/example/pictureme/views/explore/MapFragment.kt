@@ -1,8 +1,10 @@
 package com.example.pictureme.views.explore
 
 import android.Manifest
-import android.annotation.SuppressLint
+import android.content.Context
 import android.content.pm.PackageManager
+import android.graphics.*
+import android.graphics.drawable.BitmapDrawable
 import android.location.Location
 import android.os.Build
 import android.os.Bundle
@@ -12,7 +14,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
@@ -27,7 +28,6 @@ import com.example.pictureme.utils.Pictures
 import com.example.pictureme.viewmodels.PicmeDetailsViewModel
 import com.example.pictureme.viewmodels.PicmeViewModel
 import com.example.pictureme.views.explore.adapters.ClusterPicmeAdapter
-import com.example.pictureme.views.picmeDetails.adapters.PicmeFriendsAdapter
 import com.google.android.gms.location.*
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -35,6 +35,7 @@ import com.google.android.gms.maps.GoogleMap.OnMapClickListener
 import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
@@ -43,6 +44,10 @@ import com.google.firebase.firestore.GeoPoint
 import com.google.maps.android.clustering.Cluster
 import com.google.maps.android.clustering.ClusterItem
 import com.google.maps.android.clustering.ClusterManager
+import com.google.maps.android.clustering.view.DefaultClusterRenderer
+import com.squareup.picasso.Picasso
+import java.net.URL
+import kotlin.math.ceil
 
 
 class MapFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener, OnMapClickListener {
@@ -94,6 +99,8 @@ class MapFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener, OnMap
         ) {
             cardViewMarker = binding.fragmentMapCardViewMarker
             cardViewCluster = binding.fragmentMapCardViewCluster
+
+            binding.imageView5.setImageResource(R.drawable.avatar)
 
             // Setup SupportMapFragment
             val mapFragment =
@@ -201,6 +208,8 @@ class MapFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener, OnMap
 
         // Cluster Manager Stuff
         clusterManager = ClusterManager(context, mMap)
+        clusterManager!!.renderer = OwnIconRendered(context, mMap, clusterManager)
+
         mMap.setOnCameraIdleListener(clusterManager)
         clusterManager!!.markerCollection.setOnMarkerClickListener { marker: Marker ->
             val ret = onMarkerClick(marker)
@@ -222,7 +231,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener, OnMap
                     val lat = geoPoint.latitude
                     val lng = geoPoint.longitude
 
-                    val item = picme.id?.let { PicmeClusterItem(lat, lng, it, "s") }
+                    val item = PicmeClusterItem(lat, lng, picme.id!!, "s", picme.imagePath!!)
                     clusterManager!!.addItem(item)
 
                     //val latLng = LatLng(lat, lng)
@@ -233,14 +242,91 @@ class MapFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener, OnMap
         }
     }
 
-    private fun sortPerDate(list: List<Picme>): List<Picme> {
-        val result = mutableListOf<Picme>()
-        for (item in list) {
-            result.add(item)
+    inner class OwnIconRendered(
+        context: Context?, map: GoogleMap?,
+        clusterManager: ClusterManager<PicmeClusterItem>?
+    ) :
+        DefaultClusterRenderer<PicmeClusterItem>(context, map, clusterManager) {
+        override fun onBeforeClusterItemRendered(item: PicmeClusterItem, markerOptions: MarkerOptions) {
+
+                val imagePath = item.getImagePath()
+                println("image path $imagePath")
+
+                val imageView = binding.imageView5
+
+              /*  imageView.load(imagePath) {
+                    crossfade(true)
+                    crossfade(1000)
+                }*/
+
+                val bitmap = BitmapFactory.decodeResource(resources, R.drawable.launcher)
+                val markerBitmap = createUserBitmap(bitmap)
+                val icon = BitmapDescriptorFactory.fromBitmap(markerBitmap!!)
+                markerOptions.icon(icon)
+
+                /*Picasso.get().load(imagePath).into(imageView);
+                val bitmap = (imageView.drawable as BitmapDrawable).bitmap
+                val bitmap2 = createUserBitmap(bitmap)
+                val icon = BitmapDescriptorFactory.fromBitmap(bitmap2!!)
+                markerOptions.icon(icon)*/
+
+                /*Glide.with(requireActivity())
+                    .asBitmap()
+                    .load(imagePath)
+                    .into(object : CustomTarget<Bitmap>() {
+                        override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
+                            val bitmap = createUserBitmap(null)
+
+                        }
+                        override fun onLoadCleared(placeholder: Drawable?) {
+                            // do nothing
+                        }
+                    })*/
+
+
+
         }
-        result.sortBy { it.createdAt }
-        result.reverse()
+    }
+
+    fun createUserBitmap(bitmap: Bitmap): Bitmap? {
+        var result: Bitmap? = null
+        try {
+            result = Bitmap.createBitmap(dp(62.toFloat()), dp(72.toFloat()), Bitmap.Config.ARGB_8888)
+            result.eraseColor(Color.TRANSPARENT)
+            val canvas = Canvas(result)
+            val drawable = resources.getDrawable(R.drawable.livepin)
+            drawable.setBounds(0, 0, dp(62.toFloat()), dp(76.toFloat()))
+            drawable.draw(canvas)
+            val roundPaint = Paint(Paint.ANTI_ALIAS_FLAG)
+            val bitmapRect = RectF()
+            canvas.save()
+
+
+            val shader = BitmapShader(bitmap, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP)
+            val matrix = Matrix()
+            val scale = dp(52.toFloat()) / bitmap.width.toFloat()
+            matrix.postTranslate(dp(5.toFloat()).toFloat(), dp(5.toFloat()).toFloat())
+            matrix.postScale(scale, scale)
+            roundPaint.shader = shader
+            shader.setLocalMatrix(matrix)
+            bitmapRect[dp(5.toFloat()).toFloat(), dp(5.toFloat()).toFloat(), dp(52 + 5.toFloat()).toFloat()] =
+                dp(52 + 5.toFloat()).toFloat()
+            canvas.drawRoundRect(bitmapRect, dp(26.toFloat()).toFloat(), dp(26.toFloat()).toFloat(), roundPaint)
+            canvas.restore()
+            try {
+                canvas.setBitmap(null)
+            } catch (e: Exception) {
+            }
+        } catch (t: Throwable) {
+            t.printStackTrace()
+        }
         return result
+    }
+
+    fun dp(value: Float): Int {
+        return if (value == 0f) {
+            0
+        } else ceil((resources.displayMetrics.density * value).toDouble()).toInt()
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -303,6 +389,16 @@ class MapFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener, OnMap
         cardView.visibility = View.VISIBLE
     }
 
+    private fun sortPerDate(list: List<Picme>): List<Picme> {
+        val result = mutableListOf<Picme>()
+        for (item in list) {
+            result.add(item)
+        }
+        result.sortBy { it.createdAt }
+        result.reverse()
+        return result
+    }
+
     private fun placeMarker(picme: Picme, currentLatLong: LatLng) {
         val markerOptions = MarkerOptions().position(currentLatLong)
         markerOptions.title("$currentLatLong").visible(false)
@@ -315,12 +411,14 @@ class MapFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener, OnMap
         lat: Double,
         lng: Double,
         title: String,
-        snippet: String
+        snippet: String,
+        imagePath: String
     ) : ClusterItem {
 
         private val position: LatLng
         private val title: String
         private val snippet: String
+        private val imagePath: String
 
         override fun getPosition(): LatLng {
             return position
@@ -334,10 +432,15 @@ class MapFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener, OnMap
             return snippet
         }
 
+        fun getImagePath(): String {
+            return imagePath
+        }
+
         init {
             position = LatLng(lat, lng)
             this.title = title
             this.snippet = snippet
+            this.imagePath = imagePath
         }
     }
 

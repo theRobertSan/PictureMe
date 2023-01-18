@@ -72,6 +72,9 @@ object Details {
 
     fun getPrettyNameFormat(fullName: String): String {
         var names = fullName.trim().split(" ")
+        if(names.size == 1) {
+            return fullName
+        }
         return "${names.first()} ${names.last()[0]}."
     }
 

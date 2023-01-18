@@ -47,7 +47,7 @@ class GalleryFragment : Fragment() {
     }
 
     private fun setupPicmeCards() {
-        val gridView = binding.fragmentGalleryGridView;
+        val gridView = binding.fragmentGalleryGridView
         val adapter = ImageAdapter(emptyList(), requireContext(), gridItemDim)
         gridView.adapter = adapter
         /*gridView.setOnItemClickListener { _, _, i, _ ->
@@ -97,7 +97,7 @@ class GalleryFragment : Fragment() {
         val width = displayMetrics.widthPixels
 
         //val parms = AbsListView.LayoutParams(width, height)
-        gridItemDim = (width / 3.5).toInt()
+        gridItemDim = (width / 3 - 20).toInt()
     }
 
 }

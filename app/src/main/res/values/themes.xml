@@ -179,7 +179,6 @@
     <style name="tab">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">80dp</item>
-        <item name="background">@color/textOnPrimary</item>
         <item name="android:textAlignment">center</item>
         <item name="tabGravity">fill</item>
         <item name="tabIndicator">@drawable/tab_indicator_corner_bg</item>

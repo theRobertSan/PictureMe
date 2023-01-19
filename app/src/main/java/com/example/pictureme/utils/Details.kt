@@ -24,7 +24,11 @@ object Details {
         "Calm" to R.drawable.ic_calm,
         "In Love" to R.drawable.ic_in_love,
         "Yummy" to R.drawable.ic_yummy,
-        "Disgusting" to R.drawable.ic_disgusting
+        "Disgusting" to R.drawable.ic_disgusting,
+        "Gourmet" to R.drawable.ic_star,
+        "Tasty" to R.drawable.ic_looks,
+        "Refreshing" to R.drawable.ic_local_cafe,
+        "Junk Food" to R.drawable.ic_fast_food
     )
 
     fun getExactDate(timestamp: Timestamp): String {

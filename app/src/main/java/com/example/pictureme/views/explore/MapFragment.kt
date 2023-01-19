@@ -2,23 +2,19 @@ package com.example.pictureme.views.explore
 
 import android.Manifest
 import android.annotation.SuppressLint
-import android.content.Context
-import android.content.pm.PackageManager
 import android.graphics.*
-import android.graphics.drawable.BitmapDrawable
 import android.location.Location
 import android.os.Build
 import android.os.Bundle
 import android.os.Looper
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.annotation.RequiresApi
-import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.pictureme.R
 import com.example.pictureme.data.models.Picme
@@ -36,19 +32,13 @@ import com.google.android.gms.maps.GoogleMap.OnMapClickListener
 import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
-import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.card.MaterialCardView
 import com.google.firebase.firestore.GeoPoint
 import com.google.maps.android.clustering.Cluster
 import com.google.maps.android.clustering.ClusterItem
 import com.google.maps.android.clustering.ClusterManager
-import com.google.maps.android.clustering.view.DefaultClusterRenderer
-import com.squareup.picasso.Picasso
-import java.net.URL
-import kotlin.math.ceil
 
 
 class MapFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener, OnMapClickListener {
@@ -235,8 +225,17 @@ class MapFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener, OnMap
             binding.fragmentMapImageView,
             binding.fragmentMapLoadingBar
         )
+
         binding.fragmentMapTextView.text = Details.getRelativeDate(picme.createdAt!!)
         binding.fragmentMapImageView.scaleType = ImageView.ScaleType.FIT_CENTER
+
+        binding.fragmentMapCardViewMarker.setOnClickListener {
+            // This is a sin x2
+            val navigation = Navigation.findNavController(it.parent.parent.parent.parent.parent.parent.parent.parent as View)
+            picmeDetailsViewModel.selectPicme(picme)
+            navigation.navigate(R.id.action_navFragment_to_picmeDetailsFragment)
+        }
+
         return false
     }
 
@@ -255,7 +254,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener, OnMap
 
         val sortedPicmes = sortPerDate(picmes)
 
-        val clusterPicmeAdapter = ClusterPicmeAdapter(sortedPicmes)
+        val clusterPicmeAdapter = ClusterPicmeAdapter(sortedPicmes, picmeDetailsViewModel)
         binding.fragmentMapRvCluster.adapter = clusterPicmeAdapter
         binding.fragmentMapRvCluster.layoutManager =
             LinearLayoutManager(requireActivity(), LinearLayoutManager.HORIZONTAL, false)
@@ -327,6 +326,4 @@ class MapFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener, OnMap
             this.imagePath = imagePath
         }
     }
-
-
 }

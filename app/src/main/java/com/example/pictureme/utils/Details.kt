@@ -30,7 +30,11 @@ object Details {
         "Refreshing" to R.drawable.ic_local_cafe,
         "Junk Food" to R.drawable.ic_fast_food,
         "Bland" to R.drawable.ic_canned_food,
-        "Healthy" to R.drawable.ic_broccoli
+        "Healthy" to R.drawable.ic_broccoli,
+        "Feast" to R.drawable.ic_food_dish,
+        "Snack" to R.drawable.ic_muffin,
+        "Steamy" to R.drawable.ic_hot_bowl,
+        "Dessert" to R.drawable.ic_cake
     )
 
     fun getExactDate(timestamp: Timestamp): String {

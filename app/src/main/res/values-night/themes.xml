@@ -52,6 +52,10 @@
         <item name="android:backgroundTint">#222222</item>
     </style>
 
+    <style name="style7">
+        <item name="android:color">@color/white</item>
+    </style>
+
 
     <style name="logoText">
         <item name="android:textSize">60sp</item>

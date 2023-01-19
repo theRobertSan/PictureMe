@@ -47,6 +47,10 @@
         <item name="android:background">@color/gray</item>
     </style>
 
+    <style name="style7">
+        <item name="android:color">@color/lightBlack</item>
+    </style>
+
     <style name="style6">
         <item name="android:background">@color/textOnPrimary</item>
         <item name="android:backgroundTint">@color/textOnPrimary</item>

@@ -14,6 +14,7 @@ import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import coil.load
 import com.example.pictureme.R
 import com.example.pictureme.databinding.FragmentProfileBinding
@@ -79,6 +80,10 @@ class ProfileFragment : Fragment() {
     }
 
     private fun setLayoutClickListeners() {
+        binding.cardFriends.setOnClickListener{
+            Navigation.findNavController(binding.root.parent.parent as View)
+                .navigate(R.id.action_navFragment_to_friendsFragment)
+        }
 
         binding.friendsLayout.setOnClickListener {
             Navigation.findNavController(binding.root.parent.parent as View)
@@ -102,7 +107,7 @@ class ProfileFragment : Fragment() {
         }
 
         binding.settingsLayout.setOnClickListener {
-            Toast.makeText(this.context, "Settings Fragment! DELETE THIS", Toast.LENGTH_SHORT)
+            Toast.makeText(this.context, "There are no settings available yet", Toast.LENGTH_SHORT)
                 .show()
         }
 
@@ -119,6 +124,7 @@ class ProfileFragment : Fragment() {
                 }
                 .show()
         }
+
     }
 
     private fun logout(view: View) {

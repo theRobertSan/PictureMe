@@ -20,6 +20,30 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <TextView
+        android:id="@+id/text_no_picmes"
+        style="@style/smallMediumText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="30dp"
+        android:text="No PicMe's Yet!"
+        android:textStyle="bold"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/fragment_home_iv"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/ic_shrug"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_no_picmes" />
+
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/buttonFilters"
         android:layout_width="wrap_content"
@@ -40,15 +64,15 @@
         android:id="@+id/fragment_gallery_grid_view"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:clipToPadding="false"
         android:gravity="center"
         android:numColumns="3"
+        android:paddingBottom="120dp"
         android:verticalSpacing="5dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/fragment_gallery_text_view"
-        android:paddingBottom="120dp"
-        android:clipToPadding="false">
+        app:layout_constraintTop_toBottomOf="@+id/fragment_gallery_text_view">
 
     </GridView>
 

@@ -12,8 +12,20 @@
         android:layout_width="200dp"
         android:layout_height="200dp"
         android:src="@drawable/ic_add_feeling"
+        android:layout_marginBottom="100dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@id/text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/smallMediumText"
+        android:textSize="18dp"
+        android:text="Shake for a PicMe to go explore"
+        app:layout_constraintEnd_toEndOf="@+id/image"
+        app:layout_constraintStart_toStartOf="@+id/image"
+        app:layout_constraintTop_toBottomOf="@+id/image" />
 </androidx.constraintlayout.widget.ConstraintLayout>

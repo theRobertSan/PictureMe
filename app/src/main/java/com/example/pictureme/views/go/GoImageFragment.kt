@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import com.example.pictureme.R
 import com.example.pictureme.databinding.FragmentGoImageBinding
-import com.example.pictureme.databinding.FragmentHomeBinding
 
 class GoImageFragment(private val isFoodTab: Boolean) : Fragment() {
 
@@ -21,9 +20,11 @@ class GoImageFragment(private val isFoodTab: Boolean) : Fragment() {
         _binding = FragmentGoImageBinding.inflate(inflater, container, false)
 
         if (isFoodTab) {
-            binding.image.setImageResource(R.drawable.ic_fast_food)
+            binding.image.setImageResource(R.drawable.ic_shake_drink)
+            binding.text.text = "Shake for a food PicMe"
         } else {
-            binding.image.setImageResource(R.drawable.ic_explore)
+            binding.image.setImageResource(R.drawable.ic_shake_phone)
+            binding.text.text = "Shake for a PicMe to go explore"
         }
 
         return (binding.root)

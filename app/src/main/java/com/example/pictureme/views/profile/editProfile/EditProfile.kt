@@ -96,7 +96,7 @@ class EditProfile : Fragment() {
                 picmeViewModel.loadPicmes()
             }
 
-            Navigation.findNavController(binding.root).popBackStack()
+            findNavController().popBackStack()
             Toast.makeText(context, "Profile successfully updated", Toast.LENGTH_SHORT).show()
 
             // Else set a listener for the name editor
@@ -114,7 +114,6 @@ class EditProfile : Fragment() {
                 }
             }
         }
-        findNavController().popBackStack()
 
     }
 

@@ -54,6 +54,14 @@ class GalleryFragment : Fragment() {
 
         picmeViewModel.picmesLiveData.observe(viewLifecycleOwner) { response ->
             filteredPicmesViewModel.addPicmeList(FilterPicmes.filterNewestPicmes(response))
+
+            if(response.isEmpty()) {
+                binding.textNoPicmes.visibility = View.VISIBLE
+                binding.fragmentHomeIv.visibility = View.VISIBLE
+            } else {
+                binding.textNoPicmes.visibility = View.GONE
+                binding.fragmentHomeIv.visibility = View.GONE
+            }
         }
 
         filteredPicmesViewModel.filteredPicmesLiveData.observe(viewLifecycleOwner) { response ->

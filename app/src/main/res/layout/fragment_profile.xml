@@ -21,7 +21,7 @@
         android:scaleType="centerCrop"
         app:layout_constraintEnd_toStartOf="@+id/text_name"
         app:layout_constraintHorizontal_chainStyle="packed"
-        app:layout_constraintStart_toStartOf="@+id/cardView2"
+        app:layout_constraintStart_toStartOf="@+id/card_picmes"
         app:layout_constraintTop_toTopOf="parent"
         app:shapeAppearanceOverlay="@style/circle_image"
         app:srcCompat="@drawable/img1" />
@@ -50,16 +50,16 @@
         tools:text="fullName" />
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/cardView"
+        android:id="@+id/card_friends"
         android:layout_width="140dp"
         android:layout_height="120dp"
         android:elevation="@dimen/elevation"
         app:cardCornerRadius="@dimen/image_corner_radius"
-        app:layout_constraintBottom_toBottomOf="@+id/cardView2"
+        app:layout_constraintBottom_toBottomOf="@+id/card_picmes"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/cardView2"
-        app:layout_constraintTop_toTopOf="@+id/cardView2">
+        app:layout_constraintStart_toEndOf="@+id/card_picmes"
+        app:layout_constraintTop_toTopOf="@+id/card_picmes">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -110,13 +110,13 @@
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/cardView2"
+        android:id="@+id/card_picmes"
         android:layout_width="140dp"
         android:layout_height="120dp"
         android:layout_marginTop="20dp"
         android:elevation="@dimen/elevation"
         app:cardCornerRadius="@dimen/image_corner_radius"
-        app:layout_constraintEnd_toStartOf="@+id/cardView"
+        app:layout_constraintEnd_toStartOf="@+id/card_friends"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/image_profile_picture">
@@ -182,7 +182,7 @@
         android:layout_marginRight="@dimen/opt_margins"
         android:layout_marginTop="30dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cardView2">
+        app:layout_constraintTop_toBottomOf="@+id/card_picmes">
 
         <com.google.android.material.card.MaterialCardView
             style="@style/cards_options_menu"

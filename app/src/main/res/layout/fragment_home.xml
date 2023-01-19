@@ -5,8 +5,8 @@
     android:id="@+id/clHome"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".views.home.HomeFragment"
-    android:background="@color/textOnPrimary">
+    android:background="@color/textOnPrimary"
+    tools:context=".views.home.HomeFragment">
 
     <TextView
         android:id="@+id/text_no_picmes"

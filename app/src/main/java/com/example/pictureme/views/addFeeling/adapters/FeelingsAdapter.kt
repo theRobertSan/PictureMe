@@ -5,9 +5,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.CheckBox
 import android.widget.TextView
+import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.RecyclerView
 import com.example.pictureme.R
 import com.example.pictureme.data.models.Feeling
+import com.example.pictureme.data.models.PreviewPicme
 import com.example.pictureme.utils.Details
 import com.example.pictureme.viewmodels.PreviewPicmeViewModel
 import com.google.android.material.imageview.ShapeableImageView
@@ -15,7 +17,10 @@ import com.google.android.material.imageview.ShapeableImageView
 class FeelingsAdapter(
     private var feelings: List<Feeling>,
     private val previewPicmeViewModel: PreviewPicmeViewModel,
+    val viewLifecycleOwner: LifecycleOwner,
 ) : RecyclerView.Adapter<FeelingsAdapter.FeelingsViewHolder>() {
+
+    private var preview: PreviewPicme? = null
 
     inner class FeelingsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val textFeeling: TextView
@@ -45,11 +50,16 @@ class FeelingsAdapter(
 
         val feelingId = feelings[position].id
 
+//        if (preview != null) {
+//            println(preview!!.feeling)
+//            holder.cbSelectFeeling.isChecked = preview!!.feeling == feelings[position].feeling
+//        } else {
         holder.cbSelectFeeling.isChecked = SelectedPosition.currentPosition == position;
+        //}
         // Only one selected option at a time
         //holder.cbSelectFeeling.isChecked = previewPicmeViewModel.hasFeeling(feelingId)
 
-        holder.cbSelectFeeling.setOnClickListener { view ->
+        holder.cbSelectFeeling.setOnClickListener {
             if (!holder.cbSelectFeeling.isChecked && !SelectedPosition.anyChecked()) {
                 holder.cbSelectFeeling.isChecked = true
             } else {
@@ -87,5 +97,9 @@ class FeelingsAdapter(
 
     override fun getItemCount(): Int {
         return feelings.size
+    }
+
+    fun setPreview(preview: PreviewPicme) {
+        this.preview = preview
     }
 }

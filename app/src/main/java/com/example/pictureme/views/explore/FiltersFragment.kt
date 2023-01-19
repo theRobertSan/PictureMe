@@ -42,10 +42,17 @@ class FiltersFragment : Fragment() {
         _binding = FragmentFiltersBinding.inflate(inflater, container, false)
 
         binding.rcFilterFriends.adapter = adapter
-        binding.rcFilterFriends.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        binding.rcFilterFriends.layoutManager =
+            LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         userViewModel.userLiveData.observe(viewLifecycleOwner) { user ->
             val friendships = user.friendships!!
-            adapter.setList(friendships)
+
+            // If the user has no friends, don't display friends filter
+            if (friendships.isNotEmpty()) {
+                adapter.setList(friendships)
+                binding.cvFriends.visibility = View.VISIBLE
+            }
+
         }
 
         setFilter()
@@ -61,9 +68,9 @@ class FiltersFragment : Fragment() {
         }
     }
 
-    private fun setFilter(){
+    private fun setFilter() {
         filteredPicmesViewModel.filterLiveData.observe(viewLifecycleOwner) { filter ->
-            if(filter.sortBy != null){
+            if (filter.sortBy != null) {
                 val chosenBtn = requireActivity().findViewById<RadioButton>(filter.sortBy!!)
                 chosenBtn.isChecked = true
             }
@@ -83,14 +90,13 @@ class FiltersFragment : Fragment() {
                 filteredPicmes = emptyList()
                 if (checkedRBSortBy == binding.newestRB.id) {
                     filteredPicmes = filterNewestPicmes(response)
-                }
-                else if (checkedRBSortBy == binding.oldestRB.id) {
+                } else if (checkedRBSortBy == binding.oldestRB.id) {
                     filteredPicmes = filterOldestPicmes(response)
-                }else{
+                } else {
                     filteredPicmes = response
                 }
                 // Sort By & Selected friends
-                if(filter.friendIds.isNotEmpty()){
+                if (filter.friendIds.isNotEmpty()) {
                     filteredPicmes = filterFriendsPicmes(filteredPicmes, filter.friendIds)
                 }
                 filteredPicmesViewModel.addPicmeList(filteredPicmes)

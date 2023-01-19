@@ -64,28 +64,31 @@ class DistanceViewModel @Inject constructor(
             }
             destinations = destinations.dropLast(1)
 
-            val client = distanceRepository.getDistanceTo(origin, destinations, key)
-            client.enqueue(object : Callback<DistanceMatrix> {
-                override fun onResponse(
-                    call: Call<DistanceMatrix>,
-                    response: Response<DistanceMatrix>
-                ) {
-                    if (response.isSuccessful) {
-                        val pairs = selectedPicmes.zip(response.body()!!.rows[0].elements)
-                        val sortedPairs = pairs.sortedBy { it.second.distance.value }
-                        val sortedPicmes = sortedPairs.unzip().first
-                        println(sortedPicmes)
-                        _orderedPicmesLiveData.postValue(sortedPicmes)
+            if (selectedPicmes.isNotEmpty()) {
+                val client = distanceRepository.getDistanceTo(origin, destinations, key)
+                client.enqueue(object : Callback<DistanceMatrix> {
+                    override fun onResponse(
+                        call: Call<DistanceMatrix>,
+                        response: Response<DistanceMatrix>
+                    ) {
+                        if (response.isSuccessful) {
+                            val pairs = selectedPicmes.zip(response.body()!!.rows[0].elements)
+                            val sortedPairs = pairs.sortedBy { it.second.distance.value }
+                            val sortedPicmes = sortedPairs.unzip().first
+                            println(sortedPicmes)
+                            _orderedPicmesLiveData.postValue(sortedPicmes)
+                        }
                     }
-                }
 
-                override fun onFailure(call: Call<DistanceMatrix>, t: Throwable) {
-                    println("Error")
-                }
+                    override fun onFailure(call: Call<DistanceMatrix>, t: Throwable) {
+                        println("Error")
+                    }
 
-            })
+                })
 
-            //println("DESTINATION: $destinations")
+            } else {
+                // Nothing
+            }
         }
 
 

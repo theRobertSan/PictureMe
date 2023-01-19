@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.Navigation
 import com.example.pictureme.R
@@ -88,22 +89,31 @@ class GoFragment : Fragment() {
             "To explore your PicMes, you have to enable this permission."
         ) {
             picmeViewModel.picmesLiveData.observe(viewLifecycleOwner) { picmes ->
-                // Get current location
-                mFusedLocationClient.lastLocation.addOnSuccessListener { location ->
-                    if (location != null) {
-                        val currentLocation = "${location.latitude},${location.longitude}"
-                        val apiKey = requireContext().getString(R.string.MAPS_API_KEY)
-                        distanceViewModel.getDistanceOrderedPicmes(
-                            currentLocation,
-                            picmes,
-                            selectedTabPosition == 1,
-                            apiKey
-                        )
-                    } else {
-                        println("NO LOCATION")
-                        throw Exception("No location")
+                if (picmes.isNotEmpty()) {
+                    // Get current location
+                    mFusedLocationClient.lastLocation.addOnSuccessListener { location ->
+                        if (location != null) {
+                            val currentLocation = "${location.latitude},${location.longitude}"
+                            val apiKey = requireContext().getString(R.string.MAPS_API_KEY)
+                            distanceViewModel.getDistanceOrderedPicmes(
+                                currentLocation,
+                                picmes,
+                                selectedTabPosition == 1,
+                                apiKey
+                            )
+                        } else {
+                            println("NO LOCATION")
+                            throw Exception("No location")
+                        }
                     }
+                } else {
+                    Toast.makeText(
+                        requireContext(),
+                        if (selectedTabPosition == 0) "You haven't taken any PicMes for you to Explore!" else "You haven't taken any Food PicMes yet!",
+                        Toast.LENGTH_SHORT
+                    )
                 }
+
             }
 
             distanceViewModel.orderedPicmesLiveData

@@ -73,6 +73,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/textSort"
                 android:divider="?android:attr/dividerHorizontal"
                 android:showDividers="middle">
+
                 <RadioButton
                     android:id="@+id/newestRB"
                     android:layout_width="match_parent"
@@ -81,6 +82,7 @@
                     android:text="Newest"
                     android:checked="true"
                     android:textAppearance="@style/smallMediumText" />
+
                 <RadioButton
                     android:id="@+id/oldestRB"
                     android:layout_width="match_parent"
@@ -94,13 +96,15 @@
     </com.google.android.material.card.MaterialCardView>
 
     <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cvFriends"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/margin"
-        android:padding="30dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="40dp"
         android:layout_marginEnd="8dp"
+        android:padding="30dp"
+        android:visibility="invisible"
         app:cardCornerRadius="@dimen/corner_radius"
         app:cardElevation="@dimen/elevation"
         app:layout_constraintEnd_toEndOf="parent"
@@ -110,9 +114,9 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:padding="10dp"
             tools:layout_editor_absoluteX="13dp"
-            tools:layout_editor_absoluteY="226dp"
-            android:padding="10dp">
+            tools:layout_editor_absoluteY="226dp">
 
             <TextView
                 android:id="@+id/textType"
@@ -143,15 +147,12 @@
 
     <Button
         android:id="@+id/buttonSave"
-        style="@style/mediumButton"
-        android:layout_width="116dp"
-        android:layout_height="50dp"
-        android:layout_marginBottom="16dp"
+        style="@style/largeButton"
+        android:layout_marginBottom="32dp"
         android:text="Save"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

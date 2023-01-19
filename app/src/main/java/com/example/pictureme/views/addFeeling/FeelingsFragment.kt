@@ -31,7 +31,11 @@ class FeelingsFragment(private val selectFoodFeelings: Boolean) : Fragment() {
         _binding = FragmentFeelingsBinding.inflate(inflater, container, false)
 
         var feelings: List<Feeling> = emptyList()
-        adapter = FeelingsAdapter(feelings, previewViewModel)
+        adapter = FeelingsAdapter(feelings, previewViewModel, viewLifecycleOwner)
+
+        previewViewModel.previewLiveData.observe(viewLifecycleOwner) { preview ->
+            adapter.setPreview(preview)
+        }
 
         binding.rvFoodFeelings.adapter = adapter
         binding.rvFoodFeelings.layoutManager = LinearLayoutManager(activity)

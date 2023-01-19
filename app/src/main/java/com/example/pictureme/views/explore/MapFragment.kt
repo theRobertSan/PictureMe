@@ -227,7 +227,10 @@ class MapFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener, OnMap
         )
 
         binding.fragmentMapTextView.text = Details.getRelativeDate(picme.createdAt!!)
-        binding.fragmentMapImageView.scaleType = ImageView.ScaleType.FIT_CENTER
+        if (picme.friends.isNotEmpty()) {
+            binding.textFriendsNum.text = picme.friends.size.toString()
+            binding.textFriendsNum.visibility = View.VISIBLE
+        }
 
         binding.fragmentMapCardViewMarker.setOnClickListener {
             // This is a sin x2

@@ -4,6 +4,7 @@ import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -28,12 +29,14 @@ class ClusterPicmeAdapter(
         val textPicme: TextView
         val imageLoadingBar: ContentLoadingProgressBar
         val mapPicme: ConstraintLayout
+        val textFriendsNum: TextView
 
         init {
             imagePicme = itemView.findViewById(R.id.image_picme_map)
             textPicme = itemView.findViewById(R.id.text_relative_time_map)
             imageLoadingBar = itemView.findViewById(R.id.image_loading_bar_map)
             mapPicme = itemView.findViewById(R.id.map_picme_layout)
+            textFriendsNum = itemView.findViewById(R.id.textFriendsNum)
         }
 
         fun navigateToClickedPicme(picme: Picme) {
@@ -43,6 +46,7 @@ class ClusterPicmeAdapter(
                 picmeDetailsViewModel.selectPicme(picme)
                 navigation.navigate(R.id.action_navFragment_to_picmeDetailsFragment)
             }
+
         }
     }
 
@@ -58,6 +62,11 @@ class ClusterPicmeAdapter(
         holder.navigateToClickedPicme(picme)
 
         holder.textPicme.text = Details.getRelativeDate(picme.createdAt!!)
+        Pictures.loadPicme(picme.imagePath, holder.imagePicme, holder.imageLoadingBar)
+        if (picme.friends.isNotEmpty()) {
+            holder.textFriendsNum.text = picme.friends.size.toString()
+            holder.textFriendsNum.visibility = View.VISIBLE
+        }
         Pictures.loadPicme(
             picme.imagePath,
             holder.imagePicme,

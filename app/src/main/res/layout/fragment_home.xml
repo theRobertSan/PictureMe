@@ -85,7 +85,8 @@
                 android:visibility="invisible"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/text_no_picmes" />
+                app:layout_constraintTop_toBottomOf="@+id/text_no_picmes"
+                style="@style/ImageView1"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

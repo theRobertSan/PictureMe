@@ -28,6 +28,8 @@ class FriendRequestsFragment : Fragment() {
     ): View? {
         _binding = FragmentFriendRequestsBinding.inflate(inflater, container, false)
 
+        userViewModel.loadUser()
+
         setFriendRequestsAdapter()
 
         return (binding.root)

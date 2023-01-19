@@ -128,7 +128,7 @@ class ProfileFragment : Fragment() {
     }
 
     private fun logout(view: View) {
-        val navController = Navigation.findNavController(view.parent.parent.parent as View)
+        val navController = Navigation.findNavController(view.parent.parent.parent.parent.parent as View)
 
         navController.navigate(R.id.action_navFragment_to_loginFragment)
         authViewModel.logout()

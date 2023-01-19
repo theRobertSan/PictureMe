@@ -135,11 +135,13 @@ class MapFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener, OnMap
 
     @SuppressLint("MissingPermission")
     private fun startLocationUpdates() {
-        fusedLocationProviderClient!!.requestLocationUpdates(
-            locationRequest!!,
-            locationCallback!!,
-            Looper.getMainLooper()
-        )
+        if(fusedLocationProviderClient != null && locationCallback != null) {
+            fusedLocationProviderClient!!.requestLocationUpdates(
+                locationRequest!!,
+                locationCallback!!,
+                Looper.getMainLooper()
+            )
+        }
     }
 
     private fun stopLocationUpdates() {

@@ -245,7 +245,8 @@ class MapFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener, OnMap
 
         binding.fragmentMapCardViewMarker.setOnClickListener {
             // This is a sin x2
-            val navigation = Navigation.findNavController(it.parent.parent.parent.parent.parent.parent.parent.parent as View)
+            val navigation =
+                Navigation.findNavController(it.parent.parent.parent.parent.parent.parent.parent.parent.parent.parent as View)
             picmeDetailsViewModel.selectPicme(picme)
             navigation.navigate(R.id.action_navFragment_to_picmeDetailsFragment)
         }

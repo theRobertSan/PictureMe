@@ -84,7 +84,7 @@ class PicmeAdapter(
                 "To view a PicMe's details, you have to enable this permission."
             ) {
                 val navController =
-                    Navigation.findNavController(holder.itemView.parent.parent.parent.parent.parent.parent.parent as View)
+                    Navigation.findNavController(holder.itemView.parent.parent.parent.parent.parent.parent.parent.parent.parent as View)
                 picmeDetailsViewModelViewModel.selectPicme(picmes[position])
                 navController.navigate(R.id.action_navFragment_to_picmeDetailsFragment)
             }

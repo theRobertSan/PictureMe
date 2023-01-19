@@ -12,6 +12,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.pictureme.R
 import com.example.pictureme.views.home.adapters.HomeAdapter
 import com.example.pictureme.data.models.Feeling
 import com.example.pictureme.data.models.Friendship
@@ -97,7 +98,7 @@ class HomeFragment : Fragment() {
             val rvsCategory = arrayListOf<ParentModelClass>()
             val filteredPicmes = FilterPicmes.getFilteredPicmes(response, feelings)
 
-            if(filteredPicmes.isEmpty()) {
+            if (filteredPicmes.isEmpty()) {
                 binding.textNoPicmes.visibility = View.VISIBLE
                 binding.fragmentHomeIv.visibility = View.VISIBLE
             } else {

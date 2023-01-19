@@ -22,7 +22,7 @@ import com.google.android.material.imageview.ShapeableImageView
 class ClusterPicmeAdapter(
     private var picmes: List<Picme>,
     private val picmeDetailsViewModel: PicmeDetailsViewModel
-): RecyclerView.Adapter<ClusterPicmeAdapter.ClusterPicmeViewHolder>() {
+) : RecyclerView.Adapter<ClusterPicmeAdapter.ClusterPicmeViewHolder>() {
 
     inner class ClusterPicmeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val imagePicme: ShapeableImageView
@@ -42,7 +42,8 @@ class ClusterPicmeAdapter(
         fun navigateToClickedPicme(picme: Picme) {
             mapPicme.setOnClickListener {
                 // This is a sin
-                val navigation = Navigation.findNavController(itemView.parent.parent.parent.parent.parent.parent.parent.parent.parent.parent as View)
+                val navigation =
+                    Navigation.findNavController(itemView.parent.parent.parent.parent.parent.parent.parent.parent.parent.parent.parent.parent as View)
                 picmeDetailsViewModel.selectPicme(picme)
                 navigation.navigate(R.id.action_navFragment_to_picmeDetailsFragment)
             }

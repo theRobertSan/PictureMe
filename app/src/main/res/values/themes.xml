@@ -187,6 +187,13 @@
         <item name="cornerFamilyBottomRight">rounded</item>
     </style>
 
+    <style name="upper_rounded_corner">
+        <item name="cornerSizeTopLeft">@dimen/corner_radius</item>
+        <item name="cornerSizeTopRight">@dimen/corner_radius</item>
+        <item name="cornerFamilyTopLeft">rounded</item>
+        <item name="cornerFamilyTopRight">rounded</item>
+    </style>
+
     <style name="round_floating_button">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
@@ -222,13 +229,13 @@
         <item name="tabGravity">fill</item>
         <item name="tabIndicator">@drawable/tab_indicator_corner_bg</item>
         <item name="tabIndicatorAnimationMode">elastic</item>
-        <item name="tabIndicatorColor">@color/primary</item>
+        <item name="tabIndicatorColor">@color/lightBlack</item>
         <item name="tabIndicatorHeight">80dp</item>
         <item name="tabInlineLabel">true</item>
         <item name="tabMode">fixed</item>
         <item name="tabSelectedTextColor">@color/textOnPrimary</item>
         <item name="tabTextAppearance">@style/smallMediumText</item>
-        <item name="tabTextColor">@color/primary</item>
+        <item name="tabTextColor">@color/lightBlack</item>
     </style>
 
 </resources>

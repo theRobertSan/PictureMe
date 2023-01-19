@@ -126,8 +126,13 @@ class PicmeDetailsFragment() : Fragment() {
                     val uri = Uri.parse("http://maps.google.com/maps?saddr=" +
                             "$originLat,$originLng&daddr=$destLat,$destLng")
                     val intent = Intent(Intent.ACTION_VIEW, uri)
-                    //intent.setPackage("com.google.android.apps.maps");
-                    startActivity(intent);
+                    intent.setPackage("com.google.android.apps.maps");
+                    val packageManager = requireActivity().packageManager
+                    if (intent.resolveActivity(packageManager) != null) {
+                        startActivity(intent)
+                    } else {
+                        Toast.makeText(requireContext(), "Google Maps not found", Toast.LENGTH_SHORT).show()
+                    }
 
                 } else {
                     println("NO LOCATION")

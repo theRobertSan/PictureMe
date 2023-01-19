@@ -179,14 +179,13 @@ class MapFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener, OnMap
     @SuppressLint("MissingPermission")
     @RequiresApi(Build.VERSION_CODES.O)
     private fun setupMap() {
+
         // Map stuff
         mMap.isMyLocationEnabled = true
         mMap.setOnMapClickListener(this)
 
         // Cluster Manager Stuff
         clusterManager = ClusterManager(context, mMap)
-        //clusterManager!!.renderer = OwnIconRendered(context, mMap, clusterManager)
-
         mMap.setOnCameraIdleListener(clusterManager)
         clusterManager!!.markerCollection.setOnMarkerClickListener { marker: Marker ->
             val ret = onMarkerClick(marker)
@@ -207,114 +206,20 @@ class MapFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener, OnMap
                 )
             }
         }
-
-
-
     }
 
     private fun setupPicmeMarkers() {
         picmeViewModel.picmesLiveData.observe(viewLifecycleOwner) { response ->
-            println("DATE CHANGED ------------" + response.size)
             for (picme in response) {
                 val geoPoint = picme.location
                 if (geoPoint is GeoPoint) {
                     val lat = geoPoint.latitude
                     val lng = geoPoint.longitude
-
                     val item = PicmeClusterItem(lat, lng, picme.id!!, "s", picme.imagePath!!)
                     clusterManager!!.addItem(item)
-
-                    //val latLng = LatLng(lat, lng)
-                    //placeMarker(picme, latLng)
-
                 }
             }
         }
-    }
-
-    inner class OwnIconRendered(
-        context: Context?, map: GoogleMap?,
-        clusterManager: ClusterManager<PicmeClusterItem>?
-    ) :
-        DefaultClusterRenderer<PicmeClusterItem>(context, map, clusterManager) {
-        override fun onBeforeClusterItemRendered(item: PicmeClusterItem, markerOptions: MarkerOptions) {
-
-                val imagePath = item.getImagePath()
-                println("image path $imagePath")
-
-              /*  imageView.load(imagePath) {
-                    crossfade(true)
-                    crossfade(1000)
-                }*/
-
-                val bitmap = BitmapFactory.decodeResource(resources, R.drawable.launcher)
-                val markerBitmap = createUserBitmap(bitmap)
-                val icon = BitmapDescriptorFactory.fromBitmap(markerBitmap!!)
-                markerOptions.icon(icon)
-
-                /*Picasso.get().load(imagePath).into(imageView);
-                val bitmap = (imageView.drawable as BitmapDrawable).bitmap
-                val bitmap2 = createUserBitmap(bitmap)
-                val icon = BitmapDescriptorFactory.fromBitmap(bitmap2!!)
-                markerOptions.icon(icon)*/
-
-                /*Glide.with(requireActivity())
-                    .asBitmap()
-                    .load(imagePath)
-                    .into(object : CustomTarget<Bitmap>() {
-                        override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
-                            val bitmap = createUserBitmap(null)
-
-                        }
-                        override fun onLoadCleared(placeholder: Drawable?) {
-                            // do nothing
-                        }
-                    })*/
-
-
-
-        }
-    }
-
-    fun createUserBitmap(bitmap: Bitmap): Bitmap? {
-        var result: Bitmap? = null
-        try {
-            result = Bitmap.createBitmap(dp(62.toFloat()), dp(72.toFloat()), Bitmap.Config.ARGB_8888)
-            result.eraseColor(Color.TRANSPARENT)
-            val canvas = Canvas(result)
-            val drawable = resources.getDrawable(R.drawable.livepin)
-            drawable.setBounds(0, 0, dp(62.toFloat()), dp(76.toFloat()))
-            drawable.draw(canvas)
-            val roundPaint = Paint(Paint.ANTI_ALIAS_FLAG)
-            val bitmapRect = RectF()
-            canvas.save()
-
-
-            val shader = BitmapShader(bitmap, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP)
-            val matrix = Matrix()
-            val scale = dp(52.toFloat()) / bitmap.width.toFloat()
-            matrix.postTranslate(dp(5.toFloat()).toFloat(), dp(5.toFloat()).toFloat())
-            matrix.postScale(scale, scale)
-            roundPaint.shader = shader
-            shader.setLocalMatrix(matrix)
-            bitmapRect[dp(5.toFloat()).toFloat(), dp(5.toFloat()).toFloat(), dp(52 + 5.toFloat()).toFloat()] =
-                dp(52 + 5.toFloat()).toFloat()
-            canvas.drawRoundRect(bitmapRect, dp(26.toFloat()).toFloat(), dp(26.toFloat()).toFloat(), roundPaint)
-            canvas.restore()
-            try {
-                canvas.setBitmap(null)
-            } catch (e: Exception) {
-            }
-        } catch (t: Throwable) {
-            t.printStackTrace()
-        }
-        return result
-    }
-
-    fun dp(value: Float): Int {
-        return if (value == 0f) {
-            0
-        } else ceil((resources.displayMetrics.density * value).toDouble()).toInt()
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -383,13 +288,6 @@ class MapFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener, OnMap
         result.sortBy { it.createdAt }
         result.reverse()
         return result
-    }
-
-    private fun placeMarker(picme: Picme, currentLatLong: LatLng) {
-        val markerOptions = MarkerOptions().position(currentLatLong)
-        markerOptions.title("$currentLatLong").visible(false)
-        val marker = mMap.addMarker(markerOptions)
-        marker!!.tag = picme
     }
 
     // Inner class for cluster items

@@ -2,21 +2,16 @@ package com.example.pictureme.views.explore
 
 import android.Manifest
 import android.annotation.SuppressLint
-import android.content.Context
-import android.content.pm.PackageManager
+import android.content.res.Configuration
 import android.graphics.*
-import android.graphics.drawable.BitmapDrawable
 import android.location.Location
 import android.os.Build
 import android.os.Bundle
 import android.os.Looper
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import androidx.annotation.RequiresApi
-import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.Navigation
@@ -37,19 +32,12 @@ import com.google.android.gms.maps.GoogleMap.OnMapClickListener
 import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.BitmapDescriptorFactory
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.Marker
-import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.gms.maps.model.*
 import com.google.android.material.card.MaterialCardView
 import com.google.firebase.firestore.GeoPoint
 import com.google.maps.android.clustering.Cluster
 import com.google.maps.android.clustering.ClusterItem
 import com.google.maps.android.clustering.ClusterManager
-import com.google.maps.android.clustering.view.DefaultClusterRenderer
-import com.squareup.picasso.Picasso
-import java.net.URL
-import kotlin.math.ceil
 
 
 class MapFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener, OnMapClickListener {
@@ -77,6 +65,8 @@ class MapFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener, OnMap
     // PicMes
     private val picmeViewModel by activityViewModels<PicmeViewModel>()
     private val picmeDetailsViewModel by activityViewModels<PicmeDetailsViewModel>()
+
+    private lateinit var marker: Marker
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -185,11 +175,19 @@ class MapFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener, OnMap
         mMap.isMyLocationEnabled = true
         mMap.setOnMapClickListener(this)
 
+        val nightModeFlags = requireContext().resources.configuration.uiMode and
+                Configuration.UI_MODE_NIGHT_MASK
+        when (nightModeFlags) {
+            Configuration.UI_MODE_NIGHT_YES -> mMap.setMapStyle(MapStyleOptions(resources.getString(R.string.style_json)))
+        }
+
         // Cluster Manager Stuff
         clusterManager = ClusterManager(context, mMap)
         mMap.setOnCameraIdleListener(clusterManager)
+
         clusterManager!!.markerCollection.setOnMarkerClickListener { marker: Marker ->
             val ret = onMarkerClick(marker)
+            this.marker = marker
             ret
         }
 
@@ -231,6 +229,8 @@ class MapFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener, OnMap
         val id = marker.title
         val picme = picmeViewModel.getPicme(id!!)
 
+        marker.hideInfoWindow()
+
         Pictures.loadPicme(
             picme.imagePath,
             binding.fragmentMapImageView,
@@ -250,7 +250,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener, OnMap
             navigation.navigate(R.id.action_navFragment_to_picmeDetailsFragment)
         }
 
-        return false
+        return true
     }
 
     private fun onClusterClick(cluster: Cluster<PicmeClusterItem>): Boolean {

@@ -43,6 +43,7 @@
                 android:id="@+id/imageUserPicture"
                 style="@style/friend_profile_pic"
                 android:layout_marginStart="16dp"
+                android:scaleType="centerCrop"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"

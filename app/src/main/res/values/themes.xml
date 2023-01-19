@@ -19,6 +19,39 @@
         <!-- Customize your theme here. -->
     </style>
 
+    <style name="ImageView">
+        <item name="android:tint">@color/lightBlack</item>
+    </style>
+
+    <style name="ImageView1">
+        <item name="android:tint">@color/black</item>
+    </style>
+
+    <style name="CardView">
+        <item name="android:tint">@color/white</item>
+    </style>
+
+    <style name="style2">
+        <item name="android:background">@color/textOnPrimary</item>
+    </style>
+
+    <style name="style3">
+        <item name="android:textColor">@color/gray</item>
+    </style>
+
+    <style name="style4">
+        <item name="android:textColor">@color/gray</item>
+    </style>
+
+    <style name="style5">
+        <item name="android:background">@color/gray</item>
+    </style>
+
+    <style name="style6">
+        <item name="android:background">@color/textOnPrimary</item>
+        <item name="android:backgroundTint">@color/textOnPrimary</item>
+    </style>
+
     <style name="logoText">
         <item name="android:textSize">60sp</item>
         <item name="fontFamily">@font/nunito_bold</item>
@@ -46,13 +79,13 @@
     <style name="smallText">
         <item name="android:textSize">15sp</item>
         <item name="fontFamily">@font/nunito</item>
-        <item name="android:textColor">@color/lightBlack</item>
+        <item name="android:textColor">@color/gray</item>
     </style>
 
     <style name="extraSmallText">
         <item name="android:textSize">10sp</item>
         <item name="fontFamily">@font/nunito</item>
-        <item name="android:textColor">@color/lightBlack</item>
+        <item name="android:textColor">@color/gray</item>
     </style>
 
     <style name="editTextLayout">
@@ -67,13 +100,14 @@
         <item name="fontFamily">@font/nunito</item>
         <item name="android:backgroundTint">@color/white</item>
         <item name="android:textColor">@color/lightBlack</item>
-
+        <item name="android:textColorHint">@color/lightBlack</item>
     </style>
 
     <style name="cards_options_menu">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">45dp</item>
         <item name="cardElevation">2dp</item>
+        <item name="cardBackgroundColor">@color/white</item>
     </style>
 
     <style name="largeButton">
@@ -170,13 +204,14 @@
     <style name="go_back_button">
         <item name="android:layout_width">40dp</item>
         <item name="android:layout_height">40dp</item>
-        <item name="tint">@color/textOnPrimary</item>
+        <item name="tint">@color/lightBlack</item>
         <item name="android:src">@drawable/ic_back</item>
         <item name="fabCustomSize">150dp</item>
         <item name="maxImageSize">100dp</item>
     </style>
 
     <style name="tab">
+        <item name="android:background">@color/textOnPrimary</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">80dp</item>
         <item name="android:textAlignment">center</item>

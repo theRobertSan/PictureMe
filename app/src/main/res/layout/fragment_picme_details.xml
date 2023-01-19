@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".views.picmeDetails.PicmeDetailsFragment"
-    android:background="@color/textOnPrimary">
+    style="@style/style2">
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/imagePicme"
@@ -59,7 +59,8 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:shapeAppearanceOverlay="@style/circle_image"
-                app:srcCompat="@drawable/img1" />
+                app:srcCompat="@drawable/img1"
+                style="@style/ImageView"/>
 
             <TextView
                 android:id="@+id/textFeeling"
@@ -120,7 +121,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Feeling"
-                android:textColor="@color/gray"
                 app:layout_constraintBottom_toTopOf="@+id/textFeeling"
                 app:layout_constraintStart_toStartOf="@+id/textFeeling"
                 app:layout_constraintTop_toTopOf="@+id/imageEmotion"
@@ -132,7 +132,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Taken by"
-                android:textColor="@color/gray"
                 app:layout_constraintBottom_toTopOf="@+id/textCreator"
                 app:layout_constraintStart_toStartOf="@+id/textCreator"
                 app:layout_constraintTop_toTopOf="@+id/imageCreator"
@@ -142,7 +141,7 @@
                 android:id="@+id/divider"
                 android:layout_width="1dp"
                 android:layout_height="60dp"
-                android:background="?android:attr/listDivider"
+                style="@style/style5"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -186,7 +185,6 @@
                 style="@style/smallText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/gray"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/textExactTime"
                 app:layout_constraintTop_toBottomOf="@+id/textExactTime"
@@ -202,13 +200,14 @@
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintHorizontal_chainStyle="packed"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                style="@style/ImageView" />
 
             <View
                 android:id="@+id/divider3"
                 android:layout_width="1dp"
                 android:layout_height="50dp"
-                android:background="?android:attr/listDivider"
+                style="@style/style5"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -234,7 +233,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Calculating..."
-                android:textColor="@color/gray"
                 app:layout_constraintBottom_toBottomOf="@+id/imageView2"
                 app:layout_constraintStart_toStartOf="@+id/textExactLocation"
                 app:layout_constraintTop_toBottomOf="@+id/textExactLocation" />
@@ -249,7 +247,8 @@
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintHorizontal_chainStyle="packed"
                 app:layout_constraintStart_toEndOf="@+id/divider3"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                style="@style/ImageView"/>
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -304,6 +303,7 @@
         style="@style/largeButton"
         android:layout_width="347dp"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
         android:padding="10dp"
         android:text="Go There!"
         app:layout_constraintBottom_toBottomOf="parent"

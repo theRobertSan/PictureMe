@@ -6,12 +6,11 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".views.profile.friends.FriendsFragment"
-    android:background="@color/textOnPrimary">
+    style="@style/style2">
 
     <ImageView
         android:id="@+id/buttonGoBack"
         style="@style/go_back_button"
-        app:tint="@color/lightBlack"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:src="@drawable/ic_back"
@@ -44,8 +43,7 @@
 
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/friends_tabs"
-            style="@style/tab"
-            android:background="@color/textOnPrimary" />
+            style="@style/tab" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -56,7 +54,8 @@
         android:layout_alignParentStart="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/friends_appbar">
+        app:layout_constraintTop_toBottomOf="@+id/friends_appbar"
+        app:layout_constraintVertical_bias="0.0">
 
     </androidx.viewpager2.widget.ViewPager2>
 

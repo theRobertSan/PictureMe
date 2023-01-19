@@ -5,7 +5,7 @@
     android:id="@+id/frameLayout11"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/textOnPrimary"
+    style="@style/style2"
     tools:context=".views.profile.editProfile.EditProfile">
 
     <ImageView
@@ -15,8 +15,7 @@
         android:layout_marginTop="16dp"
         android:src="@drawable/ic_back"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:tint="@color/lightBlack" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/textView"
@@ -77,7 +76,7 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/fragment_edit_profile_et_username_layout"
-        style="@style/editText"
+        style="@style/editTextLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"

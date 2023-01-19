@@ -5,8 +5,7 @@
     android:id="@+id/frameLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/textOnPrimary"
-    android:backgroundTint="@color/textOnPrimary"
+    style="@style/style6"
     tools:context=".views.auth.LoginFragment">
 
     <TextView

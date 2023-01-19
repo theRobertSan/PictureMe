@@ -74,10 +74,8 @@ class FeelingsAdapter(
 
         }
 
-
         // Load feeling
         holder.imageFeeling.setImageResource(Details.getFeelingImage(feelings[position].feeling)!!)
-
 
         println("-.-------------------  Feeling id $feelingId")
 //        // Check if this user was selected before

@@ -1,18 +1,238 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
     <style name="Theme.PictureMe" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Background launcher color -->
+        <item name="android:windowBackground">#222222</item>
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/purple_200</item>
-        <item name="colorPrimaryVariant">@color/purple_700</item>
-        <item name="colorOnPrimary">@color/black</item>
+        <item name="colorPrimary">#222222</item>
+        <item name="colorPrimaryVariant">@color/white</item>
+        <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/teal_200</item>
-        <item name="colorSecondaryVariant">@color/teal_200</item>
+        <item name="colorSecondary">@color/primary</item>
+        <item name="colorSecondaryVariant">@color/teal_700</item>
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
-        <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
+        <!--        <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>-->
+        <item name="android:statusBarColor">#222222</item>
+        <!--        <item name="android:windowTranslucentStatus">true</item>-->
+        <!--        <item name="android:fitsSystemWindows">true</item>-->
         <!-- Customize your theme here. -->
     </style>
 
+    <style name="ImageView">
+        <item name="android:tint">@color/white</item>
+    </style>
+
+    <style name="ImageView1">
+        <item name="android:tint">@color/textOnPrimary</item>
+    </style>
+
+    <style name="CardView">
+        <item name="android:tint">#646464</item>
+    </style>
+
+    <style name="style2">
+        <item name="android:background">#222222</item>
+    </style>
+
+    <style name="style3">
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="style4">
+        <item name="android:textColor">@color/disabledText</item>
+    </style>
+
+    <style name="style5">
+        <item name="android:background">@color/disabledText</item>
+    </style>
+
+    <style name="style6">
+        <item name="android:background">#222222</item>
+        <item name="android:backgroundTint">#222222</item>
+    </style>
+
+
+    <style name="logoText">
+        <item name="android:textSize">60sp</item>
+        <item name="fontFamily">@font/nunito_bold</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="largeText">
+        <item name="android:textSize">34sp</item>
+        <item name="fontFamily">@font/nunito</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="mediumText">
+        <item name="android:textSize">30sp</item>
+        <item name="fontFamily">@font/nunito</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="smallMediumText">
+        <item name="android:textSize">19sp</item>
+        <item name="fontFamily">@font/nunito</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="smallText">
+        <item name="android:textSize">15sp</item>
+        <item name="fontFamily">@font/nunito</item>
+        <item name="android:textColor">@color/disabledText</item>
+    </style>
+
+    <style name="extraSmallText">
+        <item name="android:textSize">10sp</item>
+        <item name="fontFamily">@font/nunito</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="editTextLayout">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="hintTextColor">@color/white</item>
+
+
+    </style>
+
+    <style name="editText">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:textSize">20sp</item>
+        <item name="fontFamily">@font/nunito</item>
+        <item name="android:backgroundTint">#222222</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textColorHint">@color/white</item>
+        <item name="android:textCursorDrawable">@color/textOnPrimary</item>
+
+
+    </style>
+
+    <style name="cards_options_menu">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">45dp</item>
+        <item name="cardElevation">2dp</item>
+        <item name="cardBackgroundColor">#434343</item>
+        <item name="android:textColorHint">@color/white</item>
+    </style>
+
+    <style name="largeButton">
+        <item name="android:paddingBottom">10dp</item>
+        <item name="android:layout_width">250dp</item>
+        <item name="android:layout_height">80dp</item>
+        <item name="android:textSize">24sp</item>
+        <item name="fontFamily">@font/nunito</item>
+        <item name="android:backgroundTint">@color/primary</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textColor">@color/textOnPrimary</item>
+        <item name="cornerRadius">@dimen/corner_radius</item>
+    </style>
+
+    <style name="mediumButton">
+        <item name="android:paddingBottom">10dp</item>
+        <item name="android:layout_width">150dp</item>
+        <item name="android:layout_height">40dp</item>
+        <item name="android:textSize">18sp</item>
+        <item name="fontFamily">@font/nunito</item>
+        <item name="android:backgroundTint">@color/primary</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textColor">@color/textOnPrimary</item>
+        <item name="cornerRadius">@dimen/corner_radius</item>
+    </style>
+
+    <style name="small_button">
+        <item name="android:paddingBottom">5dp</item>
+        <item name="android:layout_width">60dp</item>
+        <item name="android:layout_height">15dp</item>
+        <item name="android:textSize">15sp</item>
+        <item name="fontFamily">@font/nunito</item>
+        <item name="android:backgroundTint">@color/primary</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textColor">@color/textOnPrimary</item>
+        <item name="cornerRadius">@dimen/corner_radius</item>
+    </style>
+
+    <style name="rounded_corner">
+        <item name="cornerSize">@dimen/corner_radius</item>
+    </style>
+
+    <style name="small_rounded_corner">
+        <item name="cornerSize">@dimen/image_corner_radius</item>
+    </style>
+
+    <style name="circle_image">
+        <item name="cornerSize">50%</item>
+        <item name="android:scaleType">fitXY</item>
+    </style>
+
+    <style name="friend_profile_pic">
+        <item name="android:layout_width">70dp</item>
+        <item name="android:layout_height">70dp</item>
+    </style>
+
+    <style name="Larger_Drawable">
+        <item name="android:textSize">10sp</item>
+        <item name="android:scaleX">1.6</item>
+        <item name="android:scaleY">1.6</item>
+    </style>
+
+    <style name="small_drawable">
+        <item name="android:textSize">10sp</item>
+        <item name="android:scaleX">1.6</item>
+        <item name="android:scaleY">1.6</item>
+    </style>
+
+    <style name="lower_rounded_corner">
+        <item name="cornerSizeBottomLeft">@dimen/corner_radius</item>
+        <item name="cornerSizeBottomRight">@dimen/corner_radius</item>
+        <item name="cornerFamilyBottomLeft">rounded</item>
+        <item name="cornerFamilyBottomRight">rounded</item>
+    </style>
+
+    <style name="round_floating_button">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="tint">@color/textOnPrimary</item>
+        <item name="fabAlignmentMode">center</item>
+        <item name="fabCustomSize">60dp</item>
+        <item name="maxImageSize">40dp</item>
+    </style>
+
+    <style name="preview_button">
+        <item name="android:layout_width">35dp</item>
+        <item name="android:layout_height">35dp</item>
+        <item name="tint">@color/textOnPrimary</item>
+        <item name="fabAlignmentMode">center</item>
+        <item name="fabCustomSize">60dp</item>
+        <item name="maxImageSize">40dp</item>
+    </style>
+
+    <style name="go_back_button">
+        <item name="android:layout_width">40dp</item>
+        <item name="android:layout_height">40dp</item>
+        <item name="tint">@color/white</item>
+        <item name="android:src">@drawable/ic_back</item>
+        <item name="fabCustomSize">150dp</item>
+        <item name="maxImageSize">100dp</item>
+    </style>
+
+    <style name="tab">
+        <item name="android:background">#222222</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">80dp</item>
+        <item name="android:textAlignment">center</item>
+        <item name="tabGravity">fill</item>
+        <item name="tabIndicator">@drawable/tab_indicator_corner_bg</item>
+        <item name="tabIndicatorAnimationMode">elastic</item>
+        <item name="tabIndicatorColor">@color/primary</item>
+        <item name="tabIndicatorHeight">80dp</item>
+        <item name="tabInlineLabel">true</item>
+        <item name="tabMode">fixed</item>
+        <item name="tabSelectedTextColor">#222222</item>
+        <item name="tabTextAppearance">@style/smallMediumText</item>
+        <item name="tabTextColor">@color/primary</item>
+    </style>
 
 </resources>

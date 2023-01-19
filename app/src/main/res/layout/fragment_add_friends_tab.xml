@@ -5,8 +5,7 @@
     android:id="@+id/frameLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/textOnPrimary"
-    android:backgroundTint="@color/textOnPrimary"
+    style="@style/style6"
     tools:context=".views.profile.friends.tabs.addFriends.AddFriendsTabFragment">
 
     <com.google.android.material.card.MaterialCardView
@@ -32,7 +31,6 @@
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="16dp"
                 android:text="Send friend request to"
-                android:textColor="@color/black"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 

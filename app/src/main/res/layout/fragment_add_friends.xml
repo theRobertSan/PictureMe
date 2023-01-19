@@ -5,13 +5,12 @@
     android:id="@+id/frameLayout4"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/textOnPrimary"
+    style="@style/style2"
     tools:context=".views.addfriends.AddFriendsFragment">
 
     <ImageView
         android:id="@+id/buttonGoBack"
         style="@style/go_back_button"
-        app:tint="@color/lightBlack"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:src="@drawable/ic_back"

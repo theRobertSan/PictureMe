@@ -5,7 +5,6 @@
     android:id="@+id/frameLayout7"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/textOnPrimary"
     tools:context=".views.profile.ProfileFragment">
 
     <com.google.android.material.imageview.ShapeableImageView
@@ -194,7 +193,7 @@
                 android:layout_marginLeft="15dp"
                 android:layout_gravity="center_vertical"
                 app:srcCompat="@drawable/ic_friends_2"
-                app:tint="@color/lightBlack" />
+                style="@style/ImageView" />
 
             <TextView
                 android:id="@+id/opt_friends"
@@ -236,7 +235,7 @@
                 android:layout_marginLeft="15dp"
                 android:layout_gravity="center_vertical"
                 app:srcCompat="@drawable/ic_edit"
-                app:tint="@color/lightBlack" />
+                style="@style/ImageView" />
 
             <TextView
                 android:id="@+id/textView4"
@@ -279,7 +278,7 @@
                 android:layout_marginLeft="15dp"
                 android:layout_gravity="center_vertical"
                 app:srcCompat="@drawable/ic_copy"
-                app:tint="@color/lightBlack" />
+                style="@style/ImageView" />
 
             <TextView
                 android:id="@+id/textView2"
@@ -321,7 +320,7 @@
                 android:layout_marginLeft="15dp"
                 android:layout_gravity="center_vertical"
                 app:srcCompat="@drawable/ic_settings"
-                app:tint="@color/lightBlack" />
+                style="@style/ImageView" />
 
             <TextView
                 android:id="@+id/textView5"
@@ -364,7 +363,7 @@
                 android:layout_marginLeft="15dp"
                 android:layout_gravity="center_vertical"
                 app:srcCompat="@drawable/ic_logout"
-                app:tint="@color/lightBlack" />
+                style="@style/ImageView" />
 
             <TextView
                 style="@style/smallMediumText"

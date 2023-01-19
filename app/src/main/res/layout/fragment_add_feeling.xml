@@ -6,12 +6,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".views.addFeeling.AddFeelingFragment"
-    android:background="@color/textOnPrimary">
+    style="@style/style2">
 
     <ImageView
         android:id="@+id/buttonGoBack"
         style="@style/go_back_button"
-        app:tint="@color/lightBlack"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:src="@drawable/ic_back"
@@ -41,8 +40,7 @@
 
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/fragment_explore_tabs"
-            style="@style/tab"
-            android:background="@color/textOnPrimary" />
+            style="@style/tab" />
 
     </com.google.android.material.appbar.AppBarLayout>
 

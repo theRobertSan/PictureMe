@@ -33,8 +33,7 @@
 
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/fragment_explore_tabs"
-            style="@style/tab"
-            android:background="@color/textOnPrimary" />
+            style="@style/tab" />
 
     </com.google.android.material.appbar.AppBarLayout>
 

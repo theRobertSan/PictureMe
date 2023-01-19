@@ -5,7 +5,7 @@
     android:id="@+id/clHome"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/textOnPrimary"
+    style="@style/style2"
     tools:context=".views.home.HomeFragment">
 
     <TextView

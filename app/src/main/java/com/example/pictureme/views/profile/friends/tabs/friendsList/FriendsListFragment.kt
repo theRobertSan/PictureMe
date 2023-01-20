@@ -49,7 +49,6 @@ class FriendsListFragment : Fragment() {
 
         userViewModel.userLiveData.observe(viewLifecycleOwner) { user ->
             friendships = user.friendships
-            println("USER UPDATED")
             val numPicmesWithEachFriend = getNumPicmesWithEachFriend(picmes)
             adapter.setFriendListAndPicmeNum(friendships, numPicmesWithEachFriend)
             setSearchView(adapter)

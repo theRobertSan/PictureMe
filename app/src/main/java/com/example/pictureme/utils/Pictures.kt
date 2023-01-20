@@ -27,9 +27,15 @@ object Pictures {
         imageCreator: ShapeableImageView,
         imageLoadingBar: ContentLoadingProgressBar
     ) {
+        // Load default profile picture
         if (profilePicturePath == null) {
-            imageCreator.setImageResource(R.drawable.default_profile_picture)
-            imageLoadingBar.isGone = true
+            imageCreator.load("https://firebasestorage.googleapis.com/v0/b/pictureme-369323.appspot.com/o/profile_pictures%2Fdefault_profile_picture.jpg?alt=media&token=769ca217-1acb-4298-950a-400311c0187e") {
+                crossfade(true)
+                crossfade(1000)
+                listener { _, _ ->
+                    imageLoadingBar.isGone = true
+                }
+            }
         } else {
             imageCreator.load(profilePicturePath) {
                 crossfade(true)

@@ -8,6 +8,7 @@
     tools:context=".views.picmeDetails.PicmeDetailsFragment"
     style="@style/style2">
 
+
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/imagePicme"
         android:layout_width="match_parent"
@@ -60,7 +61,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:shapeAppearanceOverlay="@style/circle_image"
                 app:srcCompat="@drawable/img1"
-                style="@style/ImageView"/>
+                style="@style/ImageView" />
 
             <TextView
                 android:id="@+id/textFeeling"
@@ -248,7 +249,7 @@
                 app:layout_constraintHorizontal_chainStyle="packed"
                 app:layout_constraintStart_toEndOf="@+id/divider3"
                 app:layout_constraintTop_toTopOf="parent"
-                style="@style/ImageView"/>
+                style="@style/ImageView" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -297,7 +298,6 @@
 
     </com.google.android.material.card.MaterialCardView>
 
-
     <Button
         android:id="@+id/buttonGoThere"
         style="@style/largeButton"
@@ -318,6 +318,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <ImageView
+        android:id="@+id/buttonDownload"
+        style="@style/download_button"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <TextView
         android:id="@+id/textGo"
         android:layout_width="wrap_content"
@@ -327,6 +335,16 @@
         app:layout_constraintBottom_toTopOf="@+id/buttonGoThere"
         app:layout_constraintEnd_toEndOf="@+id/buttonGoThere"
         app:layout_constraintStart_toStartOf="@+id/buttonGoThere" />
+
+    <ImageView
+        android:id="@+id/previewImageView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -87,6 +87,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener, OnMap
             requireContext(),
             listOf(
                 Manifest.permission.ACCESS_FINE_LOCATION,
+
                 Manifest.permission.ACCESS_COARSE_LOCATION
             ),
             "To take a PicMe, you have to enable those permissions."
@@ -135,7 +136,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener, OnMap
 
     @SuppressLint("MissingPermission")
     private fun startLocationUpdates() {
-        if(fusedLocationProviderClient != null && locationCallback != null) {
+        if (fusedLocationProviderClient != null && locationCallback != null) {
             fusedLocationProviderClient!!.requestLocationUpdates(
                 locationRequest!!,
                 locationCallback!!,
@@ -180,7 +181,13 @@ class MapFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener, OnMap
         val nightModeFlags = requireContext().resources.configuration.uiMode and
                 Configuration.UI_MODE_NIGHT_MASK
         when (nightModeFlags) {
-            Configuration.UI_MODE_NIGHT_YES -> mMap.setMapStyle(MapStyleOptions(resources.getString(R.string.style_json)))
+            Configuration.UI_MODE_NIGHT_YES -> mMap.setMapStyle(
+                MapStyleOptions(
+                    resources.getString(
+                        R.string.style_json
+                    )
+                )
+            )
         }
 
         // Cluster Manager Stuff

@@ -5,7 +5,6 @@ import android.annotation.SuppressLint
 import android.content.ContentValues
 import android.content.Intent
 import android.graphics.Bitmap
-import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -15,11 +14,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.activity.OnBackPressedCallback
 import androidx.activity.addCallback
 import androidx.annotation.RequiresApi
 import androidx.core.graphics.drawable.toBitmap
-import androidx.core.view.isGone
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
@@ -79,9 +76,7 @@ class PicmeDetailsFragment() : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        println("CREATED DETAILS")
         _binding = FragmentPicmeDetailsBinding.inflate(inflater, container, false)
-
 
         picmeDetailsViewModel.picmeLiveData.observe(viewLifecycleOwner) { picme ->
             this.picme = picme
@@ -125,35 +120,43 @@ class PicmeDetailsFragment() : Fragment() {
         }
 
         binding.buttonGoThere.setOnClickListener {
-            mFusedLocationClient.lastLocation.addOnSuccessListener { location ->
-                if (location != null) {
-                    val originLat = location.latitude
-                    val originLng = location.longitude
-                    val destLat = picme.location!!.latitude
-                    val destLng = picme.location!!.longitude
+
+            Permissions.checkPermissions(
+                requireContext(),
+                listOf(
+                    Manifest.permission.ACCESS_FINE_LOCATION,
+                ),
+                "To view a PicMe's details, you have to enable this permission."
+            ) {
+                mFusedLocationClient.lastLocation.addOnSuccessListener { location ->
+                    if (location != null) {
+                        val originLat = location.latitude
+                        val originLng = location.longitude
+                        val destLat = picme.location!!.latitude
+                        val destLng = picme.location!!.longitude
 
 
-                    //val uri = Uri.parse("google.navigation:q=$destLat,$destLng&mode=w")
-                    val uri = Uri.parse(
-                        "http://maps.google.com/maps?saddr=" +
-                                "$originLat,$originLng&daddr=$destLat,$destLng"
-                    )
-                    val intent = Intent(Intent.ACTION_VIEW, uri)
-                    intent.setPackage("com.google.android.apps.maps");
-                    val packageManager = requireActivity().packageManager
-                    if (intent.resolveActivity(packageManager) != null) {
-                        startActivity(intent)
+                        //val uri = Uri.parse("google.navigation:q=$destLat,$destLng&mode=w")
+                        val uri = Uri.parse(
+                            "http://maps.google.com/maps?saddr=" +
+                                    "$originLat,$originLng&daddr=$destLat,$destLng"
+                        )
+                        val intent = Intent(Intent.ACTION_VIEW, uri)
+                        intent.setPackage("com.google.android.apps.maps");
+                        val packageManager = requireActivity().packageManager
+                        if (intent.resolveActivity(packageManager) != null) {
+                            startActivity(intent)
+                        } else {
+                            Toast.makeText(
+                                requireContext(),
+                                "Google Maps not found",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+
                     } else {
-                        Toast.makeText(
-                            requireContext(),
-                            "Google Maps not found",
-                            Toast.LENGTH_SHORT
-                        ).show()
+                        throw Exception("No location")
                     }
-
-                } else {
-                    println("NO LOCATION")
-                    throw Exception("No location")
                 }
             }
         }
@@ -183,13 +186,6 @@ class PicmeDetailsFragment() : Fragment() {
         }
 
         binding.buttonDownload.setOnClickListener {
-            /*var bitmap: Bitmap? = null
-            if (binding.imageView.drawable is CrossfadeDrawable) {
-                bitmap = (binding.imagePicme.drawable as CrossfadeDrawable).toBitmap()
-            } else {
-                bitmap = (binding.imagePicme.drawable as BitmapDrawable).bitmap
-            }*/
-
             Permissions.checkPermissions(
                 requireContext(),
                 listOf(
@@ -212,8 +208,6 @@ class PicmeDetailsFragment() : Fragment() {
                     put(MediaStore.Images.Media.RELATIVE_PATH, "Pictures/PictureMe")
                 }
 
-                println(picme.createdAt.toString())
-
                 val uri: Uri? = requireContext().contentResolver.insert(
                     MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
                     values
@@ -234,7 +228,7 @@ class PicmeDetailsFragment() : Fragment() {
         return (binding.root)
     }
 
-    fun goBack() {
+    private fun goBack() {
         if (task != null) {
             task!!.cancel()
         }
@@ -311,14 +305,12 @@ class PicmeDetailsFragment() : Fragment() {
         // Get current location
         mFusedLocationClient.lastLocation.addOnSuccessListener { location ->
             if (location != null) {
-                println("HELEELELELELE")
                 val currentLocation = "${location.latitude},${location.longitude}"
                 val destinationLocation =
                     "${picme.location!!.latitude},${picme.location!!.longitude}"
                 val apiKey = requireContext().getString(R.string.MAPS_API_KEY)
                 distanceViewModel.getDistanceTo(currentLocation, destinationLocation, apiKey)
             } else {
-                println("NO LOCATION")
                 throw Exception("No location")
             }
         }
@@ -327,26 +319,11 @@ class PicmeDetailsFragment() : Fragment() {
             binding.textRelativeLocation.text = distance
         }
 
-//        val client = ApiClient.apiService.getDistance()
-//        GlobalScope.launch(Dispatchers.IO) {
-//            picmeDetailsViewModelViewModel.getRelativeLocation(picme.location!!, requireContext())
-//        }
-//        // When data received, update text
-//        picmeDetailsViewModelViewModel.relativeLocationLiveData.observe(viewLifecycleOwner) { relativeLocation ->
-//            binding.textRelativeLocation.text = relativeLocation
-//        }
-
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        println("DETAILS BYE BYE")
         //ShakeSensor.stopShakeDetection()
         _binding = null
     }
-
-//    override fun onPause() {
-//        super.onPause()
-//        Sensor.stopShakeDetection()
-//    }
 }

@@ -1,6 +1,6 @@
 package com.example.pictureme.data.interfaces
 
-import com.example.pictureme.api.DistanceMatrix
+import com.example.pictureme.network.DistanceMatrix
 import retrofit2.Call
 
 interface DistanceRepository {

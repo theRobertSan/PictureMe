@@ -42,10 +42,6 @@ class PreviewPicmeViewModel @Inject constructor(
         _previewLiveData.value!!.feeling = ""
     }
 
-    fun hasFeeling(feelingId: String): Boolean {
-        return _previewLiveData.value!!.feeling == feelingId
-    }
-
     fun setLocation(geoPoint: GeoPoint) {
         _previewLiveData.value!!.location = geoPoint
     }

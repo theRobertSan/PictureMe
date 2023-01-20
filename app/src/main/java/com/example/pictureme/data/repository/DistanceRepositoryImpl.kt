@@ -1,9 +1,8 @@
 package com.example.pictureme.data.repository
 
-import com.example.pictureme.api.DistanceMatrix
+import com.example.pictureme.network.DistanceMatrix
 import com.example.pictureme.data.interfaces.DistanceRepository
 import com.example.pictureme.network.ApiClient
-import com.example.pictureme.network.ApiService
 import retrofit2.Call
 import javax.inject.Inject
 

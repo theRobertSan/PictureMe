@@ -1,10 +1,8 @@
 package com.example.pictureme.views.preview
 
-import android.Manifest
 import android.annotation.SuppressLint
 import android.content.ContentValues.TAG
 import android.content.Context
-import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Matrix
@@ -16,12 +14,13 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.addCallback
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.app.ActivityCompat
 import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import com.example.pictureme.R
 import com.example.pictureme.databinding.FragmentPicmePreviewBinding
 import com.example.pictureme.viewmodels.PicmeViewModel
@@ -59,21 +58,6 @@ class PicmePreviewFragment : Fragment() {
         saveCurrentLocation()
     }
 
-    private fun checkPermissions(): Boolean {
-        if (ActivityCompat.checkSelfPermission(
-                requireContext(),
-                Manifest.permission.ACCESS_COARSE_LOCATION
-            ) == PackageManager.PERMISSION_GRANTED &&
-            ActivityCompat.checkSelfPermission(
-                requireContext(),
-                Manifest.permission.ACCESS_FINE_LOCATION
-            ) == PackageManager.PERMISSION_GRANTED
-        ) {
-            return true
-        }
-        return false
-    }
-
     @SuppressLint("MissingPermission")
     private fun saveCurrentLocation() {
         mFusedLocationClient.lastLocation.addOnSuccessListener { location ->
@@ -100,8 +84,6 @@ class PicmePreviewFragment : Fragment() {
                 binding.textFriendsNum.visibility = View.INVISIBLE
             }
         }
-
-        setUpObservers()
 
         // Load picture if it has already been taken
         if (takenPictureRotated != null) {
@@ -148,18 +130,6 @@ class PicmePreviewFragment : Fragment() {
             Navigation.findNavController(binding.root)
                 .navigate(R.id.action_picmePreviewFragment_to_addFeelingFragment)
         }
-    }
-
-    private fun setUpObservers() {
-//        // Observe if picme creation was successful
-//        picmeViewModel.picmeCreationLiveData.observe(viewLifecycleOwner) {
-//            if (it) {
-//                Toast.makeText(requireContext(), "PicMe Saved Successfully!", Toast.LENGTH_SHORT).show()
-//                Navigation.findNavController(binding.root).navigate(R.id.action_picmePreviewFragment_to_navFragment)
-//            } else {
-//                Toast.makeText(requireContext(), "Picme couldn't be saved. Try again later", Toast.LENGTH_SHORT).show()
-//            }
-//        }
     }
 
     private fun invokeCamera() {

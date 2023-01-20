@@ -1,6 +1,4 @@
-package com.example.pictureme.api
-
-import com.squareup.moshi.Json
+package com.example.pictureme.network
 
 data class DistanceMatrix(
     val destination_addresses: List<String>,

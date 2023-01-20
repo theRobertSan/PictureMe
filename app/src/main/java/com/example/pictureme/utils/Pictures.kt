@@ -3,7 +3,6 @@ package com.example.pictureme.utils
 import androidx.core.view.isGone
 import androidx.core.widget.ContentLoadingProgressBar
 import coil.load
-import com.example.pictureme.R
 import com.google.android.material.imageview.ShapeableImageView
 
 object Pictures {

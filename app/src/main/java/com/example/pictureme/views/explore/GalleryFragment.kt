@@ -55,7 +55,7 @@ class GalleryFragment : Fragment() {
         picmeViewModel.picmesLiveData.observe(viewLifecycleOwner) { response ->
             filteredPicmesViewModel.addPicmeList(FilterPicmes.filterNewestPicmes(response))
 
-            if(response.isEmpty()) {
+            if (response.isEmpty()) {
                 binding.textNoPicmes.visibility = View.VISIBLE
                 binding.fragmentHomeIv.visibility = View.VISIBLE
             } else {
@@ -65,7 +65,7 @@ class GalleryFragment : Fragment() {
         }
 
         filteredPicmesViewModel.filteredPicmesLiveData.observe(viewLifecycleOwner) { response ->
-            if(response != null){
+            if (response != null) {
                 adapter = ImageAdapter(emptyList(), requireContext(), gridItemDim)
                 gridView.adapter = adapter
                 adapter.setData(response)
@@ -74,7 +74,8 @@ class GalleryFragment : Fragment() {
                     // Navigate to details
                     picmeDetailsViewModel.selectPicme(response[i])
                     Navigation.findNavController(requireView().parent.parent.parent.parent.parent.parent as View)
-                        .navigate(R.id.action_navFragment_to_picmeDetailsFragment)}
+                        .navigate(R.id.action_navFragment_to_picmeDetailsFragment)
+                }
 
             }
         }
@@ -97,7 +98,6 @@ class GalleryFragment : Fragment() {
         val height = displayMetrics.heightPixels
         val width = displayMetrics.widthPixels
 
-        //val parms = AbsListView.LayoutParams(width, height)
         gridItemDim = (width / 3 - 20).toInt()
     }
 

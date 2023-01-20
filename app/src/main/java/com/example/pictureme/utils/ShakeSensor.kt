@@ -21,7 +21,6 @@ object ShakeSensor {
     fun setShake(context: Context, phoneShake: () -> Unit) {
         sensorListener = object : SensorEventListener {
             override fun onSensorChanged(event: SensorEvent) {
-                println(this)
                 // Fetching x,y,z values
                 val x = event.values[0]
                 val y = event.values[1]
@@ -48,7 +47,6 @@ object ShakeSensor {
         }
 
         i++
-        //stopShakeDetection()
         shakeDetected = false
         toRunFunc = phoneShake
         sensorManager = context.getSystemService(Context.SENSOR_SERVICE) as SensorManager

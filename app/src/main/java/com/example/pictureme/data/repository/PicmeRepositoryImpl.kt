@@ -3,7 +3,6 @@ package com.example.pictureme.data.repository
 import android.content.ContentValues.TAG
 import android.net.Uri
 import android.util.Log
-import com.example.pictureme.data.Response
 import com.example.pictureme.data.interfaces.PicmeRepository
 import com.example.pictureme.data.models.Feeling
 import com.example.pictureme.data.models.Picme
@@ -23,7 +22,7 @@ import kotlin.collections.ArrayList
 
 class PicmeRepositoryImpl @Inject constructor(
     val firestore: FirebaseFirestore,
-    val firestorage: FirebaseStorage
+    firestorage: FirebaseStorage
 ) : PicmeRepository {
 
     // Storage
@@ -54,12 +53,6 @@ class PicmeRepositoryImpl @Inject constructor(
             // Load picme
             picmes.add(loadPicme(userPicme.data["picmeRef"] as DocumentReference))
         }
-
-        // Get images url (for Coil)
-//        for (picme in picmes) {
-//            val landRef = storageRef.child(picme.imagePath!!).downloadUrl.await()
-//            picme.imagePath = landRef.toString()
-//        }
 
         // Return picmes
         return picmes
@@ -112,13 +105,8 @@ class PicmeRepositoryImpl @Inject constructor(
         userPicmeCollection.add(userPicme).await()
 
         // Get created picme
-//        val createdPicme = picmeCollection.document(result.id).get().await().toObject<Picme>()!!
         val createdPicme = loadPicme(result)
         Log.i(TAG, "Created PicMe with id ${createdPicme.id}")
-
-        // Get images url (for Coil)
-//        createdPicme.imagePath =
-//            storageRef.child(createdPicme.imagePath!!).downloadUrl.await().toString()
 
         return createdPicme
     }

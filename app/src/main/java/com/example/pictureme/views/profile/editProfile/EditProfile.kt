@@ -13,9 +13,7 @@ import android.widget.Toast
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
-import com.example.pictureme.R
 import com.example.pictureme.databinding.FragmentEditProfileBinding
 import com.example.pictureme.utils.CredentialValidation
 import com.example.pictureme.utils.Permissions
@@ -23,11 +21,9 @@ import com.example.pictureme.utils.Pictures
 import com.example.pictureme.viewmodels.PicmeViewModel
 import com.example.pictureme.viewmodels.UserViewModel
 
-
 class EditProfile : Fragment() {
 
     private val IMAGE_CHOOSE = 1000
-    private val REQUEST_CODE = 2
 
     private var _binding: FragmentEditProfileBinding? = null
     private val binding get() = _binding!!
@@ -120,7 +116,6 @@ class EditProfile : Fragment() {
     private fun chooseImageFromGallery() {
         val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI)
         startActivityForResult(intent, IMAGE_CHOOSE)
-
     }
 
     override fun onDestroyView() {

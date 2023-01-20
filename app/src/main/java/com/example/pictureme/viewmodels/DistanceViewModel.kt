@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.pictureme.api.DistanceMatrix
+import com.example.pictureme.network.DistanceMatrix
 import com.example.pictureme.data.interfaces.DistanceRepository
 import com.example.pictureme.data.models.Picme
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -38,7 +38,6 @@ class DistanceViewModel @Inject constructor(
             }
 
             override fun onFailure(call: Call<DistanceMatrix>, t: Throwable) {
-                println("Error")
             }
 
         })
@@ -52,10 +51,8 @@ class DistanceViewModel @Inject constructor(
     ) =
         viewModelScope.launch {
             val selectedPicmes = ArrayList<Picme>()
-            var destinations: String = ""
+            var destinations = ""
             for (picme in picmes) {
-                println(picme.feeling!!.feeling)
-                println(picme.feeling!!.isFoodPic == foodPicmes)
                 if (picme.feeling!!.isFoodPic == foodPicmes) {
                     destinations =
                         destinations.plus("${picme.location!!.latitude},${picme.location!!.longitude}|")
@@ -75,19 +72,15 @@ class DistanceViewModel @Inject constructor(
                             val pairs = selectedPicmes.zip(response.body()!!.rows[0].elements)
                             val sortedPairs = pairs.sortedBy { it.second.distance.value }
                             val sortedPicmes = sortedPairs.unzip().first
-                            println(sortedPicmes)
                             _orderedPicmesLiveData.postValue(sortedPicmes)
                         }
                     }
 
                     override fun onFailure(call: Call<DistanceMatrix>, t: Throwable) {
-                        println("Error")
                     }
 
                 })
 
-            } else {
-                // Nothing
             }
         }
 

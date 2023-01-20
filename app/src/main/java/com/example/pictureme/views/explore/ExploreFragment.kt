@@ -9,7 +9,6 @@ import com.example.pictureme.databinding.FragmentExploreBinding
 import com.example.pictureme.views.explore.adapters.ViewPagerAdapter
 import com.google.android.material.tabs.TabLayoutMediator
 
-
 class ExploreFragment : Fragment() {
 
     private var _binding: FragmentExploreBinding? = null

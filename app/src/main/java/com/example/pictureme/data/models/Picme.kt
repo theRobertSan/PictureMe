@@ -2,9 +2,7 @@ package com.example.pictureme.data.models
 
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.*
-import java.io.File
 import java.io.Serializable
-import java.util.*
 
 data class Picme(
     @DocumentId

@@ -7,10 +7,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.pictureme.data.interfaces.AuthRepository
 import com.example.pictureme.data.interfaces.UserRepository
-import com.example.pictureme.data.models.Friendship
 import com.example.pictureme.data.models.User
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -48,7 +46,7 @@ class UserViewModel @Inject constructor(
 
         // Check if the user is already friends with the other user
         for (friendship in userFriendships) {
-            if(friendship.friend!!.username == username) {
+            if (friendship.friend!!.username == username) {
                 _friendRequestResponseLiveData.postValue("Failure: You are already friends with " + username)
                 failure = true
                 break
@@ -57,7 +55,7 @@ class UserViewModel @Inject constructor(
 
         // Check if the user already has a friend request from the other user
         for (request in userFriendRequests) {
-            if(failure || request.sendingUser!!.username == username) {
+            if (failure || request.sendingUser!!.username == username) {
                 _friendRequestResponseLiveData.postValue("Failure: The user " + username + " already sent you a friend request")
                 failure = true
                 break
@@ -65,8 +63,9 @@ class UserViewModel @Inject constructor(
         }
 
         // Send request to database
-        if(!failure) {
-            val databaseResponse = userRepository.createFriendRequest(username, _userLiveData.value!!.id!!)
+        if (!failure) {
+            val databaseResponse =
+                userRepository.createFriendRequest(username, _userLiveData.value!!.id!!)
             _friendRequestResponseLiveData.postValue(databaseResponse)
         }
     }
@@ -75,9 +74,9 @@ class UserViewModel @Inject constructor(
         val friendship = userRepository.handleFriendRequestAnswer(requestId, accepted)
 
         val currentUser = _userLiveData.value!!
-        currentUser.friendRequests = currentUser.friendRequests.filter{ it.id != requestId }
+        currentUser.friendRequests = currentUser.friendRequests.filter { it.id != requestId }
 
-        if(accepted) {
+        if (accepted) {
             val newFriendships = currentUser.friendships.toMutableList()
             newFriendships.add(friendship!!)
             currentUser.friendships = newFriendships
@@ -91,12 +90,13 @@ class UserViewModel @Inject constructor(
         val updatedUser = _userLiveData.value!!
 
         // Save to Firestore
-        if(imageUri != null) {
-            updatedUser.profilePicturePath = userRepository.storeProfileImage(currentUserId, imageUri!!)
+        if (imageUri != null) {
+            updatedUser.profilePicturePath =
+                userRepository.storeProfileImage(currentUserId, imageUri!!)
             userRepository.updateUserProfilePicture(currentUserId, updatedUser.profilePicturePath!!)
         }
 
-        if(updatedUser.fullName != fullName) {
+        if (updatedUser.fullName != fullName) {
             updatedUser.fullName = fullName
             userRepository.updateUserProfileFullName(currentUserId, updatedUser.fullName!!)
         }

@@ -12,9 +12,9 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class AuthViewModel @Inject constructor (
+class AuthViewModel @Inject constructor(
     private val repository: AuthRepository
-): ViewModel() {
+) : ViewModel() {
 
     private val _authLiveData = MutableLiveData<Response<FirebaseUser>?>()
     val authLiveData: LiveData<Response<FirebaseUser>?> = _authLiveData
@@ -22,18 +22,12 @@ class AuthViewModel @Inject constructor (
     val currentUser: FirebaseUser?
         get() = repository.currentUser
 
-//    init {
-//        if (repository.currentUser != null) {
-//            _authLiveData.value = Resource.Success(repository.currentUser!!)
-//        }
-//    }
-
     fun login(email: String, password: String) = viewModelScope.launch {
         _authLiveData.value = Response.Loading
         val result = repository.login(email, password)
         _authLiveData.value = result
 
-        if(result is Response.Failure) {
+        if (result is Response.Failure) {
             _authLiveData.value = null
         }
     }
@@ -43,7 +37,7 @@ class AuthViewModel @Inject constructor (
         val result = repository.signup(name, email, password)
         _authLiveData.value = result
 
-        if(result is Response.Failure) {
+        if (result is Response.Failure) {
             _authLiveData.value = null
         }
     }

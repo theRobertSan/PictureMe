@@ -9,14 +9,12 @@ import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.pictureme.R
 import com.example.pictureme.data.models.Friendship
 import com.example.pictureme.databinding.FragmentAddFriendsBinding
 import com.example.pictureme.viewmodels.PreviewPicmeViewModel
 import com.example.pictureme.viewmodels.UserViewModel
 import com.example.pictureme.views.addfriends.adapters.AddFriendsAdapter
 import dagger.hilt.android.AndroidEntryPoint
-import java.util.*
 import kotlin.collections.ArrayList
 
 @AndroidEntryPoint
@@ -77,7 +75,7 @@ class AddFriendsFragment : Fragment() {
 
     private fun setupListeners() {
 
-        binding.buttonGoBack.setOnClickListener{
+        binding.buttonGoBack.setOnClickListener {
             Navigation.findNavController(binding.root)
                 .popBackStack()
         }

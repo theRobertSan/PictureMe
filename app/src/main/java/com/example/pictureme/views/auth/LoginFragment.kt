@@ -1,7 +1,6 @@
 package com.example.pictureme.views.auth
 
 import android.os.Bundle
-import android.util.Patterns
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -38,7 +37,7 @@ class LoginFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentLoginBinding.inflate(inflater, container, false);
-        
+
         // OnClickListeners
 
         binding.textRegister.setOnClickListener {
@@ -47,7 +46,7 @@ class LoginFragment : Fragment() {
         }
 
         binding.textForgotPassword.setOnClickListener {
-            Toast.makeText(it.context,"Oh well!", Toast.LENGTH_SHORT).show()
+            Toast.makeText(it.context, "Oh well!", Toast.LENGTH_SHORT).show()
         }
 
         binding.buttonLogin.setOnClickListener {
@@ -93,8 +92,6 @@ class LoginFragment : Fragment() {
         // Load feelings
         picmeViewModel.loadFeelings()
 
-        println(binding.root)
-
         Navigation.findNavController(binding.root)
             .navigate(R.id.action_loginFragment_to_navFragment)
     }
@@ -123,7 +120,8 @@ class LoginFragment : Fragment() {
         binding.editPassword.setOnFocusChangeListener { _, focused ->
             val passwordText = binding.editPassword.text.toString()
             if (!focused && passwordText != "") {
-                binding.editPasswordLayout.helperText = CredentialValidation.validPassword(passwordText)
+                binding.editPasswordLayout.helperText =
+                    CredentialValidation.validPassword(passwordText)
                 startedTypingPassword = true
             }
         }
@@ -155,7 +153,10 @@ class LoginFragment : Fragment() {
         val emailText = binding.editEmail.text.toString()
         val passwordText = binding.editPassword.text.toString()
 
-        if (CredentialValidation.validPassword(passwordText) == null && CredentialValidation.validEmail(emailText) == null) {
+        if (CredentialValidation.validPassword(passwordText) == null && CredentialValidation.validEmail(
+                emailText
+            ) == null
+        ) {
             binding.buttonLogin.isEnabled = true
             binding.buttonLogin.setBackgroundColor(resources.getColor(R.color.primary))
             binding.buttonLogin.setTextColor(resources.getColor(R.color.textOnPrimary))

@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.pictureme.data.Response
 import com.example.pictureme.data.interfaces.AuthRepository
 import com.example.pictureme.data.interfaces.PicmeRepository
 import com.example.pictureme.data.models.Feeling

@@ -5,7 +5,6 @@ import com.example.pictureme.data.interfaces.UserRepository
 import com.example.pictureme.data.models.FriendRequest
 import com.example.pictureme.data.models.Friendship
 import com.example.pictureme.data.models.User
-//import com.example.pictureme.data.utils.await
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
@@ -18,7 +17,7 @@ import kotlin.collections.ArrayList
 
 class UserRepositoryImpl @Inject constructor(
     val firestore: FirebaseFirestore,
-    val firestorage: FirebaseStorage
+    firestorage: FirebaseStorage
 ) : UserRepository {
 
     // Storage
@@ -120,8 +119,6 @@ class UserRepositoryImpl @Inject constructor(
             loadedFriendRequests.add(friendRequest)
         }
 
-        //this.currentUser!!.friendRequests = loadedFriendRequests
-
         return loadedFriendRequests
     }
 
@@ -134,7 +131,7 @@ class UserRepositoryImpl @Inject constructor(
             .whereEqualTo("username", username).get().await()
 
         // Check if the current user is sending a request to an existing user
-        if(otherUserRefQuery.isEmpty) {
+        if (otherUserRefQuery.isEmpty) {
             return "Failure: The user " + username + " does not exist"
         }
 
@@ -143,7 +140,7 @@ class UserRepositoryImpl @Inject constructor(
         // Check if the current user already sent a request to the other user
         val friendRequests = getUserFriendRequests(otherUserRef)
         for (request in friendRequests) {
-            if(request.sendingUser!!.id == currentUserId) {
+            if (request.sendingUser!!.id == currentUserId) {
                 return "Failure: You already sent a friend request to the user " + username
             }
         }
@@ -168,7 +165,7 @@ class UserRepositoryImpl @Inject constructor(
         var friendshipObj: Friendship? = null
 
         // If the friend request has been accepted
-        if(accepted) {
+        if (accepted) {
             val friendship = hashMapOf(
                 "user1Ref" to currentRequest.data!!["creatorRef"] as DocumentReference,
                 "user2Ref" to currentRequest.data!!["receiverRef"] as DocumentReference,
@@ -176,7 +173,9 @@ class UserRepositoryImpl @Inject constructor(
             )
             val friendshipSnapshot = friendshipCollection.add(friendship).await().get().await()
             // Populate friend from friendship
-            val friendObj = (friendshipSnapshot.data!!["user1Ref"] as DocumentReference).get().await().toObject<User>()
+            val friendObj =
+                (friendshipSnapshot.data!!["user1Ref"] as DocumentReference).get().await()
+                    .toObject<User>()
             friendshipObj = friendshipSnapshot.toObject<Friendship>()
             friendshipObj!!.friend = friendObj
         }

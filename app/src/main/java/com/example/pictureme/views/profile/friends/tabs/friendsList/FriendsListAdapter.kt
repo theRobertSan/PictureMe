@@ -15,9 +15,9 @@ class FriendsListAdapter(
     private var friendships: List<Friendship>,
     private var numPicmesWithEachFriend: HashMap<String, Int>
 ) : RecyclerView.Adapter<FriendsListAdapter.FriendsViewHolder>() {
-    val PICMES_TOGETHER = " PicMe's together"
-    val ONE_PICME_TOGETHER = "1 PicMe together"
-    val NO_PICMES_TOGETHER = "No PicMe's together"
+    private val picmesTogether = "PicMes together"
+    private val onePicmeTogether = "1 PicMe together"
+    private val noPicmeTogether = "No PicMes together"
 
     inner class FriendsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val friendFullName: TextView
@@ -66,11 +66,11 @@ class FriendsListAdapter(
 
         if (numPicmesWithEachFriend[currentFriend.id]!! > 1) {
             holder.numPicmesTogether.text =
-                numPicmesWithEachFriend[currentFriend.id].toString() + PICMES_TOGETHER
+                numPicmesWithEachFriend[currentFriend.id].toString() + picmesTogether
         } else if (numPicmesWithEachFriend[currentFriend.id] == 1) {
-            holder.numPicmesTogether.text = ONE_PICME_TOGETHER
+            holder.numPicmesTogether.text = onePicmeTogether
         } else {
-            holder.numPicmesTogether.text = NO_PICMES_TOGETHER
+            holder.numPicmesTogether.text = noPicmeTogether
         }
 
         // Load friend's picture

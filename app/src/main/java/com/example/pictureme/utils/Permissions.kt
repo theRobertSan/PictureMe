@@ -1,8 +1,12 @@
 package com.example.pictureme.utils
 
+import android.Manifest
+import android.app.AlertDialog
 import android.content.Context
-import androidx.navigation.Navigation
-import com.example.pictureme.R
+import android.content.DialogInterface
+import android.content.Intent
+import android.location.LocationManager
+import android.provider.Settings
 import com.karumi.dexter.Dexter
 import com.karumi.dexter.MultiplePermissionsReport
 import com.karumi.dexter.PermissionToken
@@ -18,6 +22,39 @@ object Permissions {
         message: String,
         toInvoke: () -> Unit,
     ) {
+
+        if (permissions.contains(Manifest.permission.ACCESS_FINE_LOCATION)) {
+            val lm = context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
+            var gps_enabled = false
+            var network_enabled = false
+
+            try {
+                gps_enabled = lm.isProviderEnabled(LocationManager.GPS_PROVIDER)
+            } catch (ex: Exception) {
+            }
+
+            try {
+                network_enabled = lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
+            } catch (ex: Exception) {
+            }
+
+            if (!gps_enabled && !network_enabled) {
+//            // notify user
+                AlertDialog.Builder(context)
+                    .setMessage("You have to enable Location")
+                    .setPositiveButton("OK",
+                        DialogInterface.OnClickListener { paramDialogInterface, paramInt ->
+                            context.startActivity(
+                                Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
+                            )
+                        })
+                    .setNegativeButton("Cancel", null)
+                    .show()
+                return
+            }
+        }
+
+
         // Dialog warning user to enable permissions
         val listener = DialogOnAnyDeniedMultiplePermissionsListener.Builder
             .withContext(context)

@@ -2,7 +2,6 @@ package com.example.pictureme.utils
 
 import android.os.Build
 import androidx.annotation.RequiresApi
-import com.example.pictureme.data.models.Feeling
 import com.example.pictureme.data.models.Picme
 import java.util.*
 import kotlin.collections.ArrayList
@@ -13,14 +12,12 @@ object FilterPicmes {
     @RequiresApi(Build.VERSION_CODES.O)
     fun getFilteredPicmes(
         picmes: List<Picme>,
-        foodFeelings: List<Feeling>
     ): List<Pair<String, ArrayList<Picme>>> {
 
 
         val picmesWithFriends = ArrayList<Picme>()
         val picmesFood = ArrayList<Picme>()
         val picmesLast24Hours = ArrayList<Picme>()
-        val picmesRandom = ArrayList<Picme>()
         val picmesLongAgo = ArrayList<Picme>()
         val picmesHappy = ArrayList<Picme>()
         val picmesLove = ArrayList<Picme>()
@@ -86,16 +83,6 @@ object FilterPicmes {
         }
 
         return filters
-    }
-
-    fun filterFoodPicmes(picmes: List<Picme>): ArrayList<Picme> {
-        var picmesFood = ArrayList<Picme>()
-        for (picme in picmes) {
-            if (picme.feeling?.isFoodPic!!) {
-                picmesFood.add(picme)
-            }
-        }
-        return picmesFood
     }
 
     fun filterOldestPicmes(picmes: List<Picme>): List<Picme> {

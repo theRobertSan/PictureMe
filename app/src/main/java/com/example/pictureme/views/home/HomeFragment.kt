@@ -8,14 +8,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import androidx.core.view.isGone
-import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.example.pictureme.R
 import com.example.pictureme.views.home.adapters.HomeAdapter
 import com.example.pictureme.data.models.Feeling
-import com.example.pictureme.data.models.Friendship
 import com.example.pictureme.data.models.Picme
 import com.example.pictureme.databinding.FragmentHomeBinding
 import com.example.pictureme.utils.FilterPicmes
@@ -77,7 +73,7 @@ class HomeFragment : Fragment() {
         val rvHome = binding.fragmentHomeRv
         val rvsCategory = arrayListOf<ParentModelClass>()
 
-        val filteredPicmes = FilterPicmes.getFilteredPicmes(picmes, feelings)
+        val filteredPicmes = FilterPicmes.getFilteredPicmes(picmes)
         for (filter in filteredPicmes) {
             val rv = ParentModelClass(filter.first, filter.second)
             rvsCategory.add(rv)
@@ -94,9 +90,8 @@ class HomeFragment : Fragment() {
 
         // If data changes, update
         picmeViewModel.picmesLiveData.observe(viewLifecycleOwner) { response ->
-            //println("DATA CHANGED: ${response[response.size - 1]}")
             val rvsCategory = arrayListOf<ParentModelClass>()
-            val filteredPicmes = FilterPicmes.getFilteredPicmes(response, feelings)
+            val filteredPicmes = FilterPicmes.getFilteredPicmes(response)
 
             if (filteredPicmes.isEmpty()) {
                 binding.textNoPicmes.visibility = View.VISIBLE

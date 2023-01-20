@@ -23,7 +23,6 @@ class FriendRequestsAdapter(
 ) : RecyclerView.Adapter<FriendRequestsAdapter.RequestsViewHolder>() {
 
     inner class RequestsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        // TODO users profile picture
         val sendingUserFullName: TextView
         val sendingUserUsername: TextView
         val requestSentDate: TextView
@@ -48,7 +47,11 @@ class FriendRequestsAdapter(
                 // Delete request artificially to speed up the deletion
                 deleteRequest(request)
 
-                Toast.makeText(it.context, "You are now friends with " + request.sendingUser!!.fullName, Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    it.context,
+                    "You are now friends with " + request.sendingUser!!.fullName,
+                    Toast.LENGTH_SHORT
+                ).show()
             }
 
             declineButton.setOnClickListener {
@@ -56,7 +59,11 @@ class FriendRequestsAdapter(
                 // Delete request artificially to speed up the deletion
                 deleteRequest(request)
 
-                Toast.makeText(it.context, "You deleted " + request.sendingUser!!.fullName + " friend request", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    it.context,
+                    "You deleted " + request.sendingUser!!.fullName + " friend request",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         }
     }

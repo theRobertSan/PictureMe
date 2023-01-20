@@ -39,7 +39,6 @@ import com.google.maps.android.clustering.Cluster
 import com.google.maps.android.clustering.ClusterItem
 import com.google.maps.android.clustering.ClusterManager
 
-
 class MapFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener, OnMapClickListener {
 
     private var _binding: FragmentMapBinding? = null
@@ -337,10 +336,6 @@ class MapFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener, OnMap
 
         override fun getSnippet(): String? {
             return snippet
-        }
-
-        fun getImagePath(): String {
-            return imagePath
         }
 
         init {

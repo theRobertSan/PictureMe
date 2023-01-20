@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.pictureme.views.home.ParentModelClass
 import com.example.pictureme.R
-import com.example.pictureme.data.models.Picme
 import com.example.pictureme.viewmodels.PicmeDetailsViewModel
 
 class HomeAdapter(
@@ -48,13 +47,10 @@ class HomeAdapter(
 
         val picMeAdapter =
             PicmeAdapter(rvs[position].picmes, picmeDetailsViewModelViewModel, context)
-        println("helloooooo ${picMeAdapter.itemCount}")
 
-        //picMeAdapter.setList(rvs[position].picmes)
         holder.rvCategory.layoutManager =
             LinearLayoutManager(holder.itemView.context, LinearLayoutManager.HORIZONTAL, false)
         holder.rvCategory.adapter = picMeAdapter
-        //picMeAdapter.notifyDataSetChanged()
     }
 
     override fun getItemCount(): Int {

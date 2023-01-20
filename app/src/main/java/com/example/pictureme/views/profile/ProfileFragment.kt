@@ -1,6 +1,5 @@
 package com.example.pictureme.views.profile
 
-import android.R.attr.label
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
@@ -9,12 +8,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.Navigation
-import androidx.navigation.fragment.findNavController
 import coil.load
 import com.example.pictureme.R
 import com.example.pictureme.databinding.FragmentProfileBinding
@@ -23,7 +20,6 @@ import com.example.pictureme.viewmodels.PicmeViewModel
 import com.example.pictureme.viewmodels.UserViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
-
 
 @AndroidEntryPoint
 class ProfileFragment : Fragment() {
@@ -67,8 +63,6 @@ class ProfileFragment : Fragment() {
                 }
             }
 
-            //binding.imageProfilePicture.image = user.picture
-
             // Get num of Friends
             binding.textFriendsNum.text = user.friendships!!.size.toString()
         }
@@ -80,7 +74,7 @@ class ProfileFragment : Fragment() {
     }
 
     private fun setLayoutClickListeners() {
-        binding.cardFriends.setOnClickListener{
+        binding.cardFriends.setOnClickListener {
             Navigation.findNavController(binding.root.parent.parent as View)
                 .navigate(R.id.action_navFragment_to_friendsFragment)
         }
@@ -128,7 +122,8 @@ class ProfileFragment : Fragment() {
     }
 
     private fun logout(view: View) {
-        val navController = Navigation.findNavController(view.parent.parent.parent.parent.parent as View)
+        val navController =
+            Navigation.findNavController(view.parent.parent.parent.parent.parent as View)
 
         navController.navigate(R.id.action_navFragment_to_loginFragment)
         authViewModel.logout()

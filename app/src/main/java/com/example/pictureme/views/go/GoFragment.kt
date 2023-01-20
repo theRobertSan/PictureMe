@@ -2,7 +2,6 @@ package com.example.pictureme.views.go
 
 import android.Manifest
 import android.annotation.SuppressLint
-import android.hardware.Sensor
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -49,7 +48,6 @@ class GoFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        println("--------------------------------------------_!!!")
         _binding = FragmentLetsgoBinding.inflate(inflater, container, false)
 
         ShakeSensor.stopShakeDetection()
@@ -102,7 +100,6 @@ class GoFragment : Fragment() {
                                 apiKey
                             )
                         } else {
-                            println("NO LOCATION")
                             throw Exception("No location")
                         }
                     }
@@ -126,8 +123,7 @@ class GoFragment : Fragment() {
                             Navigation.findNavController(requireView().parent.parent as View)
                         val bundle = Bundle()
                         bundle.putString("picmeIndex", "0")
-                        println("BRUUUU: ${newValue!![0]}")
-                        picmeDetailsViewModel.selectPicme(newValue[0])
+                        picmeDetailsViewModel.selectPicme(newValue!![0])
                         lastList = newValue
                         navController.navigate(
                             R.id.action_navFragment_to_picmeDetailsFragment,
@@ -148,16 +144,4 @@ class GoFragment : Fragment() {
         _binding = null
     }
 
-
 }
-
-//if (oldValue == null) {
-//    val navController =
-//        Navigation.findNavController(requireView().parent.parent as View)
-//    val bundle = Bundle()
-//    bundle.putString("picmeIndex", "0")
-//    println("BRUUUU: ${newValue!![0]}")
-//    picmeDetailsViewModel.selectPicme(newValue[0])
-//
-//    navController.navigate(R.id.action_navFragment_to_picmeDetailsFragment, bundle)
-//}

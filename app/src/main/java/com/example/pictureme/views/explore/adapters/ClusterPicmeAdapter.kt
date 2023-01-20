@@ -4,7 +4,6 @@ import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -16,7 +15,6 @@ import com.example.pictureme.data.models.Picme
 import com.example.pictureme.utils.Details
 import com.example.pictureme.utils.Pictures
 import com.example.pictureme.viewmodels.PicmeDetailsViewModel
-import com.example.pictureme.viewmodels.PicmeViewModel
 import com.google.android.material.imageview.ShapeableImageView
 
 class ClusterPicmeAdapter(

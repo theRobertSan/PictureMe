@@ -49,7 +49,7 @@ class FriendsFragment : Fragment() {
             when (position) {
                 0 -> tab.text = "Friends"
                 1 -> tab.text = "Requests"
-                2 -> /*tab.setIcon(R.drawable.ic_add_friend)*/ tab.text = "Add"
+                2 -> tab.text = "Add"
             }
         }.attach()
 

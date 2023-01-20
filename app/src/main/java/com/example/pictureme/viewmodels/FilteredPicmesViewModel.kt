@@ -6,7 +6,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.pictureme.data.models.Filter
 import com.example.pictureme.data.models.Picme
-import com.example.pictureme.utils.FilterPicmes
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -18,11 +17,12 @@ class FilteredPicmesViewModel @Inject constructor() : ViewModel() {
     private val _filterLiveData = MutableLiveData<Filter>(Filter())
     val filterLiveData: LiveData<Filter> = _filterLiveData
 
-    fun addPicmeList(picmes: List<Picme>)= viewModelScope.launch {
+    fun addPicmeList(picmes: List<Picme>) = viewModelScope.launch {
         _filteredPicmesLiveData.postValue(picmes)
         _filteredPicmesLiveData.value = null
     }
-    fun updateFilter(filter: Filter)= viewModelScope.launch {
+
+    fun updateFilter(filter: Filter) = viewModelScope.launch {
         _filterLiveData.postValue(filter)
     }
 

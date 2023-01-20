@@ -50,14 +50,7 @@ class FeelingsAdapter(
 
         val feelingId = feelings[position].id
 
-//        if (preview != null) {
-//            println(preview!!.feeling)
-//            holder.cbSelectFeeling.isChecked = preview!!.feeling == feelings[position].feeling
-//        } else {
         holder.cbSelectFeeling.isChecked = SelectedPosition.currentPosition == position;
-        //}
-        // Only one selected option at a time
-        //holder.cbSelectFeeling.isChecked = previewPicmeViewModel.hasFeeling(feelingId)
 
         holder.cbSelectFeeling.setOnClickListener {
             if (!holder.cbSelectFeeling.isChecked && !SelectedPosition.anyChecked()) {
@@ -76,21 +69,6 @@ class FeelingsAdapter(
 
         // Load feeling
         holder.imageFeeling.setImageResource(Details.getFeelingImage(feelings[position].feeling)!!)
-
-        println("-.-------------------  Feeling id $feelingId")
-//        // Check if this user was selected before
-//        holder.cbSelectFeeling.isChecked = previewPicmeViewModel.containsFriend(userId)
-//
-//        // When checked, add on remove friend from list
-//        holder.cbAddFriend.setOnClickListener { view ->
-//            if (holder.cbAddFriend.isChecked) {
-//                previewPicmeViewModel.selectFriend(userId)
-//            } else {
-//                previewPicmeViewModel.unselectFriend(userId)
-//            }
-//
-//        }
-
     }
 
     override fun getItemCount(): Int {

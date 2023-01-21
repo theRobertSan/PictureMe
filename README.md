@@ -1,5 +1,7 @@
 # PictureMe :camera:
-PictureMe is an Android Application built using Kotlin, which uses the Google Maps API and Firebase and allows users to take and view pictures in fun and interactive ways.
+PictureMe is an Android Application built using Kotlin, which allows users to take pictures (PicMes) and view them in fun and interactive ways!
+
+https://user-images.githubusercontent.com/93116132/213877736-128693a0-e77d-4919-b1e9-7a3bd0395cec.mp4
 
 ## Functionalities
 ### Taking a Picme

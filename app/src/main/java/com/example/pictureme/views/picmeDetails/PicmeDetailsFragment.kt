@@ -98,8 +98,6 @@ class PicmeDetailsFragment() : Fragment() {
                 delay(2000)
                 ShakeSensor.setShake(requireContext()) { phoneShake() }
             }
-
-
         }
 
         // Show Explore text
